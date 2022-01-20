@@ -12,9 +12,9 @@ Approximately 6.3 million companion animals enter U.S. animal shelters every yea
   - Favorite Picks to allow the user to check options later
 
 # Stretch Goals
-  - Provide a suggested/trending color palette generator for users.
-  - Give furniture suggestions based on past searches/viewed items.
-  - Create public "rooms" to get other opinions on your furniture combinations!
+  - Algorithm-based matching based on a quiz.
+  - Merge multiple pet databases to increase pet availability.
+
 # Milestones
 | Week # | Deliverables |
 |--------|--------------|
@@ -67,7 +67,7 @@ Approximately 6.3 million companion animals enter U.S. animal shelters every yea
 # Tutorials
   - Setting up 
     1. Front-end
-      - [Vue install](https://www.youtube.com/watch?v=RNWfNwh1kW8)
+      - [React Install](https://www.youtube.com/watch?v=RNWfNwh1kW8)
     2. Back-end
       - [Node.js install](https://www.youtube.com/watch?v=JINE4D0Syqw)
     3. [Visual Studio set-up with NPM](https://www.youtube.com/watch?v=sJ7nDNNpOMA)
