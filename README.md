@@ -25,7 +25,7 @@ Approximately 6.3 million companion animals enter U.S. animal shelters every yea
 | 4      | Start working on Fireabase Authenticator to allow the creation of users. Start working on the user pet listing avaialabilty.                                              |
 | 5      | Continue working on Week 4 deliverable..          |
 | 6      | Finish any remaining integrations for "Pet Adoption" page and "User Listing" page                                |
-| 7      | Continue work on "Adoption Home UI" and continue integration.                                                                                      |             
+| 7      | Continue work on "Pet Adoption and User Listing" and continue integration.                                                                                      |             
 | 8      | Complete any remaining integrations. Start working on presentation slide deck.                                                               |
 | 9      | Practice presentation and add finishing touches! You can do it! 💙                                                                           |
 
