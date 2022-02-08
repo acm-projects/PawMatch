@@ -14,71 +14,60 @@ Approximately 6.3 million companion animals enter U.S. animal shelters every yea
 # Stretch Goals
   - Algorithm-based matching based on a quiz.
   - Merge multiple pet databases to increase pet availability.
+  - Online Chat to increase to allow communication between the pet lister and potential adopter
 
 # Milestones
 | Week # | Deliverables |
 |--------|--------------|
 | 1      | Set up development environments. Start wireframes & API tutorials for backend. Push test files to GitHub.                                    |                                                             
-| 2      | Start "Color Picker" page. Set up middleware to fetch API information about furniture based on color.                                        |
-| 3      | Keep working on week 2 deliverable. Start working on integration of color picker page with front-end.                                        |
-| 4      | Upload an image page. Send an image to the Imagga Color Extractor to extract color of furniture.                                             |
-| 5      | Continue working on Week 4 deliverable. Integrate front-end and back-end. Start creating MongoDB schema for favorite color choices.          |
-| 6      | Start work on "saved page". Finish any remaining integrations for "Upload Image" page and "Color Picker" page                                |
-| 7      | Continue work on "saved page" and continue integration.                                                                                      |             
+| 2      | Start working on the layout of pages. Set up firebase to fetch API information with Pet Shelter Availabilty and use Google Authenticator.                                        |
+| 3      | Keep working on week 2 deliverable. Start working on integration of pet APU picker page with front-end.                                        |
+| 4      | Start working on Fireabase Authenticator to allow the creation of users. Start working on the user pet listing avaialabilty.                                              |
+| 5      | Continue working on Week 4 deliverable..          |
+| 6      | Finish any remaining integrations for "Pet Adoption" page and "User Listing" page                                |
+| 7      | Continue work on "Adoption Home UI" and continue integration.                                                                                      |             
 | 8      | Complete any remaining integrations. Start working on presentation slide deck.                                                               |
 | 9      | Practice presentation and add finishing touches! You can do it! 💙                                                                           |
 
 # Tech Stack
   - Front-end: 
-    - Vue.js + Bootstrap/Tailwind
+    - Flutter or React
   - Wireframing
     - [Figma (free for 3 designs)](https://www.figma.com)
     - [Adobe XD](https://www.adobe.com/products/xd.html)
   - Back-end: 
-    -  Node.js
-    -  Mongoose (package to create API's & Schema's for MongoDB databases)
+    -  Node.js, or Dart
+    -  Firebase
   - API’s
-    - Imagga Color Extractor + documentation (You can insert an image endpoint to this API and it returns a palette of colors to use)
-      - https://docs.imagga.com/#introduction
-      - https://docs.imagga.com/?node#colors 
-  - Google Cloud Vision API for furniture images + pricing
-     - https://cloud.google.com/vision/product-search/docs/searching
-     - Narrow the search results to only return furniture products
-     - You can add filters to only return products of a specific color.
-   - Database storage
-    - [MongoDB](https://www.mongodb.com)
-      - Use this for database. Easy to store in NoSQL because there’s no structure and Express/Mongoose are Node.js friendly. 
+    - Pet Shelter API (You can give it parameters and it returns puppies names and locations)
+      - https://www.petfinder.com/developers/v2/docs/
+   - Database Firebase
+        - https://firebase.google.com/docs/database
 
 # Software to Install
   - [IDE (both front-end and back-end) - Visual Studio Code](https://code.visualstudio.com)
-  - [NPM (package manager for JavaScript)](https://www.npmjs.com)
-  - [Front-end: Vue.js](https://vuejs.org)
-  - [Back-end: Node.js](https://nodejs.org/en/download/)
+  - Front-end: React OR Flutter
+        https://docs.flutter.dev/get-started/install 
+        https://reactjs.org/docs/getting-started.html
+  - Back-end: Node.js OR Dart
+        https://nodejs.org
+        https://docs.flutter.dev/get-started/install 
   - [Git CLI for version control](https://git-scm.com/downloads)
-  - [Compass: Helpful GUI tool to see databases created in MongoDB](https://www.mongodb.com/products/compass)
   - [POSTMAN (test your API requests)](https://www.postman.com)
-  - Javascript packages for back-end:
-    1. [Express](https://expressjs.com)
-    2. [Mongoose](https://www.npmjs.com/package/mongoose)
-  - Javascript packages for front-end:
-    1. [Bootstrap](https://bootstrap-vue.org/docs)
-    2. [Tailwind](https://tailwindcss.com)
   
 # Tutorials
   - Setting up 
     1. Front-end
       - [React Install](https://www.youtube.com/watch?v=RNWfNwh1kW8)
+      - [Flutter Install](https://www.youtube.com/watch?v=5izFFbdHnWY&t=421s)
     2. Back-end
       - [Node.js install](https://www.youtube.com/watch?v=JINE4D0Syqw)
-    3. [Visual Studio set-up with NPM](https://www.youtube.com/watch?v=sJ7nDNNpOMA)
+      - [Dart Install](https://www.youtube.com/watch?v=5izFFbdHnWY&t=421s)
   - Tutorials for Rookies! :) 
-    1. [Vue.js tutorials](https://www.youtube.com/watch?v=5LYrN_cAJoA&list=PL4cUxeGkcC9gQcYgjhBoeQH7wiAyZNrYa)
-    2. [Node.js REST API tutorials](https://www.youtube.com/watch?v=BRdcRFvuqsE&list=PL4cUxeGkcC9jBcybHMTIia56aV21o2cZ8)
-    3. [Wait, what's an API?](https://www.youtube.com/watch?v=SLwpqD8n3d0)
-    4. [How to use Google Cloud Vision API with Node.js](https://www.youtube.com/watch?v=BFOeM8ATWdk)
-    5. [Integrate Express API with Vue.js](https://www.youtube.com/watch?v=TYPb_Hz7Loo&list=PLuNEz8XtB51KwT2ywpg_W9BGFqVKLGg_m)
-    6. [W3 Schools tutorials for HTML & CSS](https://www.w3schools.com)
-  - [Helpful GitHub Cheatsheet 1](https://education.github.com/git-cheat-sheet-education.pdf)
+    1. [Wait, what's an API?](https://www.youtube.com/watch?v=SLwpqD8n3d0)
+    2. [FIrebase Authenticator](https://www.youtube.com/watch?v=aN1LnNq4z54)
+    3. [Firebase Flutter](https://www.youtube.com/watch?v=EXp0gq9kGxI&t=1012s)
+    4. [Firebase React](https://www.youtube.com/watch?v=PKwu15ldZ7k)
   - [Helpful GitHub Cheatsheet 2](https://drive.google.com/file/d/1OddwoSvNJ3dQuEBw3RERieMXmOicif9_/view)
   - [Article on UI/UX tips](https://www.uxpin.com/studio/blog/guide-design-consistency-best-practices-ui-ux-designers/)
 
