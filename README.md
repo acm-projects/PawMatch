@@ -31,12 +31,12 @@ Approximately 6.3 million companion animals enter U.S. animal shelters every yea
 
 # Tech Stack
   - Front-end: 
-    - Flutter or React
+    - React Native
   - Wireframing
     - [Figma (free for 3 designs)](https://www.figma.com)
     - [Adobe XD](https://www.adobe.com/products/xd.html)
   - Back-end: 
-    -  Node.js, or Dart
+    -  Node.js
     -  Firebase
   - API’s
     - Pet Shelter API (You can give it parameters and it returns puppies names and locations)
@@ -59,9 +59,7 @@ Approximately 6.3 million companion animals enter U.S. animal shelters every yea
   - Setting up 
     1. Front-end
       - [React Install](https://www.youtube.com/watch?v=RNWfNwh1kW8)
-      - [Flutter Install](https://www.youtube.com/watch?v=5izFFbdHnWY&t=421s)
     2. Back-end
-      - [Node.js install](https://www.youtube.com/watch?v=JINE4D0Syqw)
       - [Dart Install](https://www.youtube.com/watch?v=5izFFbdHnWY&t=421s)
   - Tutorials for Rookies! :) 
     1. [Wait, what's an API?](https://www.youtube.com/watch?v=SLwpqD8n3d0)
