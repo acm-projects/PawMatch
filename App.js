@@ -10,6 +10,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MainTabScreen from './screens/MainTabScreen';
+import LoginScreen from './screens/LoginScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +27,7 @@ const App = () => {
         },
         headerTitleAlign: 'left',
     }}>
+        <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="PawMatch" component={MainTabScreen} />
     </Stack.Navigator>
     </NavigationContainer>
