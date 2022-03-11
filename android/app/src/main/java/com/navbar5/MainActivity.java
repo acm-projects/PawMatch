@@ -1,4 +1,4 @@
-package com.firebaseproj;
+package com.navbar5;
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "firebaseProj";
+    return "navbar5";
   }
 }

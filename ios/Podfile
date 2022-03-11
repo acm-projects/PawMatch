@@ -3,7 +3,7 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '11.0'
 
-target 'firebaseProj' do
+target 'navbar5' do
   config = use_native_modules!
 
   use_react_native!(
@@ -12,7 +12,9 @@ target 'firebaseProj' do
     :hermes_enabled => false
   )
 
-  target 'firebaseProjTests' do
+  pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
+
+  target 'navbar5Tests' do
     inherit! :complete
     # Pods for testing
   end
