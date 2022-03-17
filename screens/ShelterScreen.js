@@ -1,14 +1,17 @@
 import React from "react";
 import { View, Text, Button, StyleSheet } from 'react-native';
+import SearchModal from "./SearchModal";
 
 const ShelterScreen = ({navigation}) => {
     return (
-        <View style={styles.container}>
-            <Text>Shelter Screen</Text>
+        <View>
+            <SearchModal/>
         </View>
+        
     );
 
 }
+
 
 export default ShelterScreen;
 
