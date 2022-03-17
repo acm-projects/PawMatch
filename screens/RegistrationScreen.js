@@ -2,7 +2,7 @@ import React, { useState, useEffect} from 'react';
 import { View, Text, Button, StyleSheet, TextInput } from 'react-native';
 import auth from '@react-native-firebase/auth';
 
-const LoginScreen = ({navigation}) => {
+const RegistrationScreen = ({navigation}) => {
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
@@ -14,7 +14,7 @@ const LoginScreen = ({navigation}) => {
     setUser(user);
     if (initializing) setInitializing(false);
     if (user) {
-      navigation.replace("PawMatch")
+      navigation.replace("Welcome")
     }
   }
 
@@ -23,14 +23,17 @@ const LoginScreen = ({navigation}) => {
     return subscriber; // unsubscribe on unmount
   }, []);
 
-
-  function signinUser() {
+  function createUserAccount() {
     auth()
-      .signInWithEmailAndPassword(email, password)
+      .createUserWithEmailAndPassword(email, password)
       .then(() => {
-        console.log('User account signed in!');
+        console.log('User account created & signed in!');
       })
-      .catch(error => { 
+      .catch(error => {
+        if (error.code === 'auth/email-already-in-use') {
+          console.log('That email address is already in use!');
+        }
+  
         if (error.code === 'auth/invalid-email') {
           console.log('That email address is invalid!');
         }
@@ -39,16 +42,16 @@ const LoginScreen = ({navigation}) => {
       });
   }
 
-  function navRegistrationScreen() {
-    navigation.replace("Register")
+  function navLoginScreen() {
+    navigation.replace("Login")
   }
 
   if (initializing) return null;
 
 
-  return (            //if user is logged in, shows HomeScreen
+  return ( 
     <View>
-      <Text style={styles.title}>PawMatch</Text>
+      <Text style={styles.title}>Register</Text>
       <View  style={styles.inputContainer}>
         <TextInput 
           placeholder="Email"
@@ -57,7 +60,7 @@ const LoginScreen = ({navigation}) => {
           style={styles.input}
         />
         <TextInput
-          placeholder="Password"
+          placeholder="New Password"
           value={password}
           onChangeText={text => setPassword(text)}
           style={styles.input}
@@ -65,23 +68,23 @@ const LoginScreen = ({navigation}) => {
         />
       </View>
       <View style={styles.button}>
-        <Button title="Sign In" onPress={signinUser} color="#fb5555"/>
+        <Button title="Register" onPress={createUserAccount} color="#6867ac"/>
       </View>
       <View style={styles.button}>
-        <Button title="Create An Account" onPress={navRegistrationScreen} color="#919A8C"/>
+        <Button title="Back" onPress={navLoginScreen} color="#919A8C"/>
       </View>
     </View>
   );
 }
 
-export default LoginScreen;
+export default RegistrationScreen;
 
 const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     margin: 20,
     textAlign: 'center',
-    color: '#fb5555',
+    color: '#6867ac',
     fontWeight: 'bold',
   },
   input: {
