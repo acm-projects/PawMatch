@@ -1,14 +1,17 @@
 import React from "react";
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import SearchModal from "./SearchModal";
 
 const ShelterScreen = ({navigation}) => {
     return (
-        <View style={styles.container}>
-            <Text>Shelter Screen</Text>
+        <View>
+            <SearchModal/>
+            <Text>Searching for...</Text>
         </View>
+        
     );
-
 }
+
 
 export default ShelterScreen;
 
@@ -18,4 +21,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
+    searchText: {
+        
+    }
 })
