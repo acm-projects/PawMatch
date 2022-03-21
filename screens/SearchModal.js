@@ -1,8 +1,10 @@
-import React, { Component, useState } from "react";
-import { View, Text, StyleSheet, Modal, Button, TouchableOpacity} from 'react-native';
-import { Checkbox } from 'react-native-paper';
 
-class SearchModal extends Component{
+import React, { Component } from "react";
+import { View, Text, StyleSheet, Modal, Image, Button, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
+import Interests from './InterestPage';
+import xImage from './x.png';
+
+export default class SearchModal extends Component {
     state = {
         modal: true
     }
@@ -13,63 +15,46 @@ class SearchModal extends Component{
         })
     }
     
+
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         return (
-            <View>
-                <Button 
-                style={styles.button}
-                title="New Search" 
-                onPress={this.handleModal} 
-                />
-                <Modal 
-                    visible={this.state.modal}
-                    transparent={true}
-                >
-                    <View style={styles.modalBackground}>
-                        <View style={styles.modalContainer}>
-                            {/*change text next to checkboxes*/}
-                            <Text>Select Search</Text>
-                            <CheckboxComponent /><Text>Dog</Text>
-                            <CheckboxComponent /><Text>Cat</Text>
-                            <CheckboxComponent /><Text>Bunny</Text>
-                            <CheckboxComponent /><Text>Bunny</Text>
-                            <CheckboxComponent /><Text>Young</Text>
-                            <CheckboxComponent /><Text>Adult</Text>
-                            <CheckboxComponent /><Text>Senior</Text>
-                            <CheckboxComponent /><Text>Vaccinated</Text>
-                            <Button title="Search" onPress={this.handleModal} />
+            <SafeAreaView>
+                <ScrollView>
+                    <TouchableOpacity onPress={() => {this.handleModal()}}>
+                        <View style={styles.buttonContainer}>
+                            <Text style={styles.buttonText}>New Search</Text>
                         </View>
-                    </View>
+                    </TouchableOpacity>
+                <Modal transparent={true} visible={this.state.modal}>
+                    <SafeAreaView style={styles.modalBackground}>
+                        <View style={styles.modalContainer}>
+                            <TouchableOpacity onPress={() => {this.handleModal()}}>
+                                <Image source={xImage} style={styles.xout}/>
+                            </TouchableOpacity>
+                            <Text style={styles.searchTitle}>Animal Search</Text>
+                            <Interests />
+                            <TouchableOpacity onPress={() => {this.handleModal(); }}>
+                                <View style={styles.buttonContainer}>
+                                    <Text style={styles.buttonText}>Search</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    </SafeAreaView>
                 </Modal>
-            </View>
-        );
+                </ScrollView>
+            </SafeAreaView>
+            
+        )
     }
-    
+
+
 }
 
-export default SearchModal;
-
-const CheckboxComponent = () => {
-    const [checked, setChecked] = React.useState(false);
-    return (
-       <View style={styles.checkbox}>
-          <Checkbox
-             status={checked ? 'checked' : 'unchecked'}
-             onPress={() => {
-                setChecked(!checked);
-             }}
-             color={'purple'}
-          />
-       </View>
-    );
- };
-
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
     modalBackground: {
         backgroundColor: '#000000aa',
         flex: 1,
@@ -77,20 +62,43 @@ const styles = StyleSheet.create({
     modalContainer: {
         backgroundColor: 'white',
         margin: 30,
-        padding: 100,
-        borderRadius: 20,
+
+        marginBottom: 20,
+        padding: 25,
+        borderRadius: 30,
         flex: 1,
     },
+    buttonContainer: {
+        alignItems: 'center',
+        backgroundColor: '#FB5555',
+        marginVertical: 15,
+        marginHorizontal: 80,
+        padding: 10,
+        borderRadius: 20,
+    },
+    buttonText: {
+        fontWeight: 'bold',
+        color: 'white',
+        fontSize: 20,
+    },
     button: {
-        backgroundColor: 'purple',
-        justifyContent: 'flex-end',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
+        marginBottom: 60,
+        marginTop: 20,
     },
-    checkbox: {
-        justifyContent: 'space-around'
+    searchTitle: {
+        fontWeight: '900',
+        margin: 8,
+        marginTop: -0.5,
+        marginBottom: 10,
+        fontSize: 37,
+        color: '#FB5555',
+        alignSelf: 'center'
+        
     },
-    checkboxText: {
-        marginHorizontal: 8,
+    xout: {
+        width: 15,
+        height: 15,
+        marginLeft: 270,
+        marginBottom: -5,
     }
 })
