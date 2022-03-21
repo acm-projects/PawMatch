@@ -1,3 +1,4 @@
+
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Modal, Image, Button, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
 import Interests from './InterestPage';
@@ -14,6 +15,7 @@ export default class SearchModal extends Component {
         })
     }
     
+
     constructor(props) {
         super(props);
     }
@@ -60,6 +62,7 @@ const styles = StyleSheet.create({
     modalContainer: {
         backgroundColor: 'white',
         margin: 30,
+
         marginBottom: 20,
         padding: 25,
         borderRadius: 30,

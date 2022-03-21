@@ -1,28 +1,37 @@
 import React from "react";
-import { View, ScrollView, Text, StyleSheet, Image } from 'react-native';
+import {TouchableOpacity, View, ScrollView, Text, StyleSheet, Image } from 'react-native';
+import animals from '../data/animals';
 
 const LikedScreen = ({navigation}) => {
+  animalKey = 0;
+
+  const Tile = (props) => {
+    function expandTile() {
+      navigation.replace("Tile", {paramKey: props});
+    };
+
+    const{name, image, breed, id} = props.animal;
+    return(
+    <TouchableOpacity style={styles.tile} onPress={expandTile}>
+        <Image style={styles.animalImg} source={{uri: image,}}/> 
+        <Text style={styles.animalName}>{name}</Text>
+        <Text>{breed}</Text>
+    </TouchableOpacity>
+    );
+  };
+
     return (
         <ScrollView>
-    
+  
           <View>
             <Text style={styles.title}>Liked</Text>
           </View>
     
           <View style={styles.container}>
-    
-            <View style={styles.tile}>
-              <Image style={styles.animalImg} source={{uri: 'https://www.thesprucepets.com/thmb/MJ--9BJULRDvodDrmrqCxzYYIy4=/3504x2336/filters:fill(auto,1)/Pomeranian-GettyImages-1014940472-a6ba0030958a4bbba0eee3e982ee9bc6.jpg'}}/> 
-              <Text style={styles.animalName}>Biscuit</Text>
-              <Text>Pomeranian</Text>
-            </View>
-
-            <View style={styles.tile}>
-              <Image style={styles.animalImg} source={{uri: '#'}}/> 
-              <Text style={styles.animalName}>Biscuit</Text>
-              <Text>Pomeranian</Text>
-            </View>
-    
+            {animals.map(i => 
+              (<Tile key={i.id} animal = {i} />
+              )
+            )}  
           </View>
     
         </ScrollView>

@@ -8,21 +8,12 @@ import {
     StyleSheet,
     useColorScheme,
   } from 'react-native';
+import animals from '../data/animals';
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = ({navigation}, props) => {
     return (
         <View style={styles.container}>
-            <View style={styles.card}>
-                <ImageBackground 
-                    source={{uri: 'https://www.thesprucepets.com/thmb/MJ--9BJULRDvodDrmrqCxzYYIy4=/3504x2336/filters:fill(auto,1)/Pomeranian-GettyImages-1014940472-a6ba0030958a4bbba0eee3e982ee9bc6.jpg',}} 
-                    style={styles.image}>
-                    <View style={styles.cardInner}>
-                    <Text style ={styles.name}>Biscuit</Text>
-                    <Text style ={styles.breed}>Pomeranian</Text>
-                    <Text style ={styles.bio}>I love to play!</Text>
-                    </View>
-                </ImageBackground>
-            </View>
+          <Card animal = {animals[0]} />
 
             <TouchableOpacity
                 onPress = {console.log('back button clicked')}
@@ -32,19 +23,19 @@ const HomeScreen = ({navigation}) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-                onPress = {console.log('dislike buttone clicked')}
+                onPress = {console.log('dislike button clicked')}
                 style = {styles.dislikeButton}>
                 <Text>Dislike</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-                onPress = {console.log('like buttone clicked')}
+                onPress = {console.log('like button clicked')}
                 style = {styles.likeButton}>
                 <Text>Like</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-                onPress = {console.log('super like buttone clicked')}
+                onPress = {console.log('super like button clicked')}
                 style = {styles.superlikeButton}>
                 <Text>Super Like</Text>
             </TouchableOpacity>
@@ -57,29 +48,25 @@ const HomeScreen = ({navigation}) => {
 export default HomeScreen;
 
 
-//my code
 
 
-/*const Card = (props) => {
-    //const{name, image, breed, bio} = props.user;
-    return(
-    <View style={styles.card}>
-    <ImageBackground 
-      source={{
-        uri: 'https://www.thesprucepets.com/thmb/MJ--9BJULRDvodDrmrqCxzYYIy4=/3504x2336/filters:fill(auto,1)/Pomeranian-GettyImages-1014940472-a6ba0030958a4bbba0eee3e982ee9bc6.jpg',
-      }} 
-      style={styles.image}>
-      <View style={styles.cardInner}>
-        <Text style ={styles.name}>Biscuit</Text>
-        <Text style ={styles.breed}>Pomeranian</Text>
-        <Text style ={styles.bio}>I love to play!</Text>
-      </View>
-      
-    </ImageBackground>
+const Card = (props) => {
+  const{name, image, breed, bio} = props.animal;
+  return(
+  <View style={styles.card}>
+      <ImageBackground 
+          source={{uri: image,}} 
+          style={styles.image}>
+          <View style={styles.cardInner}>
+            <Text style ={styles.name}>{name}</Text>
+            <Text style ={styles.breed}>{breed}</Text>
+            <Text style ={styles.bio}>{bio}</Text>
+          </View>
+      </ImageBackground>
+  </View>
+  );
+};
 
-    </View>
-);
-};*/
 
 const styles = StyleSheet.create({
     container: {
@@ -206,5 +193,3 @@ const styles = StyleSheet.create({
 
   
   });
-
-//export default Card;

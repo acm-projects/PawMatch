@@ -1,5 +1,8 @@
 import React from "react";
+
 import { View, Text, StyleSheet } from 'react-native';
+
+
 import SearchModal from "./SearchModal";
 
 const ShelterScreen = ({navigation}) => {

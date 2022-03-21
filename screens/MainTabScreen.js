@@ -1,13 +1,16 @@
 import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet } from 'react-native';
 import HomeScreen from './HomeScreen';
 import LikedScreen from './LikedScreen';
 import ShelterScreen from './ShelterScreen';
 import ProfileScreen from './ProfileScreen';
+import AnimalTile from './AnimalTile';
 
 const Tab = createMaterialBottomTabNavigator();
+const LikedStack = createNativeStackNavigator();
 
 const MainTabScreen = () => (
     <Tab.Navigator
@@ -36,8 +39,8 @@ const MainTabScreen = () => (
         }}
       />
       <Tab.Screen
-        name="Liked"
-        component={LikedScreen}
+        name="LikedStack"
+        component={LikedStackScreen}
         options={{
           tabBarLabel: 'Liked',
           tabBarIcon: ({ color }) => (
@@ -76,16 +79,9 @@ const HomeStackScreen = ({navigation}) => (
 );
 
 const LikedStackScreen = ({navigation}) => (
-    <LikedStack.Navigator screenOptions={{
-        headerStyle: {
-        backgroundColor: 'pink',
-        },
-        headerTintColor: 'white',
-        headerTitleStyle: {
-            fontWeight: 'bold',
-        },
-    }}>
+    <LikedStack.Navigator screenOptions={{headerShown: false}}>
         <LikedStack.Screen name="Liked" component={LikedScreen} />
+        <LikedStack.Screen name="Tile" component={AnimalTile} />
     </LikedStack.Navigator>
 );
 
