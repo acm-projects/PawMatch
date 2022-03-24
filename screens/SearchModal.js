@@ -1,24 +1,44 @@
 
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Modal, Image, Button, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Modal, Image, Flatlist, Button, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
 import Interests from './InterestPage';
 import xImage from './x.png';
 
 export default class SearchModal extends Component {
+
     state = {
-        modal: true
+        modal: true,
+    }
+
+    constructor(props) {
+        super(props);
+        // this.state = {
+        //     // search: [
+        //     //    ["Dog", "Cat", "Rabbit", "Other"],
+        //     //    ["Baby", "Young", "Adult", "Senior"],
+        //     //    ["Female", "Male", "NULL", "NULL"],
+        //     //    ["Small", "Medium", "Large", "NULL"]
+        //     // ],
+        //     // Data: [][4],
+
+        //     typeAnimal: ["Dog", "Cat", "Rabbit", "Other"],
+        //     // age: ["Baby", "Young", "Adult", "Senior"],
+        //     // gender: ["Female", "Male"],
+        //     // size: ["Small", "Medium", "Large"],
+
+        //     Data: [],
+        //     // Data2: [],
+        //     // Data3: [],
+        //     // Data4: [],
+
+        // };
     }
 
     handleModal = () => {
         this.setState({
             modal: !this.state.modal ? true : false
         })
-    }
-    
-
-    constructor(props) {
-        super(props);
-    }
+    }    
 
     render() {
         return (
@@ -36,12 +56,14 @@ export default class SearchModal extends Component {
                                 <Image source={xImage} style={styles.xout}/>
                             </TouchableOpacity>
                             <Text style={styles.searchTitle}>Animal Search</Text>
+                                {/* <Interests /> */}
+                            
                             <Interests />
-                            <TouchableOpacity onPress={() => {this.handleModal(); }}>
-                                <View style={styles.buttonContainer}>
-                                    <Text style={styles.buttonText}>Search</Text>
-                                </View>
-                            </TouchableOpacity>
+
+
+
+                            
+                            
                         </View>
                     </SafeAreaView>
                 </Modal>
@@ -62,7 +84,6 @@ const styles = StyleSheet.create({
     modalContainer: {
         backgroundColor: 'white',
         margin: 30,
-
         marginBottom: 20,
         padding: 25,
         borderRadius: 30,
@@ -100,5 +121,28 @@ const styles = StyleSheet.create({
         height: 15,
         marginLeft: 270,
         marginBottom: -5,
-    }
+    },
+    // unCheckedBox: {
+    //     borderColor: '#969696',
+    //     borderWidth: 2,
+    //     borderRadius: 7,
+    //     height: 20,
+    //     width: 20,
+    //     marginRight: 6,
+    //     marginVertical: 3,
+    // },
+    // CheckedBox: {
+    //     borderColor: '#969696',
+    //     backgroundColor: '#C4C4C4',
+    //     borderWidth: 2,
+    //     borderRadius: 7,
+    //     height: 20,
+    //     width: 20,
+    //     marginRight: 6,
+    //     marginVertical: 3,
+    // },
+    // checkboxText: {
+    //     fontSize: 20,
+    //     color: '#8E8E8E'
+    // },
 })

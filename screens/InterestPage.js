@@ -1,58 +1,104 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, SafeAreaView, FlatList } from 'react-native';
+import { View, Text, StyleSheet, Button, TextInput, TouchableOpacity, SafeAreaView, FlatList } from 'react-native';
 
 export default function Interests() {
-    const[animaltype, setAnimalType] = useState([
+    const type = [
         {id: 0, key: 'Dog', isChecked: false},
         {id: 1, key: 'Cat', isChecked: false},
         {id: 2, key: 'Rabbit', isChecked: false},
         {id: 3, key: 'Other', isChecked: false} 
-    ]);
+    ];
 
-    const[age, setAge] = useState([
+    const age = [
         {id: 0, key: 'Baby', isChecked: false},
         {id: 1, key: 'Young', isChecked: false},
         {id: 2, key: 'Adult', isChecked: false},
         {id: 3, key: 'Senior', isChecked: false}
-    ]);
+    ];
 
-    const[gender, setGender] = useState([
+    const gender = [
         {id: 0, key: 'Female', isChecked: false},
         {id: 1, key: 'Male', isChecked: false}
-    ]);
+    ];
     
-    const[size, setSize] = useState([
+    const size = [
         {id: 0, key: 'Small', isChecked: false},
         {id: 1, key: 'Medium', isChecked: false},
         {id: 2, key: 'Large', isChecked: false}
-    ]);
+    ];
 
-    const CheckboxTest = () => {
-        alert('value changed')
+    const[zipCode, setZipCode] = React.useState(null);
+    const[checkedType, setCheckedType] = useState(type)
+    const[checkedAge, setCheckedAge] = useState(age)
+    const[checkedGender, setCheckedGender] = useState(gender)
+    const[checkedSize, setCheckedSize] = useState(size)
+
+    const handleChangeType = (id) => {
+        var typeTemp = checkedType.map((searchType) => {
+            if (id === searchType.id) {
+                return {...searchType, isChecked: !searchType.isChecked}
+            }
+            return searchType;
+        });
+        setCheckedType(typeTemp);  
     };
-
+    const handleChangeAge = (id) => {
+        var ageTemp = checkedAge.map((searchAge) => {
+            if (id === searchAge.id) {
+                return {...searchAge, isChecked: !searchAge.isChecked}
+            }
+            return searchAge;
+        });
+        setCheckedAge(ageTemp); 
+    };
+    const handleChangeGender = (id) => {
+        var genderTemp = checkedGender.map((searchGender) => {
+            if (id === searchGender.id) {
+                return {...searchGender, isChecked: !searchGender.isChecked}
+            }
+            return searchGender;
+        });
+        setCheckedGender(genderTemp);
+    };
+    const handleChangeSize = (id) => {
+        var sizeTemp = checkedSize.map((searchSize) => {
+            if (id === searchSize.id) {
+                return {...searchSize, isChecked: !searchSize.isChecked}
+            }
+            return searchSize;
+        });
+        setCheckedSize(sizeTemp); 
+    };
     
-    const[checkedType, setCheckedType] = useState(false)
-
-    // const handleChange = (id) => {
-    //     let temp = checkedType.map((type) => {
-    //       if (id === type.id) {
-    //         return { ...type, isChecked: !type.isChecked };
-    //       }
-    //       return type;
-    //     });
-    //     setCheckedType(temp);
-    //   };
-
-    const[checkedAge, setCheckedAge] = useState(false)
-    const[checkedGender, setCheckedGender] = useState(false)
-    const[checkedSize, setCheckedSize] = useState(false)
-    
-    const [zipCode, setZipCode] = React.useState(null);
-    const ZipCodeTest = () => {
-        return (
-            alert({zipCode})
-        ); 
+    const callAPI = () => {
+        if (!(zipCode >= 501 && zipCode.length == 5)) {
+            alert('You must enter a valid zipcode')
+            console.log('Call Cancelled')
+        }
+        else {
+            console.log(zipCode)
+            for (let i = 0; i < checkedType.length; i++) {
+                if (checkedType[i].isChecked == true) {
+                    console.log(checkedType[i].key)
+                }
+            }
+            for (let i = 0; i < checkedAge.length; i++) {
+                if (checkedAge[i].isChecked == true) {
+                    console.log(checkedAge[i].key)
+                }
+            }
+            for (let i = 0; i < checkedGender.length; i++) {
+                if (checkedGender[i].isChecked == true) {
+                    console.log(checkedGender[i].key)
+                }
+            }
+            for (let i = 0; i < checkedSize.length; i++) {
+                if (checkedSize[i].isChecked == true) {
+                    console.log(checkedSize[i].key)
+                }
+            }
+        }
+        
     };
 
     return (
@@ -61,8 +107,7 @@ export default function Interests() {
                 <Text style={styles.ZipCodeHeader}>Zip Code</Text>
                 <View style={styles.ZipCodeInputBox}>
                     <TextInput 
-                    value={zipCode}
-                    onChangeText={zipCode => setZipCode(zipCode)}
+                    onChangeText={zipCode => {setZipCode(zipCode)}}
                     style={styles.ZipCodeInputText}
                     maxLength={5}
                     keyboardType={"numeric"}
@@ -74,14 +119,14 @@ export default function Interests() {
             <View style={styles.checkboxContainer}>
                 <Text style={styles.checkboxHeader}>Type</Text>
                 <FlatList numColumns={2}
-                    data={animaltype}
+                    data={checkedType}
                     renderItem = {({ item }) => ( 
                         <>
                         <View 
                         style={styles.checkboxFormat}>
-                            <TouchableOpacity value={checkedType} onPress={() => {setCheckedType(!checkedType)}} >
-                                {checkedType == true
-                                ? (<View style={styles.CheckedBox}/>)
+                            <TouchableOpacity value={item.isChecked} onPress={() => handleChangeType(item.id)}>
+                                { item.isChecked == true
+                                ? (<View style={styles.CheckedBox} />)
                                 : (<View style={styles.unCheckedBox} />)
                                 }
                             </TouchableOpacity>
@@ -97,14 +142,14 @@ export default function Interests() {
             <View style={styles.checkboxContainer}>
                 <Text style={styles.checkboxHeader}>Age</Text>
                 <FlatList numColumns={2}
-                    data={age}
+                    data={checkedAge}
                     renderItem = {({ item }) => ( 
                         <>
                         <View 
                         style={styles.checkboxFormat}>
-                            <TouchableOpacity value={checkedAge} onPress={() => {setCheckedAge(!checkedAge)}} >
-                                {checkedAge == true
-                                ? (<View style={styles.CheckedBox}/>)
+                             <TouchableOpacity value={item.isChecked} onPress={() => handleChangeAge(item.id)}>
+                                { item.isChecked == true
+                                ? (<View style={styles.CheckedBox} />)
                                 : (<View style={styles.unCheckedBox} />)
                                 }
                             </TouchableOpacity>
@@ -119,14 +164,14 @@ export default function Interests() {
             <View style={styles.checkboxContainer}>
                 <Text style={styles.checkboxHeader}>Gender</Text>
                 <FlatList numColumns={2}
-                    data={gender}
+                    data={checkedGender}
                     renderItem = {({ item }) => ( 
                         <>
                         <View 
                         style={styles.checkboxFormat}>
-                            <TouchableOpacity value={checkedGender} onPress={() => {setCheckedGender(!checkedGender)}} >
-                                {checkedGender == true
-                                ? (<View style={styles.CheckedBox}/>)
+                             <TouchableOpacity value={item.isChecked} onPress={() => handleChangeGender(item.id)}>
+                                { item.isChecked == true
+                                ? (<View style={styles.CheckedBox} />)
                                 : (<View style={styles.unCheckedBox} />)
                                 }
                             </TouchableOpacity>
@@ -141,14 +186,14 @@ export default function Interests() {
             <View style={styles.checkboxContainer}>
                 <Text style={styles.checkboxHeader}>Size</Text>
                 <FlatList numColumns={2}
-                    data={size}
+                    data={checkedSize}
                     renderItem = {({ item }) => ( 
                         <>
                         <View 
                         style={styles.checkboxFormat}>
-                            <TouchableOpacity value={checkedSize} onPress={() => {setCheckedSize(!checkedSize)}}>
-                                {checkedSize == true
-                                ? (<View style={styles.CheckedBox}/>)
+                             <TouchableOpacity value={item.isChecked} onPress={() => handleChangeSize(item.id)}>
+                                { item.isChecked == true
+                                ? (<View style={styles.CheckedBox} />)
                                 : (<View style={styles.unCheckedBox} />)
                                 }
                             </TouchableOpacity>
@@ -158,8 +203,14 @@ export default function Interests() {
                     )}
                     contentContainerStyle={{margin: 20}}
                 />
+                
             </View>
 
+            <TouchableOpacity onPress={callAPI}>
+                    <View style={styles.buttonContainer}>
+                        <Text style={styles.buttonText}>Submit</Text>
+                    </View>
+            </TouchableOpacity>
         </SafeAreaView>
 
 
@@ -191,7 +242,6 @@ const styles = StyleSheet.create({
         marginRight: 6,
         marginVertical: 3,
     },
-    
     checkboxFormat: {
         flexDirection: 'row',
         flex: 1
@@ -211,7 +261,7 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 7,
         height: 30,
-        width: 125,
+        width: 140,
         marginLeft: 10,
         marginVertical: 2,
     },
@@ -219,7 +269,8 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#8E8E8E',
         marginVertical: -9,
-        marginLeft: 3,
+        marginRight: 1,
+        alignSelf: 'center'
         
     },
     checkboxHeader: {
@@ -231,6 +282,23 @@ const styles = StyleSheet.create({
     checkboxContainer: {
         margin: -5,
         marginHorizontal: 1,
-    }
+    },
+    buttonContainer: {
+        alignItems: 'center',
+        backgroundColor: '#FB5555',
+        marginVertical: 15,
+        marginHorizontal: 80,
+        padding: 10,
+        borderRadius: 20,
+    },
+    buttonText: {
+        fontWeight: 'bold',
+        color: 'white',
+        fontSize: 20,
+    },
+    button: {
+        marginBottom: 60,
+        marginTop: 20,
+    },
 
 })
