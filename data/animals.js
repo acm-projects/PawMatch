@@ -1,5 +1,5 @@
 export default [
-    {
+  {
       id: '1',
       name: 'Poppy',
       breed: 'Golden Retriever',
@@ -39,5 +39,6 @@ export default [
         'https://www.akc.org/wp-content/uploads/2016/06/German-Shepherd-Dog-laying-down-in-the-backyard-500x487.jpeg',
       bio: 'I love playing outside!',
     },
+
   ];
   
