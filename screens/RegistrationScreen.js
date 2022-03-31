@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import { View, Text, Button, StyleSheet, TextInput } from 'react-native';
-import auth from '@react-native-firebase/auth';
+import auth, { firebase } from '@react-native-firebase/auth';
 
 const RegistrationScreen = ({navigation}) => {
   // Set an initializing state whilst Firebase connects
@@ -8,6 +8,8 @@ const RegistrationScreen = ({navigation}) => {
   const [user, setUser] = useState();
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
+  const [firstName, setFirstName] = useState()
+  const [lastName, setLastName] = useState()
 
   // Handle user state changes
   function onAuthStateChanged(user) {
@@ -26,7 +28,17 @@ const RegistrationScreen = ({navigation}) => {
   function createUserAccount() {
     auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(() => {
+      .then((user) => {
+        const fbRootRefFS = firebase.firestore();
+        const userID = user.uid;
+        console.log('user id is: ', userID)
+        const userRef = fbRootRefFS.collection('users').doc(userID)
+        userRef.set({
+          email,
+          password,
+          firstName,
+          lastName,
+        })
         console.log('User account created & signed in!');
       })
       .catch(error => {
@@ -65,6 +77,18 @@ const RegistrationScreen = ({navigation}) => {
           onChangeText={text => setPassword(text)}
           style={styles.input}
           secureTextEntry
+        />
+        <TextInput
+          placeholder="First Name"
+          value={firstName}
+          onChangeText={text => setFirstName(text)}
+          style={styles.input}
+        />
+        <TextInput
+          placeholder="Last Name"
+          value={lastName}
+          onChangeText={text => setLastName(text)}
+          style={styles.input}
         />
       </View>
       <View style={styles.button}>
