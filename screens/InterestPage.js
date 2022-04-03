@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Button, TextInput, TouchableOpacity, SafeAreaView, FlatList } from 'react-native';
+import { searchAnimals } from '../api/searchAnimals.js';
 
 export default function Interests() {
     const type = [
@@ -97,6 +98,8 @@ export default function Interests() {
                     console.log(checkedSize[i].key)
                 }
             }
+        
+            searchAnimals(78747, "Dog", "Young", "Male", "Small");
         }
         
     };
