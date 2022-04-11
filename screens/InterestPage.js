@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Button, TextInput, TouchableOpacity, SafeAreaView, FlatList } from 'react-native';
-import { searchAnimals } from '../api/searchAnimals.js';
+import { searchAnimalsMore } from '../api/searchAnimals.js';
 
 export default function Interests() {
     const type = [
@@ -29,10 +29,10 @@ export default function Interests() {
     ];
 
     const[zipCode, setZipCode] = React.useState(null);
-    const[checkedType, setCheckedType] = useState(type)
-    const[checkedAge, setCheckedAge] = useState(age)
-    const[checkedGender, setCheckedGender] = useState(gender)
-    const[checkedSize, setCheckedSize] = useState(size)
+    const[checkedType, setCheckedType] = useState(type);
+    const[checkedAge, setCheckedAge] = useState(age);
+    const[checkedGender, setCheckedGender] = useState(gender);
+    const[checkedSize, setCheckedSize] = useState(size);
 
     const handleChangeType = (id) => {
         var typeTemp = checkedType.map((searchType) => {
@@ -77,30 +77,27 @@ export default function Interests() {
             console.log('Call Cancelled')
         }
         else {
-            searchChoices = [];
-            searchChoices.push(zipCode)
+            console.log(zipCode)
             for (let i = 0; i < checkedType.length; i++) {
                 if (checkedType[i].isChecked == true) {
-                    searchChoices.push(checkedType[i].key);
+                    console.log(checkedType[i].key)
                 }
             }
             for (let i = 0; i < checkedAge.length; i++) {
                 if (checkedAge[i].isChecked == true) {
-                    searchChoices.push(checkedAge[i].key);
+                    console.log(checkedAge[i].key)
                 }
             }
             for (let i = 0; i < checkedGender.length; i++) {
                 if (checkedGender[i].isChecked == true) {
-                    searchChoices.push(checkedGender[i].key);
+                    console.log(checkedGender[i].key)
                 }
             }
             for (let i = 0; i < checkedSize.length; i++) {
                 if (checkedSize[i].isChecked == true) {
-                    searchChoices.push(checkedSize[i].key);
+                    console.log(checkedSize[i].key)
                 }
             }
-            console.log(searchChoices);
-            searchAnimals(78747, "Dog", "Young", "Male", "Small");
         }
     };
 

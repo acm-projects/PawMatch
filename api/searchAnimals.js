@@ -15,6 +15,21 @@ export function searchAnimals(pZipcode, aType, aAge, aGender, aSize) {
   });
 }
 
+export function searchAnimalsMore(pZipcode, aType1, aType2, aType3, aType4, aAge1, aAge2, aAge3, aAge4, aGender1, aGender2, aSize1, aSize2, aSize3) {
+
+  client.animal.search({
+    location: pZipcode,
+    type: aType1, aType2, aType3, aType4,
+    age: aAge1, aAge2, aAge3, aAge4,
+    gender: aGender1, aGender2,
+    size: aSize1, aSize2, aSize3,
+    limit: 1,
+  }).then(resp => {
+    //console.log(resp.data.animals);
+    var result = resp.data;
+    return result;
+  });
+}
 
 //TO GET ALL POSSIBLE RESULTS or TO FLIP THROUGH PAGES
 /*
