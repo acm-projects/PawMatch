@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, Button, TextInput, TouchableOpacity, SafeAreaView, FlatList } from 'react-native';
 import { searchAnimals } from '../api/searchAnimals.js';
 
+var apicall;
+
 export default function Interests() {
     const type = [
         {id: 0, key: 'Dog', isChecked: false},
@@ -99,10 +101,13 @@ export default function Interests() {
                 }
             }
         
-            searchAnimals(78747, "Dog", "Young", "Male", "Small");
+            //apicall =searchAnimals(78747, "Dog", "Young", "Male", "Small");
+            //searchAnimals(78747, checkedType, "Young", "Male", "Small");
+
         }
         
     };
+
 
     return (
         <SafeAreaView>

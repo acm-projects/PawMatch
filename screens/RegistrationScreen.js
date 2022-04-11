@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import { View, Text, Button, StyleSheet, TextInput } from 'react-native';
-import auth, { firebase } from '@react-native-firebase/auth';
+import { auth, firebase } from '@react-native-firebase/auth';
 
 const RegistrationScreen = ({navigation}) => {
   // Set an initializing state whilst Firebase connects

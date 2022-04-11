@@ -8,9 +8,11 @@ import LikedScreen from './LikedScreen';
 import ShelterScreen from './ShelterScreen';
 import ProfileScreen from './ProfileScreen';
 import AnimalTile from './AnimalTile';
+import ExpandTile from './ExpandTile';
 
 const Tab = createMaterialBottomTabNavigator();
 const LikedStack = createNativeStackNavigator();
+const ShelterStack = createNativeStackNavigator();
 
 const MainTabScreen = () => (
     <Tab.Navigator
@@ -29,8 +31,8 @@ const MainTabScreen = () => (
         }}
       />
       <Tab.Screen
-        name="Shelters"
-        component={ShelterScreen}
+        name="ShelterStack"
+        component={ShelterStackScreen}
         options={{
           tabBarLabel: 'Shelters',
           tabBarIcon: ({ color }) => (
@@ -86,16 +88,9 @@ const LikedStackScreen = ({navigation}) => (
 );
 
 const ShelterStackScreen = ({navigation}) => (
-    <ShelterStack.Navigator screenOptions={{
-        headerStyle: {
-        backgroundColor: 'pink',
-        },
-        headerTintColor: 'white',
-        headerTitleStyle: {
-            fontWeight: 'bold',
-        },
-    }}>
+    <ShelterStack.Navigator screenOptions={{headerShown: false}}>
         <ShelterStack.Screen name="Shelters" component={ShelterScreen} />
+        <LikedStack.Screen name="Tile" component={ExpandTile} />
     </ShelterStack.Navigator>
 );
 
