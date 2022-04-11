@@ -9,88 +9,133 @@ import {
     StyleSheet,
     useColorScheme,
     Animated,
-    PanResponder,
-    Dimensions,
   } from 'react-native';
-
-
 import animals from '../data/animals';
+import backImage from '../icons/back.png';
+import dislikeImage from '../icons/dislike.png';
+import likeImage from '../icons/heart.png';
+import superlikeImage from '../icons/star3.png';
 
 
 
 const HomeScreen = ({navigation}, props) => {
 
+//TRAVERSE THROUGH CARD STACK, UPDATE INDEX, AND FLIP TO FRONT OF CARD
   const [index, setIndex] = useState(0);
   const increaseIndex = () => {
-    if (index == (animals.length - 1) )
-    {
+    if (index == (animals.length - 1) ) {
       setIndex(index);
       console.log("Reached end of stack");
     }
-    else
-    {
+    else {
       setIndex(index + 1);
     }
   }
 
   const decreaseIndex = () => {
-    if (index == 0)
-    {
+    if (index == 0) {
       setIndex(0);
       console.log("Reached beginning of stack");
     }
-    else
-    {
+    else {
       setIndex(index - 1);
     }
+    checkCard();
     console.log("Back button pressed");
   }
 
   const dislike = () => {
     increaseIndex();
+    checkCard();
     console.log("Dislike button pressed");
   }
 
   const like = () => {
     increaseIndex();
+    checkCard();
     console.log("Like button pressed");
   }
 
   const superLike = () => {
     increaseIndex();
+    checkCard();
     console.log("Super Like button pressed");
   }
+
+
+//CARD FLIP ANIMATION
+  const animate = useRef(new Animated.Value(0));
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  const interpolateFront = animate.current.interpolate({
+    inputRange: [0, 180],
+    outputRange: ['0deg', '180deg'],
+  });
+
+  const interpolateBack = animate.current.interpolate({
+    inputRange: [0, 180],
+    outputRange: ['180deg', '360deg'],
+  });
+
+  const flipCard = () => {
+    Animated.timing(animate.current, {
+      duration: 300,
+      toValue: isFlipped ? 0 : 180,
+      useNativeDriver: true,
+    }).start(() => {
+      setIsFlipped(!isFlipped);
+      console.log("Card flipped: isFlipped = " + isFlipped);
+    });
+  };
+
+  const checkCard = () => {
+    if (isFlipped == true)
+      flipCard();
+  }
+  
+
 
   return (
     
         <View style={styles.container}>
-
-            <Animated.View style = {styles.animatedCard}>              
-                <Card animal = {animals[index]}/>
-            </Animated.View>
+          
+          <TouchableOpacity
+            onPress={flipCard}
+            style={[{ transform: [{ rotateY: interpolateFront}]}, styles.animatedCard, styles.hidden]}>
+              <Animated.View style={[{ transform: [{ rotateY: interpolateFront}]}, styles.animatedCard, styles.hidden]}>
+                <FrontCard animal = {animals[index]}/>
+              </Animated.View>
+          </TouchableOpacity>
+            
+          <TouchableOpacity
+            onPress={flipCard}
+            style={[styles.cardBack, styles.hidden, { transform: [{ rotateY: interpolateBack}]}]}>
+              <Animated.View >
+                <ScrollView>
+                  <BackCard animal = {animals[index]}/>
+                </ScrollView>
+              </Animated.View>
+          </TouchableOpacity>
+            
           
             <TouchableOpacity
-                onPress = {() => <Card animal = {animals[decreaseIndex()]}/>}
-                style = {styles.backButton}>
-                <Text>Back</Text>
+                onPress = {() => <FrontCard animal = {animals[decreaseIndex()]}/>}>
+                <Image source={backImage} style = {styles.backButton}></Image>
             </TouchableOpacity>
 
             <TouchableOpacity
-                onPress = {() => <Card animal = {animals[dislike()]}/>}
-                style = {styles.dislikeButton}>
-                <Text>Dislike</Text>
+                onPress = {() => <FrontCard animal = {animals[dislike()]}/>}>
+                <Image source={dislikeImage} style = {styles.dislikeButton}></Image>
             </TouchableOpacity>
 
             <TouchableOpacity
-                onPress = {() => <Card animal = {animals[like()]}/>}
-                style = {styles.likeButton}>
-                <Text>Like</Text>
+                onPress = {() => <FrontCard animal = {animals[like()]}/>}>
+                <Image source={likeImage} style = {styles.likeButton}></Image>
             </TouchableOpacity>
 
             <TouchableOpacity
-                onPress = {() => <Card animal = {animals[superLike()]}/>}
-                style = {styles.superlikeButton}>
-                <Text>Super Like</Text>
+                onPress = {() => <FrontCard animal = {animals[superLike()]}/>}>
+                <Image source={superlikeImage} style = {styles.superlikeButton}></Image>
             </TouchableOpacity>
         </View>
 
@@ -104,10 +149,10 @@ export default HomeScreen;
 
 
 
-const Card = (props) => {
+const FrontCard = (props) => {
   const{name, image, breed, bio} = props.animal;
   return(
-  <View style={styles.card}>
+  <View style={styles.cardFront}>
       <ImageBackground 
           source={{uri: image,}} 
           style={styles.image}>
@@ -122,16 +167,35 @@ const Card = (props) => {
 };
 
 
+const BackCard = (props) => {
+  const{name, breed, age, gender, size} = props.animal;
+  return(
+    <View style={styles.cardInner}>
+      <Text style ={styles.name}>{name}</Text>
+      <Text style ={styles.breed}>{breed}</Text>
+      <Text style ={styles.age}>Age: {age}</Text>
+      <Text style ={styles.gender}>Gender: {gender}</Text>
+      <Text style ={styles.size}>Size: {size}</Text>
+    </View>
+  );
+};
+
+
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center'
     },
+
+    hidden: {
+      backfaceVisibility: 'hidden',
+    },
   
-    card: {
-      width: '90%',
-      height: '60%',
+    cardFront: {
+      width: '100%',
+      height: '75%',
       borderRadius: 10,
   
       shadowColor: "#000",
@@ -143,11 +207,13 @@ const styles = StyleSheet.create({
       shadowRadius: 16.00,
   
       elevation: 24,
+      position: 'absolute',
+      top: 50,
     },
 
     cardBack: {
       width: '90%',
-      height: '60%',
+      height: '70%',
       borderRadius: 10,
   
       shadowColor: "#000",
@@ -159,7 +225,9 @@ const styles = StyleSheet.create({
       shadowRadius: 16.00,
   
       elevation: 24,
-      backfaceVisibility: 'hidden',
+      position: 'absolute',
+      backgroundColor: '#7271bf',
+      top: 50,
     },
 
     animatedCard: {
@@ -171,7 +239,6 @@ const styles = StyleSheet.create({
       padding: 10,
     },
 
-  
     image: {
       width: '100%',
       height: '100%',
@@ -191,85 +258,73 @@ const styles = StyleSheet.create({
       fontSize: 40,
       color: 'white',
       fontWeight: 'bold',
-  
     },
   
     breed: {
       fontSize: 20,
       color: 'white',
       fontWeight: 'bold',
-  
     },
   
     bio: {
       fontSize: 15,
       color: 'white',
       lineHeight: 24,
-  
+    },
+
+    age: {
+      fontSize: 20,
+      color: 'white',
+    },
+
+    gender: {
+      fontSize: 20,
+      color: 'white',  
+    },
+
+    size: {
+      fontSize: 20,
+      color: 'white',
     },
 
     backButton: {
-        marginTop: 20,
+        marginTop: 210,
         position: 'absolute',
-        left: 20,
-        top: 500,
-        width: 60,
-        height: 60,
+        left: -180,
+        width: 70,
+        height: 70,
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 10,
-        borderRadius: 50,
-        backgroundColor: 'gray',
-    },
-
-    buttonImage: {
-        padding: 10,
-        margin: 5,
-        height: 25,
-        width: 25,
-        resizeMode: 'stretch',
     },
 
     dislikeButton: {
-        marginTop: 20,
-        position: 'absolute',
-        left: 120,
-        top: 500,
-        width: 60,
-        height: 60,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 10,
-        borderRadius: 50,
-        backgroundColor: '#de4545',
+      marginTop: 210,
+      position: 'absolute',
+      left: -83,
+      width: 70,
+      height: 70,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
 
     likeButton: {
-        marginTop: 20,
-        position: 'absolute',
-        left: 220,
-        top: 500,
-        width: 60,
-        height: 60,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 10,
-        borderRadius: 50,
-        backgroundColor: '#45de63',
+      marginTop: 210,
+      position: 'absolute',
+      left: 15,
+      width: 70,
+      height: 70,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
 
     superlikeButton: {
-        marginTop: 20,
-        position: 'absolute',
-        left: 310,
-        top: 500,
-        width: 60,
-        height: 60,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 10,
-        borderRadius: 50,
-        backgroundColor: '#f7f754',
+      marginTop: 207,
+      position: 'absolute',
+      left: 110,
+      width: 70,
+      height: 70,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
   
   });
