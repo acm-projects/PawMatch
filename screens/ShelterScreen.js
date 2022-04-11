@@ -2,8 +2,10 @@ import React from "react";
 import {TouchableOpacity, Text, Image, StyleSheet, View, ScrollView} from 'react-native';
 import SearchModal from "./SearchModal";
 import { searchAnimals } from '../api/searchAnimals.js';
+import oldApiCall from '../api/apicall.json';
 import Search from '../api/Search.js';
 import { apicall } from './InterestPage'
+console.log(oldApiCall);
 
 //console.log(searchAnimals(78747, "Dog", "Young", "Male", "Small"));
 //            <Image style={styles.animalImg} source={{uri: image,}}/> 
@@ -20,7 +22,7 @@ import { apicall } from './InterestPage'
 
 
 const ShelterScreen = ({navigation}) => {
-/*
+
   const Tile = (props) => {
     function expandTile() {
       navigation.replace("Tile", {paramKey: props});
@@ -35,7 +37,6 @@ const ShelterScreen = ({navigation}) => {
     </TouchableOpacity>
     );
   };
-  */
 /*
   async function searchAnimals(pZipcode, aType, aAge, aGender, aSize) {
 
@@ -70,19 +71,19 @@ const ShelterScreen = ({navigation}) => {
         <ScrollView>
             <SearchModal/>
             <Text>Searching for...</Text>
-            <Search/>
+            <View style={styles.containerTile}>
+            {oldApiCall.animals.map(i => 
+              (<Tile key={i.id} animal = {i} />
+              )
+            )}  
+          </View>
         </ScrollView>
         
     );
 };
 
 /*
-            <View style={styles.containerTile}>
-            {animals.animals.map(i => 
-              (<Tile key={i.id} animal = {i} />
-              )
-            )}  
-          </View>
+            
 */
 
 export default ShelterScreen;
