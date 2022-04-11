@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from 'react';
-import { View, Text, Button, StyleSheet, TextInput } from 'react-native';
+import { View, SafeAreaView, Text, Button, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import auth from '@react-native-firebase/auth';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const LoginScreen = ({navigation}) => {
   // Set an initializing state whilst Firebase connects
@@ -8,6 +9,7 @@ const LoginScreen = ({navigation}) => {
   const [user, setUser] = useState();
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
+  const [hidePass, setHidePass] = useState(false);
 
   // Handle user state changes
   function onAuthStateChanged(user) {
@@ -47,30 +49,57 @@ const LoginScreen = ({navigation}) => {
 
 
   return (            //if user is logged in, shows HomeScreen
-    <View>
-      <Text style={styles.title}>PawMatch</Text>
-      <View  style={styles.inputContainer}>
-        <TextInput 
-          placeholder="Email"
-          value={email}
-          onChangeText={text => setEmail(text)}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="Password"
-          value={password}
-          onChangeText={text => setPassword(text)}
-          style={styles.input}
-          secureTextEntry
-        />
+    <SafeAreaView style={{flex: 1}}>
+
+      <View style={[styles.topContainer, styles.containerElevation]}>
+        <Text style={styles.title}>Pawmatch</Text>
       </View>
-      <View style={styles.button}>
-        <Button title="Sign In" onPress={signinUser} color="#fb5555"/>
+
+      <View style={styles.bottomContainer}>
+        <View style={{marginTop: 20}}>
+          <View style={styles.inputContainer}>
+            <TextInput 
+              placeholder="email"
+              value={email}
+              onChangeText={text => setEmail(text)}
+              style={[styles.input, styles.elevationInput, styles.inputText]}
+            />
+            <TextInput
+              placeholder="password"
+              value={password}
+              onChangeText={text => setPassword(text)}
+              style={[styles.input, styles.elevationInput, styles.inputText]}
+              secureTextEntry={hidePass ? true : false}
+            />
+          </View>
+          <View style={{marginLeft: 65, marginTop: -10,}}>
+            <TouchableOpacity onPress={() => setHidePass(!hidePass)}>
+              { hidePass == true
+              ? (<View style={styles.CheckedBox} />)
+              : (<View style={styles.unCheckedBox} />)
+              }
+              {
+                hidePass == true
+              ? (<Text style={styles.passwordButtonText}>Show Password</Text>)
+              : (<Text style={styles.passwordButtonText}>Hide Password</Text>)
+              }
+              
+            </TouchableOpacity>
+          </View>
+          
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity onPress={signinUser} style={styles.signInButton}>
+              <Text style={styles.buttonText}>Go!</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={navRegistrationScreen} style={styles.registerButton}>
+                <Text style={styles.buttonText}>Create An Account</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        
       </View>
-      <View style={styles.button}>
-        <Button title="Create An Account" onPress={navRegistrationScreen} color="#919A8C"/>
-      </View>
-    </View>
+      
+    </SafeAreaView>
   );
 }
 
@@ -78,28 +107,96 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 30,
+    fontSize: 53,
     margin: 20,
     textAlign: 'center',
+    marginTop: 228,
     color: '#fb5555',
-    fontWeight: 'bold',
+    fontWeight: '900',
   },
   input: {
-    backgroundColor: '#FFBCD1',
+    backgroundColor: '#FFFFFF',
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 10,
-    marginBottom: 5,
-    width: 300,
+    marginBottom: 10,
+    width: 290,
   },
-  button: {
-    marginBottom: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
+  inputText: {
+    fontSize: 18,
+    color: '#727272'
   },
   inputContainer: {
     marginBottom: 10,
     justifyContent: 'center',
     alignItems: 'center',
   },
+  elevationInput: {
+    elevation: 10,
+    shadowColor: '#898989',
+  },
+  buttonContainer: {
+    margin: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  containerElevation: {
+    elevation: 25,
+    shadowColor: '#898989',
+  },
+  topContainer: {
+    flex: 0.43,
+    backgroundColor: '#F9F7F7',
+  },
+  bottomContainer: {
+    flex: 0.57,
+    backgroundColor: '#FFFFFF',
+  },
+  signInButton: {
+    height: 35,
+    width: 85,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#F05F5F',
+    borderRadius: 10,
+    marginBottom: 5,
+  },
+  registerButton: {
+    height: 35,
+    width: 180,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#A5A5A5',
+    borderRadius: 10,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
+  passwordButtonText: {
+    color: '#9C9C9C',
+    fontSize: 14,
+    marginLeft: 25,
+    marginTop: -23,
+  },
+  unCheckedBox: {
+    borderColor: '#969696',
+    borderWidth: 2,
+    borderRadius: 7,
+    height: 18,
+    width: 18,
+    marginRight: 6,
+    marginVertical: 3,
+},
+CheckedBox: {
+    borderColor: '#969696',
+    backgroundColor: '#C4C4C4',
+    borderWidth: 2,
+    borderRadius: 7,
+    height: 18,
+    width: 18,
+    marginRight: 6,
+    marginVertical: 3,
+},
 }) 

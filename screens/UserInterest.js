@@ -1,4 +1,6 @@
 import React, {useState} from 'react';
+import auth, { firebase } from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import {
   View,
   Text,
@@ -11,9 +13,6 @@ import {
   FlatList,
 } from 'react-native';
 
-export var userChoices = [
-  {key: ''}
-];
 
 export default function UserInterest() {
 
@@ -173,55 +172,49 @@ export default function UserInterest() {
       userChoices = [];
       for (let i = 0; i < checkedType.length; i++) {
         if (checkedType[i].isChecked == true) {
-          userChoices.push({key: checkedType[i].key});
-          console.log(checkedType[i].key);
+          userChoices.push(checkedType[i].key);
         }
       }
       for (let i = 0; i < checkedDogBreed.length; i++) {
         if (checkedDogBreed[i].isChecked == true) {
           userChoices.push({key: checkedDogBreed[i].key});
-          console.log(checkedDogBreed[i].key);
         }
       }
       for (let i = 0; i < checkedCatBreed.length; i++) {
         if (checkedCatBreed[i].isChecked == true) {
           userChoices.push({key: checkedCatBreed[i].key});
-          console.log(checkedCatBreed[i].key);
         }
       }
       for (let i = 0; i < checkedAge.length; i++) {
         if (checkedAge[i].isChecked == true) {
-          userChoices.push({key: checkedAge[i].key});
-          console.log(checkedAge[i].key);
+          userChoices.push(checkedAge[i].key);
         }
       }
       for (let i = 0; i < checkedGender.length; i++) {
         if (checkedGender[i].isChecked == true) {
-          userChoices.push({key: checkedGender[i].key});
-          console.log(checkedGender[i].key);
+          userChoices.push(checkedGender[i].key);
         }
       }
       for (let i = 0; i < checkedSize.length; i++) {
         if (checkedSize[i].isChecked == true) {
-          userChoices.push({key: checkedSize[i].key});
-          console.log(checkedSize[i].key);
+          userChoices.push(checkedSize[i].key);
         }
       }
       for (let i = 0; i < checkedCoat.length; i++) {
         if (checkedCoat[i].isChecked == true) {
           userChoices.push({key: checkedCoat[i].key});
-          console.log(checkedCoat[i].key);
         }
       }
       for (let i = 0; i < checkedOtherReqs.length; i++) {
         if (checkedOtherReqs[i].isChecked == true) {
           userChoices.push({key: checkedOtherReqs[i].key});
-          console.log(checkedOtherReqs[i].key);
         }
       }
 
-      console.log(JSON.stringify(userChoices));
-      //console.log(userChoices[0]);
+      const user = firebase.auth().currentUser;
+      const userID = user.uid;
+      firestore().collection('users').doc(userID).update({userChoices, zipCode})
+
     }
   };
 

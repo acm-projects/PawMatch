@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,19 +8,12 @@ import {
   Image,
   SafeAreaView,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
-import auth from '@react-native-firebase/auth';
+import auth, { firebase } from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import UserModal from './UserModal';
 import userChoices from './UserInterest';
-import NewCh from './NewCh';
-//import animals from '../data/animals';
-//import arr from '/NewCh'
-
-{
-  /* TODO
-1) add functionality to interests 
-*/
-}
 
 const ProfileScreen = ({navigation}) => {
   console.log(userChoices);
@@ -31,18 +24,26 @@ const ProfileScreen = ({navigation}) => {
     navigation.replace('Login');
   }
 
-  {
-    /*function display() {
-      
-    return userChoices.map((item) => {
-        return (
-            <Text>
-                {userChoices[0]}
-            </Text>
-        );
-      });
-  }*/
-  }
+  const [user, setUser] = useState();
+  const {uid} = auth().currentUser;
+
+  const getUser = async () => {
+    try {
+      const documentSnapshot = await firestore()
+        .collection('users')
+        .doc(uid)
+        .get();
+
+      const userData = documentSnapshot.data();
+      setUser(userData);
+    } catch {
+
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff2f7'}}>
@@ -57,8 +58,29 @@ const ProfileScreen = ({navigation}) => {
           />
 
           {/*View Info About User*/}
-          <Text style={styles.userName}>Mary Smith</Text>
+          <Text style={styles.userName}>Hi {user && user?.firstName + ' ' + user?.lastName}!</Text>
+          
         </View>
+        <View style={styles.userInfoContainer}>
+          <View>
+            { user?.phoneNum == undefined
+            ? (<Text style={styles.userInfo}>Add phone number</Text>)
+            : (<Text style={styles.userInfo}>Phone Number: {user?.phoneNum}</Text>)
+            }
+          </View>
+          <View>
+            { user?.address == undefined
+            ? (<Text style={styles.userInfo}>Add address</Text>)
+            : (<Text style={styles.userInfo}>Address: {user?.address}</Text>)
+            }
+    
+          </View>
+          
+          <TouchableOpacity style={styles.editProfileButton}>
+              <Text style={styles.editProfileText}>Edit Profile</Text>
+          </TouchableOpacity>
+        </View>
+        
 
         {/*View Interest*/}
         <View
@@ -71,36 +93,32 @@ const ProfileScreen = ({navigation}) => {
           }}>
           <Text style={styles.interestsAndAdoptionsTitles}>Your Interests</Text>
         </View>
-        <View style={styles.container}>
-          <View style={styles.tile}>
-            <Text style={styles.text}>Hamsters</Text>
-          </View>
 
-          <View style={styles.tile}>
-            <Text style={styles.text}>Dogs</Text>
-          </View>
-
-          <View style={styles.tile}>
-            <Text style={styles.text}>Cats</Text>
-          </View>
-
-          <View style={styles.addTile}>
-            <Text style={styles.text}>+</Text>
-          </View>
+        <View style={{marginLeft: 20}}>
+          <Text style={{fontSize: 20}}>Searching in {user && user?.zipCode}</Text>
+          { user?.userChoices.map(item => (
+            <View >
+              <Text style={{fontSize: 20}}>{item}</Text>
+            </View>
+          ))
+          
+          }
+          {/* <FlatList 
+            numColumns={2}
+            data={user?.userChoices}
+            renderItem={({item}) => (
+              <>
+              <View>
+                <Text style={{fontSize: 20}}>{item}</Text>
+              </View>
+              </>
+            )}
+            scrollEnabled
+            contentContainerStyle={{justifyContent: 'space-around'}}
+          /> */}
+          {/* <Text>{user && user?.userChoices}</Text> */}
+          <UserModal />
         </View>
-
-        <NewCh />
-
-        <UserModal />
-
-        {/*<Tiles animal = {userChoices[0]} />*/}
-
-        {/*<View style={styles.container}>
-            {userChoices.map(i => 
-              (<Text key={i.id} animal = {i} />
-              )
-            )}  
-            </View>*/}
 
         <View style={styles.container}>
           {/*Log Out Button*/}
@@ -123,14 +141,14 @@ const ProfileScreen = ({navigation}) => {
 
 export default ProfileScreen;
 
-const Tiles = props => {
-  const {key} = props.userChoice;
-  return (
-    <View>
-      <Text style={styles.text}>{key}</Text>
-    </View>
-  );
-};
+// const Tiles = props => {
+//   const {key} = props.userChoice;
+//   return (
+//     <View>
+//       <Text style={styles.text}>{key}</Text>
+//     </View>
+//   );
+// };
 
 const styles = StyleSheet.create({
   container: {
@@ -150,32 +168,53 @@ const styles = StyleSheet.create({
     borderColor: '#6867AC',
   },
   userName: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: 'bold',
     marginTop: 10,
     marginBottom: 10,
     marginLeft: 10,
     color: '#6867AC',
+  },
+  userInfo: {
+    color: '#6867AC',
+    fontSize: 16,
+  },
+  userInfoContainer: {
+    marginTop: -65, 
+    marginLeft: 120, 
   },
   interestsAndAdoptionsTitles: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: 'bold',
     marginTop: 10,
     marginBottom: 10,
     marginLeft: 10,
     color: '#6867AC',
   },
-  tile: {
-    backgroundColor: '#FFBCD1',
-    width: '40%',
-    height: 40,
-    padding: 10,
-    margin: 10,
-    marginLeft: 5,
-    marginTop: 5,
-    borderRadius: 20,
-    elevation: 10,
+  editProfileText: {
+    color: 'white',
+    fontSize: 15,
   },
+  editProfileButton: {
+    backgroundColor: 'grey',
+    width: 90,
+    height: 25,
+    borderRadius: 10,
+    marginTop: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  // tile: {
+  //   backgroundColor: '#FFBCD1',
+  //   width: '40%',
+  //   height: 40,
+  //   padding: 10,
+  //   margin: 10,
+  //   marginLeft: 5,
+  //   marginTop: 5,
+  //   borderRadius: 20,
+  //   elevation: 10,
+  // },
   text: {
     fontSize: 15,
     fontWeight: 'bold',
@@ -191,17 +230,17 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     elevation: 10,
   },
-  adoptionTile: {
-    backgroundColor: '#FFBCD1',
-    width: 170,
-    height: 220,
-    padding: 10,
-    margin: 20,
-    marginTop: 10,
-    marginLeft: 10,
-    borderRadius: 20,
-    elevation: 10,
-  },
+  // adoptionTile: {
+  //   backgroundColor: '#FFBCD1',
+  //   width: 170,
+  //   height: 220,
+  //   padding: 10,
+  //   margin: 20,
+  //   marginTop: 10,
+  //   marginLeft: 10,
+  //   borderRadius: 20,
+  //   elevation: 10,
+  // },
   adoptionImg: {
     width: 135,
     height: 135,
@@ -226,5 +265,8 @@ const styles = StyleSheet.create({
     fontSize: 25,
     textAlign: 'center',
   },
+  interestText: {
+    fontSize: 12,
+  }
 });
 

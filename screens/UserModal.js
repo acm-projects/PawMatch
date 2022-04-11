@@ -16,7 +16,7 @@ import xImage from './x.png';
 
 export default class UserModal extends Component {
   state = {
-    modal: true,
+    modal: false,
   };
 
   constructor(props) {
@@ -57,8 +57,8 @@ export default class UserModal extends Component {
             onPress={() => {
               this.handleModal();
             }}>
-            <View style={styles.buttonContainer}>
-              <Text style={styles.buttonText}>Add Interests</Text>
+            <View style={styles.addTile}>
+              <Text style={styles.addTileText}>edit</Text>
             </View>
           </TouchableOpacity>
           <Modal transparent={true} visible={this.state.modal}>
@@ -127,6 +127,23 @@ const styles = StyleSheet.create({
     height: 15,
     marginLeft: 270,
     marginBottom: -5,
+  },
+  addTile: {
+    backgroundColor: '#FFBCD1',
+    width: 60,
+    height: 30,
+    marginHorizontal: 5,
+    marginVertical: 10,
+    borderRadius: 15,
+    elevation: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  addTileText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: 'white',
+    textAlign: 'center',
   },
   // unCheckedBox: {
   //     borderColor: '#969696',

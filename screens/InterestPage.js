@@ -77,31 +77,31 @@ export default function Interests() {
             console.log('Call Cancelled')
         }
         else {
-            console.log(zipCode)
+            searchChoices = [];
+            searchChoices.push(zipCode)
             for (let i = 0; i < checkedType.length; i++) {
                 if (checkedType[i].isChecked == true) {
-                    console.log(checkedType[i].key)
+                    searchChoices.push(checkedType[i].key);
                 }
             }
             for (let i = 0; i < checkedAge.length; i++) {
                 if (checkedAge[i].isChecked == true) {
-                    console.log(checkedAge[i].key)
+                    searchChoices.push(checkedAge[i].key);
                 }
             }
             for (let i = 0; i < checkedGender.length; i++) {
                 if (checkedGender[i].isChecked == true) {
-                    console.log(checkedGender[i].key)
+                    searchChoices.push(checkedGender[i].key);
                 }
             }
             for (let i = 0; i < checkedSize.length; i++) {
                 if (checkedSize[i].isChecked == true) {
-                    console.log(checkedSize[i].key)
+                    searchChoices.push(checkedSize[i].key);
                 }
             }
-        
+            console.log(searchChoices);
             searchAnimals(78747, "Dog", "Young", "Male", "Small");
         }
-        
     };
 
     return (
