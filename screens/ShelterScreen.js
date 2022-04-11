@@ -7,9 +7,10 @@ import SearchModal from "./SearchModal";
 
 const ShelterScreen = ({navigation}) => {
     return (
-        <View>
+        <View style={{ flex: 1, backgroundColor: '#fbfbfb'}}>
+            <Text style={styles.title}>Pet Search</Text>
             <SearchModal/>
-            <Text>Searching for...</Text>
+            <Text style={{marginLeft: 20, marginTop: 10}}>Searching for...</Text>
         </View>
         
     );
@@ -24,7 +25,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    searchText: {
-        
-    }
+    title: {
+        fontSize: 40,
+        marginTop: 20,
+        marginBottom: 3,
+        fontWeight: '800',
+        color: '#fb5555',
+        alignSelf: 'center'
+      },
 })
