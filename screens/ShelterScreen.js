@@ -27,7 +27,22 @@ const ShelterScreen = ({navigation}) => {
         var call  = searchAnimalsMore(78745, "Dog", "Cat", "Rabbit", "Bird", "Young", "Baby", "Adult", "Senior", "Female", "Male", "Small", "Medium", "Large");
           console.log(call);
 
-        return (
+        if (typeof call !== 'undefined' ){
+          return (
+            <View style={{ flex: 1, backgroundColor: '#fbfbfb'}}>
+                <Text style={styles.title}>Pet Search</Text>
+                <SearchModal/>
+                <Text style={{marginLeft: 20, marginTop: 10}}>Searching for...</Text>    
+                <View style={styles.containerTile}>
+                  {call.animals.map(i => 
+                    (<Tile key={i.id} animal = {i} />)
+                  )} 
+                </View>
+            </View>
+            
+          );
+        } else {
+          return (
             <View style={{ flex: 1, backgroundColor: '#fbfbfb'}}>
                 <Text style={styles.title}>Pet Search</Text>
                 <SearchModal/>
@@ -39,8 +54,9 @@ const ShelterScreen = ({navigation}) => {
                 </View>
             </View>
             
-        );
-    
+          );
+        }
+
 }
 
 
