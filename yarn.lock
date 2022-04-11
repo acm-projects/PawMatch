@@ -1716,11 +1716,9 @@
     "strip-ansi" "^5.0.0"
 
 "ansi-regex@^4.1.0":
-
   "integrity" "sha512-ILlv4k/3f6vfQ4OoP2AGvirOktlQ98ZEL1k9FaQjxa3L1abBgbuTDAdPOpvbGncC0BTVQrl+OM8xZGK6tWXt7g=="
   "resolved" "https://registry.npmjs.org/ansi-regex/-/ansi-regex-4.1.1.tgz"
   "version" "4.1.1"
-
 
 "ansi-regex@^5.0.0", "ansi-regex@^5.0.1":
   "integrity" "sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ=="
@@ -2085,12 +2083,10 @@
   dependencies:
     "stream-buffers" "2.2.x"
 
-
 "bplist-parser@0.3.1":
   "integrity" "sha512-PyJxiNtA5T2PlLIeBot4lbp7rj4OadzjnMZD/G5zuBNt8ei/yCU7+wW0h2bag9vr8c+/WuRWmSxbqAl9hL1rBA=="
   "resolved" "https://registry.npmjs.org/bplist-parser/-/bplist-parser-0.3.1.tgz"
   "version" "0.3.1"
-
   dependencies:
     "big-integer" "1.6.x"
 
@@ -5329,7 +5325,6 @@
     "brace-expansion" "^1.1.7"
 
 "minimist@^1.1.1", "minimist@^1.2.0", "minimist@^1.2.5":
-
   "integrity" "sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q=="
   "resolved" "https://registry.npmjs.org/minimist/-/minimist-1.2.6.tgz"
   "version" "1.2.6"
@@ -5834,6 +5829,7 @@
   "version" "3.0.5"
 
 dependencies:
+
     "base64-js" "^1.5.1"
     "xmlbuilder" "^9.0.7"
 
