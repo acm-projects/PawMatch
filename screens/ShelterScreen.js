@@ -31,15 +31,22 @@ const ShelterScreen = ({navigation}) => {
     }
 
         const Tile = (props) => {
-            /*
+
             function expandTile() {
-              navigation.replace("Tile", {paramKey: props});
+              navigation.replace("Tile2", {paramKey: props});
             };
-            */
+
         
             const{name, type, primary_photo_cropped} = props.animal;
+            var image;
+            if ( primary_photo_cropped === null){
+              image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1200px-Grey_close_x.svg.png';
+            } else {
+              image = primary_photo_cropped.small;
+            }
             return(
-            <TouchableOpacity style={styles.tile}>
+            <TouchableOpacity style={styles.tile} onPress={expandTile}>
+                <Image style={styles.animalImg} source={{uri: image}}/> 
                 <Text style={styles.animalName}>{name}</Text>
                 <Text>{type}</Text>
             </TouchableOpacity>
