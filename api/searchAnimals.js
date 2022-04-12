@@ -1,5 +1,7 @@
 var petfinder = require("@petfinder/petfinder-js");
-var client = new petfinder.Client({apiKey: "BW2quofQcKQRW8zaW5nxGCLiYxvlnYPZWfoWhD19EMp9oHbmjJ", secret: "zrA4VcQo24kvI21xAZjE6Ok8ZD6EZjEQ3JPBJ6hA"});
+//var client = new petfinder.Client({apiKey: "TRGJgs572EMIApod6zYEZCFeIgKpgKzOex5CcaVG9pErBo9y4U", secret: "eZmBINe8wGKxdaNlQ7m4Ae0QV0lUqCalI6YkLrFx"});
+var client = new petfinder.Client({apiKey: "P2a91yMjApUn8QYGc6OCutLXCYx4DRZuXHusdWQZxT3FDLkVqr", secret: "M4e9kQONsJUK8xDUah65CWNMwdmyRrK2llgXD8qQ"});
+//var client = new petfinder.Client({apiKey: "BW2quofQcKQRW8zaW5nxGCLiYxvlnYPZWfoWhD19EMp9oHbmjJ", secret: "zrA4VcQo24kvI21xAZjE6Ok8ZD6EZjEQ3JPBJ6hA"});
 
 export function searchAnimals(pZipcode, aType, aAge, aGender, aSize) {
 
@@ -11,10 +13,24 @@ export function searchAnimals(pZipcode, aType, aAge, aGender, aSize) {
     size: aSize,
     limit: 1,
   }).then(resp => {
-    console.log(resp.data.animals);
+    //console.log(resp.data.animals);
   });
 }
 
+export function searchAnimalsMore(pZipcode, aType1, aType2, aType3, aType4, aAge1, aAge2, aAge3, aAge4, aGender1, aGender2, aSize1, aSize2, aSize3) {
+
+  client.animal.search({
+    location: pZipcode,
+    type: aType1, aType2, aType3, aType4,
+    age: aAge1, aAge2, aAge3, aAge4,
+    gender: aGender1, aGender2,
+    size: aSize1, aSize2, aSize3,
+    limit: 1,
+  }).then(resp => {
+    //console.log(resp.data);
+    return resp.data;
+  });
+}
 
 //TO GET ALL POSSIBLE RESULTS or TO FLIP THROUGH PAGES
 /*
