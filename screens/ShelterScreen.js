@@ -1,11 +1,32 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 
 import {TouchableOpacity, View, ScrollView, Text, StyleSheet, Image } from 'react-native';
 import SearchModal from "./SearchModal";
-import { searchAnimalsMore } from '../api/searchAnimals.js';
 import apiJSON from '../api/apicall.json';
 
+var petfinder = require("@petfinder/petfinder-js");
+var client = new petfinder.Client({apiKey: "BW2quofQcKQRW8zaW5nxGCLiYxvlnYPZWfoWhD19EMp9oHbmjJ", secret: "zrA4VcQo24kvI21xAZjE6Ok8ZD6EZjEQ3JPBJ6hA"});
+//var client = new petfinder.Client({apiKey: "BW2quofQcKQRW8zaW5nxGCLiYxvlnYPZWfoWhD19EMp9oHbmjJ", secret: "zrA4VcQo24kvI21xAZjE6Ok8ZD6EZjEQ3JPBJ6hA"});
+
 const ShelterScreen = ({navigation}) => {
+    const [apiData, setApiData] = useState({});
+    const [isLoading, setLoading] = useState(true);
+
+    function searchAnimalsMore(pZipcode, aType1, aType2, aType3, aType4, aAge1, aAge2, aAge3, aAge4, aGender1, aGender2, aSize1, aSize2, aSize3) {
+
+      client.animal.search({
+        location: pZipcode,
+        type: aType1, aType2, aType3, aType4,
+        age: aAge1, aAge2, aAge3, aAge4,
+        gender: aGender1, aGender2,
+        size: aSize1, aSize2, aSize3,
+        limit: 2,
+      }).then(resp => {
+        setApiData(resp.data);
+        setLoading(false);
+        return resp.data;
+      });
+    }
 
         const Tile = (props) => {
             /*
@@ -16,7 +37,7 @@ const ShelterScreen = ({navigation}) => {
         
             const{name, type, primary_photo_cropped} = props.animal;
             return(
-            <TouchableOpacity style={styles.tile} onPress={'#'}>
+            <TouchableOpacity style={styles.tile}>
                 <Image style={styles.animalImg} source={{uri: primary_photo_cropped.small,}}/> 
                 <Text style={styles.animalName}>{name}</Text>
                 <Text>{type}</Text>
@@ -24,18 +45,22 @@ const ShelterScreen = ({navigation}) => {
             );
           };
 
-        var call  = searchAnimalsMore(78745, "Dog", "Cat", "Rabbit", "Bird", "Young", "Baby", "Adult", "Senior", "Female", "Male", "Small", "Medium", "Large");
-          console.log(call);
+       searchAnimalsMore(78745, "Dog", "Cat", "Rabbit", "Bird", "Young", "Baby", "Adult", "Senior", "Female", "Male", "Small", "Medium", "Large");
+       //console.log("YOOOOOOOOOOOOOOOOOOOOOOOO");
+       //console.log(apiData);
 
-        if (typeof call !== 'undefined' ){
+        //const callapi  = searchAnimalsMore(78745, "Dog", "Cat", "Rabbit", "Bird", "Young", "Baby", "Adult", "Senior", "Female", "Male", "Small", "Medium", "Large");
+        //console.log(callapi);
+
+        if (!isLoading){
           return (
             <View style={{ flex: 1, backgroundColor: '#fbfbfb'}}>
                 <Text style={styles.title}>Pet Search</Text>
                 <SearchModal/>
                 <Text style={{marginLeft: 20, marginTop: 10}}>Searching for...</Text>    
                 <View style={styles.containerTile}>
-                  {call.animals.map(i => 
-                    (<Tile key={i.id} animal = {i} />)
+                  {apiData.animals.map(i => 
+                    (console.log(i.name))
                   )} 
                 </View>
             </View>
@@ -43,7 +68,7 @@ const ShelterScreen = ({navigation}) => {
           );
         } else {
           return (
-            <View style={{ flex: 1, backgroundColor: '#fbfbfb'}}>
+            <ScrollView style={{ flex: 1, backgroundColor: '#fbfbfb'}}>
                 <Text style={styles.title}>Pet Search</Text>
                 <SearchModal/>
                 <Text style={{marginLeft: 20, marginTop: 10}}>Searching for...</Text>    
@@ -52,10 +77,10 @@ const ShelterScreen = ({navigation}) => {
                     (<Tile key={i.id} animal = {i} />)
                   )} 
                 </View>
-            </View>
+            </ScrollView>
             
           );
-        }
+}
 
 }
 

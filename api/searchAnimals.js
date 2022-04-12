@@ -11,7 +11,7 @@ export function searchAnimals(pZipcode, aType, aAge, aGender, aSize) {
     size: aSize,
     limit: 1,
   }).then(resp => {
-    console.log(resp.data.animals);
+    //console.log(resp.data.animals);
   });
 }
 
@@ -25,9 +25,8 @@ export function searchAnimalsMore(pZipcode, aType1, aType2, aType3, aType4, aAge
     size: aSize1, aSize2, aSize3,
     limit: 1,
   }).then(resp => {
-    //console.log(resp.data.animals);
-    var result = resp.data;
-    return result;
+    //console.log(resp.data);
+    return resp.data;
   });
 }
 
