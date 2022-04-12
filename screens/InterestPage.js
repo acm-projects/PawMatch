@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Button, TextInput, TouchableOpacity, SafeAreaView, FlatList } from 'react-native';
-import { searchAnimalsMore } from '../api/searchAnimals.js';
+
+export var sZipCode = [];
+export var sType = [];
+export var sAge = [];
+export var sGender = [];
+export var sSize = [];
+export var sSearchState = [];
+
 
 export default function Interests() {
     const type = [
@@ -72,30 +79,35 @@ export default function Interests() {
     };
     
     const callAPI = () => {
+        sZipCode = [];
+        sType = [];
+        sAge = [];
+        sGender = [];
+        sSize = [];
         if (!(zipCode >= 501 && zipCode.length == 5)) {
             alert('You must enter a valid zipcode')
             console.log('Call Cancelled')
         }
         else {
-            console.log(zipCode)
+            sZipCode.push(zipCode);
             for (let i = 0; i < checkedType.length; i++) {
                 if (checkedType[i].isChecked == true) {
-                    console.log(checkedType[i].key)
+                    sType.push(checkedType[i].key);
                 }
             }
             for (let i = 0; i < checkedAge.length; i++) {
                 if (checkedAge[i].isChecked == true) {
-                    console.log(checkedAge[i].key)
+                    sAge.push(checkedAge[i].key);
                 }
             }
             for (let i = 0; i < checkedGender.length; i++) {
                 if (checkedGender[i].isChecked == true) {
-                    console.log(checkedGender[i].key)
+                    sGender.push(checkedGender[i].key);
                 }
             }
             for (let i = 0; i < checkedSize.length; i++) {
                 if (checkedSize[i].isChecked == true) {
-                    console.log(checkedSize[i].key)
+                    sSize.push(checkedSize[i].key);
                 }
             }
         }
