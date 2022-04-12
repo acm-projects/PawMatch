@@ -5,27 +5,29 @@ import SearchModal from "./SearchModal";
 import apiJSON from '../api/apicall.json';
 
 var petfinder = require("@petfinder/petfinder-js");
-var client = new petfinder.Client({apiKey: "BW2quofQcKQRW8zaW5nxGCLiYxvlnYPZWfoWhD19EMp9oHbmjJ", secret: "zrA4VcQo24kvI21xAZjE6Ok8ZD6EZjEQ3JPBJ6hA"});
 //var client = new petfinder.Client({apiKey: "BW2quofQcKQRW8zaW5nxGCLiYxvlnYPZWfoWhD19EMp9oHbmjJ", secret: "zrA4VcQo24kvI21xAZjE6Ok8ZD6EZjEQ3JPBJ6hA"});
+var client = new petfinder.Client({apiKey: "TRGJgs572EMIApod6zYEZCFeIgKpgKzOex5CcaVG9pErBo9y4U", secret: "eZmBINe8wGKxdaNlQ7m4Ae0QV0lUqCalI6YkLrFx"});
+//var client = new petfinder.Client({apiKey: "P2a91yMjApUn8QYGc6OCutLXCYx4DRZuXHusdWQZxT3FDLkVqr", secret: "M4e9kQONsJUK8xDUah65CWNMwdmyRrK2llgXD8qQ"});
 
 const ShelterScreen = ({navigation}) => {
     const [apiData, setApiData] = useState({});
     const [isLoading, setLoading] = useState(true);
 
     function searchAnimalsMore(pZipcode, aType1, aType2, aType3, aType4, aAge1, aAge2, aAge3, aAge4, aGender1, aGender2, aSize1, aSize2, aSize3) {
-
-      client.animal.search({
-        location: pZipcode,
-        type: aType1, aType2, aType3, aType4,
-        age: aAge1, aAge2, aAge3, aAge4,
-        gender: aGender1, aGender2,
-        size: aSize1, aSize2, aSize3,
-        limit: 2,
-      }).then(resp => {
-        setApiData(resp.data);
-        setLoading(false);
-        return resp.data;
-      });
+      if (isLoading){
+        client.animal.search({
+          location: pZipcode,
+          type: aType1, aType2, aType3, aType4,
+          age: aAge1, aAge2, aAge3, aAge4,
+          gender: aGender1, aGender2,
+          size: aSize1, aSize2, aSize3,
+          limit: 10,
+        }).then(resp => {
+          setApiData(resp.data);
+          setLoading(false);
+          return resp.data;
+        });
+      }
     }
 
         const Tile = (props) => {
@@ -38,7 +40,6 @@ const ShelterScreen = ({navigation}) => {
             const{name, type, primary_photo_cropped} = props.animal;
             return(
             <TouchableOpacity style={styles.tile}>
-                <Image style={styles.animalImg} source={{uri: primary_photo_cropped.small,}}/> 
                 <Text style={styles.animalName}>{name}</Text>
                 <Text>{type}</Text>
             </TouchableOpacity>
@@ -54,16 +55,16 @@ const ShelterScreen = ({navigation}) => {
 
         if (!isLoading){
           return (
-            <View style={{ flex: 1, backgroundColor: '#fbfbfb'}}>
+            <ScrollView style={{ flex: 1, backgroundColor: '#fbfbfb'}}>
                 <Text style={styles.title}>Pet Search</Text>
                 <SearchModal/>
                 <Text style={{marginLeft: 20, marginTop: 10}}>Searching for...</Text>    
                 <View style={styles.containerTile}>
                   {apiData.animals.map(i => 
-                    (console.log(i.name))
+                    (<Tile key={i.id} animal = {i} />)
                   )} 
                 </View>
-            </View>
+            </ScrollView>
             
           );
         } else {
