@@ -7,7 +7,7 @@ import xImage from './x.png';
 export default class SearchModal extends Component {
 
     state = {
-        modal: true,
+        modal: false,
     }
 
     constructor(props) {

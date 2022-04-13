@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from "react";
-import {TouchableOpacity, View, ScrollView, Text, StyleSheet, Image } from 'react-native';
+import {TouchableOpacity, View, ScrollView, FlatList, TextInput, Modal, Text, StyleSheet, Image } from 'react-native';
 import SearchModal from "./SearchModal";
+import xImage from './x.png';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import apiJSON from '../api/apicall.json';
 import {sZipCode, sAge, sType, sSize, sGender, sSearchState} from "./InterestPage";
 
@@ -82,7 +84,7 @@ const ShelterScreen = ({navigation}) => {
           return (
             <ScrollView style={{ flex: 1, backgroundColor: '#fbfbfb'}}>
                 <Text style={styles.title}>Pet Search</Text>
-                <SearchModal/>
+                <Search/>
                 <View style={styles.containerTile}>
                   {apiData.animals.map(i => 
                     (<Tile key={i.id} animal = {i} />)
@@ -95,7 +97,7 @@ const ShelterScreen = ({navigation}) => {
           return (
             <ScrollView style={{ flex: 1, backgroundColor: '#fbfbfb'}}>
                 <Text style={styles.title}>Pet Search</Text>
-                <SearchModal/>
+                <Search/>
                 <Text style={{marginLeft: 20, marginTop: 10, fontSize: 20}}>Searching for...</Text>    
                 <View style={styles.containerTile}>
                   {apiJSON.animals.map(i => 
@@ -112,6 +114,449 @@ const ShelterScreen = ({navigation}) => {
 
 export default ShelterScreen;
 
+
+const Search = () => {
+  const type = [
+    {id: 0, key: 'Dog', isChecked: false},
+    {id: 1, key: 'Cat', isChecked: false},
+    {id: 2, key: 'Bird', isChecked: false},
+    {id: 3, key: 'Barnyard', isChecked: false},
+  ];
+
+  const dogBreed = [
+    {id: 0, key: 'Goldendoodle', isChecked: false},
+    {id: 1, key: 'Labradoodle', isChecked: false},
+    {id: 2, key: 'Pomeranian', isChecked: false},
+    {id: 3, key: 'Pug', isChecked: false},
+    {id: 4, key: 'Samoyed', isChecked: false},
+    {id: 5, key: 'Siberian Husky', isChecked: false},
+    {id: 6, key: 'Tibetan Mastiff', isChecked: false},
+    {id: 7, key: 'Yorkshire Terrier', isChecked: false},
+  ];
+
+  const catBreed = [
+    {id: 0, key: 'Bengal', isChecked: false},
+    {id: 1, key: 'Calico', isChecked: false},
+    {id: 2, key: 'Exotic Shorthair', isChecked: false},
+    {id: 3, key: 'Persian', isChecked: false},
+    {id: 4, key: 'Siamese', isChecked: false},
+    {id: 5, key: 'Siberian', isChecked: false},
+    {id: 6, key: 'Sphynx / Hairless Cat', isChecked: false},
+    {id: 7, key: 'Tabby', isChecked: false},
+  ];
+
+  const age = [
+    {id: 0, key: 'Baby', isChecked: false},
+    {id: 1, key: 'Young', isChecked: false},
+    {id: 2, key: 'Adult', isChecked: false},
+    {id: 3, key: 'Senior', isChecked: false},
+  ];
+
+  const gender = [
+    {id: 0, key: 'Female', isChecked: false},
+    {id: 1, key: 'Male', isChecked: false},
+  ];
+
+  const size = [
+    {id: 0, key: 'Small', isChecked: false},
+    {id: 1, key: 'Medium', isChecked: false},
+    {id: 2, key: 'Large', isChecked: false},
+  ];
+
+  const coat = [
+    {id: 0, key: 'Short', isChecked: false},
+    {id: 1, key: 'Medium', isChecked: false},
+    {id: 2, key: 'Long', isChecked: false},
+    {id: 3, key: 'Hairless', isChecked: false},
+    {id: 4, key: 'Curly', isChecked: false},
+  ];
+
+  const otherReqs = [
+    {id: 0, key: 'Good with Children', isChecked: false},
+    {id: 1, key: 'Good with Dogs', isChecked: false},
+    {id: 2, key: 'Good with Cats', isChecked: false},
+    {id: 3, key: 'House Trained', isChecked: false},
+    {id: 4, key: 'Declawed', isChecked: false},
+    {id: 5, key: 'Special Needs', isChecked: false},
+  ];
+
+  const handleChangeType = id => {
+    var typeTemp = checkedType.map(searchType => {
+      if (id === searchType.id) {
+        return {...searchType, isChecked: !searchType.isChecked};
+      }
+      return searchType;
+    });
+    setCheckedType(typeTemp);
+  };
+  const handleChangeDogBreed = id => {
+    var dogBreedTemp = checkedDogBreed.map(searchDogBreed => {
+      if (id === searchDogBreed.id) {
+        return {...searchDogBreed, isChecked: !searchDogBreed.isChecked};
+      }
+      return searchDogBreed;
+    });
+    setCheckedDogBreed(dogBreedTemp);
+  };
+  const handleChangeCatBreed = id => {
+    var catBreedTemp = checkedCatBreed.map(searchCatBreed => {
+      if (id === searchCatBreed.id) {
+        return {...searchCatBreed, isChecked: !searchCatBreed.isChecked};
+      }
+      return searchCatBreed;
+    });
+    setCheckedCatBreed(catBreedTemp);
+  };
+  const handleChangeAge = id => {
+    var ageTemp = checkedAge.map(searchAge => {
+      if (id === searchAge.id) {
+        return {...searchAge, isChecked: !searchAge.isChecked};
+      }
+      return searchAge;
+    });
+    setCheckedAge(ageTemp);
+  };
+  const handleChangeGender = id => {
+    var genderTemp = checkedGender.map(searchGender => {
+      if (id === searchGender.id) {
+        return {...searchGender, isChecked: !searchGender.isChecked};
+      }
+      return searchGender;
+    });
+    setCheckedGender(genderTemp);
+  };
+  const handleChangeSize = id => {
+    var sizeTemp = checkedSize.map(searchSize => {
+      if (id === searchSize.id) {
+        return {...searchSize, isChecked: !searchSize.isChecked};
+      }
+      return searchSize;
+    });
+    setCheckedSize(sizeTemp);
+  };
+  const handleChangeCoat = id => {
+    var coatTemp = checkedCoat.map(searchCoat => {
+      if (id === searchCoat.id) {
+        return {...searchCoat, isChecked: !searchCoat.isChecked};
+      }
+      return searchCoat;
+    });
+    setCheckedCoat(coatTemp);
+  };
+  const handleChangeOtherReqs = id => {
+    var otherReqsTemp = checkedOtherReqs.map(searchOtherReqs => {
+      if (id === searchOtherReqs.id) {
+        return {...searchOtherReqs, isChecked: !searchOtherReqs.isChecked};
+      }
+      return searchOtherReqs;
+    });
+    setCheckedOtherReqs(otherReqsTemp);
+  };
+
+  
+  function callAPI(searchChoices) {
+    if (!(zipCode >= 501 && zipCode.length == 5)) {
+      alert('You must enter a valid zipcode');
+      console.log('Call Cancelled');
+    } 
+    else {
+      searchChoices = [];
+      for (let i = 0; i < checkedType.length; i++) {
+        if (checkedType[i].isChecked == true) {
+          searchChoices.push(checkedType[i].key);
+        }
+      }
+      for (let i = 0; i < checkedDogBreed.length; i++) {
+        if (checkedDogBreed[i].isChecked == true) {
+          searchChoices.push({key: checkedDogBreed[i].key});
+        }
+      }
+      for (let i = 0; i < checkedCatBreed.length; i++) {
+        if (checkedCatBreed[i].isChecked == true) {
+          searchChoices.push({key: checkedCatBreed[i].key});
+        }
+      }
+      for (let i = 0; i < checkedAge.length; i++) {
+        if (checkedAge[i].isChecked == true) {
+          searchChoices.push(checkedAge[i].key);
+        }
+      }
+      for (let i = 0; i < checkedGender.length; i++) {
+        if (checkedGender[i].isChecked == true) {
+          searchChoices.push(checkedGender[i].key);
+        }
+      }
+      for (let i = 0; i < checkedSize.length; i++) {
+        if (checkedSize[i].isChecked == true) {
+          searchChoices.push(checkedSize[i].key);
+        }
+      }
+      for (let i = 0; i < checkedCoat.length; i++) {
+        if (checkedCoat[i].isChecked == true) {
+          searchChoices.push({key: checkedCoat[i].key});
+        }
+      }
+      for (let i = 0; i < checkedOtherReqs.length; i++) {
+        if (checkedOtherReqs[i].isChecked == true) {
+          searchChoices.push({key: checkedOtherReqs[i].key});
+        }
+      }
+      editshowModal(!editShow);
+    }
+  };
+  const [editShow, editshowModal] = useState(false);
+  const [zipCode, setZipCode] = React.useState(zipCode);
+  const [checkedType, setCheckedType] = useState(type);
+  const [checkedDogBreed, setCheckedDogBreed] = useState(dogBreed);
+  const [checkedCatBreed, setCheckedCatBreed] = useState(catBreed);
+  const [checkedAge, setCheckedAge] = useState(age);
+  const [checkedGender, setCheckedGender] = useState(gender);
+  const [checkedSize, setCheckedSize] = useState(size);
+  const [checkedCoat, setCheckedCoat] = useState(coat);
+  const [checkedOtherReqs, setCheckedOtherReqs] = useState(otherReqs);
+  return (
+    <View>
+      <View>
+        <TouchableOpacity style={styles1.searchButton} onPress={() => editshowModal(!editShow)}>
+        <MaterialCommunityIcons name="magnify" color={'#FB5555'} size={40} />
+        </TouchableOpacity>
+      </View>
+      <Modal visible={editShow} transparent={true}>
+      <View style={styles1.modalBackground}>
+        <View style={styles1.modalContainer}>
+          <Text style={styles1.title}>New Search</Text>
+          <TouchableOpacity onPress={() => editshowModal(!editShow)}>
+            <Image style={styles1.xout} source={xImage} />
+          </TouchableOpacity>
+          <View style={styles1.ZipCodeContainer}>
+            <Text style={styles1.ZipCodeHeader}>Zip Code</Text>
+            <View style={styles1.ZipCodeInputBox}>
+              <TextInput
+                onChangeText={zipCode => {
+                  setZipCode(zipCode);
+                }}
+                value={zipCode}
+                
+                style={styles1.ZipCodeInputText}
+                maxLength={5}
+                keyboardType={'numeric'}
+              />
+            </View>
+          </View>
+
+          <View style={styles1.checkboxContainer}>
+            <Text style={styles1.checkboxHeader}>Type</Text>
+            <FlatList
+              numColumns={2}
+              data={checkedType}
+              renderItem={({item}) => (
+                <>
+                  <View style={styles1.checkboxFormat}>
+                    <TouchableOpacity
+                      value={item.isChecked}
+                      onPress={() => handleChangeType(item.id)}>
+                      {item.isChecked == true ? (
+                        <View style={styles1.CheckedBox} />
+                      ) : (
+                        <View style={styles1.unCheckedBox} />
+                      )}
+                    </TouchableOpacity>
+                    <Text style={styles1.checkboxText}>{item.key}</Text>
+                  </View>
+                </>
+              )}
+              contentContainerStyle={{margin: 20}}
+            />
+          </View>
+
+          {/*<View style={styles1.checkboxContainer}>
+              <Text style={styles1.checkboxHeader}>Dog Breeds</Text>
+              <FlatList
+                numColumns={2}
+                data={checkedDogBreed}
+                renderItem={({item}) => (
+                  <>
+                    <View style={styles1.checkboxFormat}>
+                      <TouchableOpacity
+                        value={item.isChecked}
+                        onPress={() => handleChangeDogBreed(item.id)}>
+                        {item.isChecked == true ? (
+                          <View style={styles1.CheckedBox} />
+                        ) : (
+                          <View style={styles1.unCheckedBox} />
+                        )}
+                      </TouchableOpacity>
+                      <Text style={styles1.checkboxText}>{item.key}</Text>
+                    </View>
+                  </>
+                )}
+                contentContainerStyle={{margin: 20}}
+              />
+            </View>
+
+            <View style={styles1.checkboxContainer}>
+              <Text style={styles1.checkboxHeader}>Cat Breeds</Text>
+              <FlatList
+                numColumns={2}
+                data={checkedCatBreed}
+                renderItem={({item}) => (
+                  <>
+                    <View style={styles1.checkboxFormat}>
+                      <TouchableOpacity
+                        value={item.isChecked}
+                        onPress={() => handleChangeCatBreed(item.id)}>
+                        {item.isChecked == true ? (
+                          <View style={styles1.CheckedBox} />
+                        ) : (
+                          <View style={styles1.unCheckedBox} />
+                        )}
+                      </TouchableOpacity>
+                      <Text style={styles1.checkboxText}>{item.key}</Text>
+                    </View>
+                  </>
+                )}
+                contentContainerStyle={{margin: 20}}
+              />
+                        </View>*/}
+
+          <View style={styles1.checkboxContainer}>
+            <Text style={styles1.checkboxHeader}>Age</Text>
+            <FlatList
+              numColumns={2}
+              data={checkedAge}
+              renderItem={({item}) => (
+                <>
+                  <View style={styles1.checkboxFormat}>
+                    <TouchableOpacity
+                      value={item.isChecked}
+                      onPress={() => handleChangeAge(item.id)}>
+                      {item.isChecked == true ? (
+                        <View style={styles1.CheckedBox} />
+                      ) : (
+                        <View style={styles1.unCheckedBox} />
+                      )}
+                    </TouchableOpacity>
+                    <Text style={styles1.checkboxText}>{item.key}</Text>
+                  </View>
+                </>
+              )}
+              contentContainerStyle={{margin: 20}}
+            />
+          </View>
+
+          <View style={styles1.checkboxContainer}>
+            <Text style={styles1.checkboxHeader}>Gender</Text>
+            <FlatList
+              numColumns={2}
+              data={checkedGender}
+              renderItem={({item}) => (
+                <>
+                  <View style={styles1.checkboxFormat}>
+                    <TouchableOpacity
+                      value={item.isChecked}
+                      onPress={() => handleChangeGender(item.id)}>
+                      {item.isChecked == true ? (
+                        <View style={styles1.CheckedBox} />
+                      ) : (
+                        <View style={styles1.unCheckedBox} />
+                      )}
+                    </TouchableOpacity>
+                    <Text style={styles1.checkboxText}>{item.key}</Text>
+                  </View>
+                </>
+              )}
+              contentContainerStyle={{margin: 20}}
+            />
+          </View>
+
+          <View style={styles1.checkboxContainer}>
+            <Text style={styles1.checkboxHeader}>Size</Text>
+            <FlatList
+              numColumns={2}
+              data={checkedSize}
+              renderItem={({item}) => (
+                <>
+                  <View style={styles1.checkboxFormat}>
+                    <TouchableOpacity
+                      value={item.isChecked}
+                      onPress={() => handleChangeSize(item.id)}>
+                      {item.isChecked == true ? (
+                        <View style={styles1.CheckedBox} />
+                      ) : (
+                        <View style={styles1.unCheckedBox} />
+                      )}
+                    </TouchableOpacity>
+                    <Text style={styles1.checkboxText}>{item.key}</Text>
+                  </View>
+                </>
+              )}
+              contentContainerStyle={{margin: 20}}
+            />
+          </View>
+
+          {/*<View style={styles1.checkboxContainer}>
+              <Text style={styles1.checkboxHeader}>Coat</Text>
+              <FlatList
+                numColumns={2}
+                data={checkedCoat}
+                renderItem={({item}) => (
+                  <>
+                    <View style={styles1.checkboxFormat}>
+                      <TouchableOpacity
+                        value={item.isChecked}
+                        onPress={() => handleChangeCoat(item.id)}>
+                        {item.isChecked == true ? (
+                          <View style={styles1.CheckedBox} />
+                        ) : (
+                          <View style={styles1.unCheckedBox} />
+                        )}
+                      </TouchableOpacity>
+                      <Text style={styles1.checkboxText}>{item.key}</Text>
+                    </View>
+                  </>
+                )}
+                contentContainerStyle={{margin: 20}}
+              />
+            </View>
+
+            <View style={styles1.checkboxContainer}>
+              <Text style={styles1.checkboxHeader}>Other Requirements</Text>
+              <FlatList
+                numColumns={2}
+                data={checkedOtherReqs}
+                renderItem={({item}) => (
+                  <>
+                    <View style={styles1.checkboxFormat}>
+                      <TouchableOpacity
+                        value={item.isChecked}
+                        onPress={() => handleChangeOtherReqs(item.id)}>
+                        {item.isChecked == true ? (
+                          <View style={styles1.CheckedBox} />
+                        ) : (
+                          <View style={styles1.unCheckedBox} />
+                        )}
+                      </TouchableOpacity>
+                      <Text style={styles1.checkboxText}>{item.key}</Text>
+                    </View>
+                  </>
+                )}
+                contentContainerStyle={{margin: 20}}
+              />
+                        </View>*/}
+
+          <TouchableOpacity onPress={() => callAPI()}>
+            <View style={styles1.buttonContainer}>
+              <Text style={styles1.buttonText}>Submit</Text>
+            </View>
+          </TouchableOpacity>
+      </View>
+      </View>
+    </Modal>
+    </View>
+    
+  );
+}
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -122,7 +567,8 @@ const styles = StyleSheet.create({
         fontSize: 40,
         marginTop: 20,
         marginBottom: 3,
-        fontWeight: '800',
+        marginLeft: -70,
+        fontWeight: '900',
         color: '#fb5555',
         alignSelf: 'center'
       },
@@ -151,3 +597,126 @@ const styles = StyleSheet.create({
       borderRadius: 20,
     }
 })
+
+const styles1 = StyleSheet.create({
+  modalBackground: {
+    backgroundColor: '#000000aa',
+    flex: 1,
+  },
+  modalContainer: {
+    backgroundColor: 'white',
+    margin: 30,
+    marginBottom: 20,
+    padding: 25,
+    borderRadius: 30,
+    flex: 1,
+  },
+  title: {
+    fontWeight: '900',
+    margin: 8,
+    marginTop: -0.5,
+    marginBottom: 10,
+    alignSelf: 'center',
+    fontSize: 37,
+    color: '#FB5555',
+    
+  },
+  xout: {
+    width: 15,
+    height: 15,
+    marginLeft: 265,
+    marginTop: -62
+  },
+  checkboxText: {
+    fontSize: 20,
+    color: '#8E8E8E',
+  },
+  unCheckedBox: {
+    borderColor: '#969696',
+    borderWidth: 2,
+    borderRadius: 7,
+    height: 20,
+    width: 20,
+    marginRight: 6,
+    marginVertical: 3,
+  },
+  CheckedBox: {
+    borderColor: '#969696',
+    backgroundColor: '#C4C4C4',
+    borderWidth: 2,
+    borderRadius: 7,
+    height: 20,
+    width: 20,
+    marginRight: 6,
+    marginVertical: 3,
+  },
+  checkboxFormat: {
+    flexDirection: 'row',
+    flex: 1,
+  },
+  searchButton: {
+    alignItems: 'center',
+    backgroundColor: 'white',
+    elevation: 3,
+    borderRadius: 10,
+    marginLeft: 275,
+    marginRight: 45,
+    marginTop: -48,
+    marginBottom: 10,
+    padding: 1,
+    paddingHorizontal: 3,
+  },
+  ZipCodeContainer: {
+    flexDirection: 'row',
+  },
+  ZipCodeHeader: {
+    color: '#6B6B6B',
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginTop: -3,
+    marginBottom: 5,
+  },
+  ZipCodeInputBox: {
+    borderColor: '#969696',
+    borderWidth: 2,
+    borderRadius: 7,
+    height: 30,
+    width: 140,
+    marginLeft: 10,
+    marginVertical: 2,
+  },
+  ZipCodeInputText: {
+    fontSize: 18,
+    color: '#8E8E8E',
+    marginVertical: -9,
+    marginRight: 1,
+    alignSelf: 'center',
+  },
+  checkboxHeader: {
+    color: '#6B6B6B',
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginBottom: -15,
+  },
+  checkboxContainer: {
+    margin: -5,
+    marginHorizontal: 1,
+  },
+  buttonContainer: {
+    alignItems: 'center',
+    backgroundColor: '#FB5555',
+    marginVertical: 15,
+    marginHorizontal: 80,
+    padding: 10,
+    borderRadius: 20,
+  },
+  buttonText: {
+    fontWeight: 'bold',
+    color: 'white',
+    fontSize: 20,
+  },
+  button: {
+    marginBottom: 60,
+    marginTop: 20,
+  },
+});
