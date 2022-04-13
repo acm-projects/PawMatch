@@ -147,6 +147,7 @@ const RegistrationScreen = ({navigation}) => {
     <View style={{alignItems: 'center'}}>
       <TextInput 
           placeholder="Email"
+          keyboardType={'email-address'}
           value={email}
           onChangeText={text => setEmail(text)}
           style={[styles.input2, styles.elevationInput, styles.inputText]}
