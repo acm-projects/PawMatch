@@ -63,6 +63,7 @@ const LoginScreen = ({navigation}) => {
               value={email}
               onChangeText={text => setEmail(text)}
               style={[styles.input, styles.elevationInput, styles.inputText]}
+              keyboardType={'email-address'}
             />
             <TextInput
               placeholder="password"
