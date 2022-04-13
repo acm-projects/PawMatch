@@ -8,6 +8,7 @@ import LikedScreen from './LikedScreen';
 import ShelterScreen from './ShelterScreen';
 import ProfileScreen from './ProfileScreen';
 import AnimalTile from './AnimalTile';
+import AnimalTile2 from './AnimalTile2';
 import pawImage from './2.png';
 import likeImage from './12.png';
 import userImage from './3.png';
@@ -15,8 +16,10 @@ import searchImage from './4.png';
 
 const Tab = createMaterialBottomTabNavigator();
 const LikedStack = createNativeStackNavigator();
+const ShelterStack = createNativeStackNavigator();
 
 const MainTabScreen = () => (
+
   <Tab.Navigator
     initialRouteName="Feed"
     activeColor="#A267AC"
@@ -32,8 +35,8 @@ const MainTabScreen = () => (
       }}
     />
     <Tab.Screen
-      name="Shelters"
-      component={ShelterScreen}
+      name="SheltersStack"
+      component={ShelterStackScreen}
       options={{
         tabBarLabel: 'Search',
         tabBarIcon: ({color}) => (
@@ -89,18 +92,10 @@ const LikedStackScreen = ({navigation}) => (
 );
 
 const ShelterStackScreen = ({navigation}) => (
-  <ShelterStack.Navigator
-    screenOptions={{
-      headerStyle: {
-        backgroundColor: 'pink',
-      },
-      headerTintColor: 'white',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
-    }}>
-    <ShelterStack.Screen name="Shelters" component={ShelterScreen} />
-  </ShelterStack.Navigator>
+    <ShelterStack.Navigator screenOptions={{headerShown: false}}>
+        <ShelterStack.Screen name="Shelters" component={ShelterScreen} />
+        <LikedStack.Screen name="Tile2" component={AnimalTile2} />
+    </ShelterStack.Navigator>
 );
 
 const ProfileStackScreen = ({navigation}) => (
