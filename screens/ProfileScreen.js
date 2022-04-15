@@ -16,7 +16,7 @@ import auth, { firebase } from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 // import UserModal from './UserModal';
 // import userChoices from './UserInterest';
-import xImage from './x.png'
+import xImage from '../icons/x.png'
 import { call } from 'react-native-reanimated';
 
 const ProfileScreen = ({navigation}) => {
