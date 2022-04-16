@@ -10,6 +10,8 @@ import {
     useColorScheme,
     Animated,
   } from 'react-native';
+import auth, { firebase } from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import animals from '../data/animals';
 import backImage from '../icons/back.png';
 import dislikeImage from '../icons/dislike.png';
@@ -21,7 +23,7 @@ import superlikeImage from '../icons/star3.png';
 const HomeScreen = ({navigation}, props) => {
 
 //TRAVERSE THROUGH CARD STACK, UPDATE INDEX, AND FLIP TO FRONT OF CARD
-  const [index, setIndex] = useState(0);
+const [index, setIndex] = useState(0);
   const increaseIndex = () => {
     if (index == (animals.length - 1) ) {
       setIndex(index);
@@ -31,35 +33,78 @@ const HomeScreen = ({navigation}, props) => {
       setIndex(index + 1);
     }
   }
-
+  
+  var liked = [];
+  var superLiked = [];
+  // var backPress, dislikePress = 0, likePress = 0, superLikePress = 0;
+  const [backPress, setBackPress] = useState(false);
+  const [dislikePress, setDislikePress] = useState(false);
+  const [likePress, setLikePress] = useState(false);
+  const [superLikePress, setSuperLikePress] = useState(false);
+  const user = firebase.auth().currentUser;
+  const userID = user.uid;
   const decreaseIndex = () => {
+    setBackPress(true);
     if (index == 0) {
       setIndex(0);
       console.log("Reached beginning of stack");
+      setBackPress(false);
     }
     else {
       setIndex(index - 1);
+      if (likePress == 1) {
+        liked.pop()
+        firestore().collection('users').doc(userID).update({liked})
+      }
+      else if (superLikePress == 1) {
+        superLiked.pop()
+        firestore().collection('users').doc(userID).update({superLiked})
+      }
+      console.log("LikePress: " + likePress + " SuperLikePress: " + superLikePress)
+      setBackPress(false);
     }
     checkCard();
     console.log("Back button pressed");
   }
 
   const dislike = () => {
+    resetPressed();
+    setDislikePress(true)
     increaseIndex();
     checkCard();
-    console.log("Dislike button pressed");
   }
 
   const like = () => {
+    // liked.push(animals.id);
+    resetPressed()
+    setLikePress(true)
+    liked.push('a')
+    firestore().collection('users').doc(userID).add(arrayUnion({liked}))
     increaseIndex();
     checkCard();
     console.log("Like button pressed");
   }
 
   const superLike = () => {
+    resetPressed()
+    setSuperLikePress(true)
+    superLiked.push('a')
+    firestore().collection('users').doc(userID).add({superLiked})
     increaseIndex();
     checkCard();
     console.log("Super Like button pressed");
+  }
+
+  const resetPressed = () => {
+    if (dislikePress == true) {
+      setDislikePress(false);
+    }
+    else if (likePress == true) {
+      setLikePress(false);
+    }
+    else if (superLikePress == true) {
+      setSuperLikePress(false);
+    }
   }
 
 
@@ -91,6 +136,23 @@ const HomeScreen = ({navigation}, props) => {
   const checkCard = () => {
     if (isFlipped == true)
       flipCard();
+  }
+  
+  // STORE LIKES/SUPER LIKES INTO FIREBASE
+  const storeLike = (id) => {
+    liked.push(id);
+    const user = firebase.auth().currentUser;
+    const userID = user.uid;
+    firestore().collection('users').doc(userID).update({liked})
+  }
+
+  
+  const storeLiked = (props) => {
+    const{id} = props.animal;
+    liked.push(id);
+    const user = firebase.auth().currentUser;
+    const userID = user.uid;
+    firestore().collection('users').doc(userID).update({liked})
   }
   
 
