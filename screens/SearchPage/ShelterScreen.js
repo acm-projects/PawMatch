@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from "react";
 import {TouchableOpacity, View, ScrollView, FlatList, TextInput, Modal, Text, StyleSheet, Image } from 'react-native';
-import SearchModal from "./SearchModal";
-import xImage from './x.png';
+import xImage from '../../icons/x.png';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import apiJSON from '../api/apicall.json';
+import apiJSON from '../../api/apicall.json';
 import {sZipCode, sAge, sType, sSize, sGender, sSearchState} from "./InterestPage";
 
 var petfinder = require("@petfinder/petfinder-js");

@@ -11,7 +11,7 @@ import {
   Linking,
 } from 'react-native';
 import {useRoute} from '@react-navigation/native';
-import backArrowImage from './11.png';
+import backArrowImage from '../../icons/11.png';
 
 function AnimalTile({navigation}) {
   const route = useRoute();
