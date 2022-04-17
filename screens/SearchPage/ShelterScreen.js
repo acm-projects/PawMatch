@@ -3,26 +3,32 @@ import {TouchableOpacity, View, ScrollView, FlatList, TextInput, Modal, Text, St
 import xImage from '../../icons/x.png';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import apiJSON from '../../api/apicall.json';
-import {sZipCode, sAge, sType, sSize, sGender, sSearchState} from "./InterestPage";
+//import {sZipCode, sAge, sType, sSize, sGender, sSearchState} from "./InterestPage";
 
 var petfinder = require("@petfinder/petfinder-js");
 //var client = new petfinder.Client({apiKey: "BW2quofQcKQRW8zaW5nxGCLiYxvlnYPZWfoWhD19EMp9oHbmjJ", secret: "zrA4VcQo24kvI21xAZjE6Ok8ZD6EZjEQ3JPBJ6hA"});
 var client = new petfinder.Client({apiKey: "TRGJgs572EMIApod6zYEZCFeIgKpgKzOex5CcaVG9pErBo9y4U", secret: "eZmBINe8wGKxdaNlQ7m4Ae0QV0lUqCalI6YkLrFx"});
 //var client = new petfinder.Client({apiKey: "P2a91yMjApUn8QYGc6OCutLXCYx4DRZuXHusdWQZxT3FDLkVqr", secret: "M4e9kQONsJUK8xDUah65CWNMwdmyRrK2llgXD8qQ"});
 
+var sZipCode = [];
+var sType = [];
+var sAge = [];
+var sGender = [];
+var sSize = [];
+var sSearchState = [];
+
 const ShelterScreen = ({navigation}) => {
     const [apiData, setApiData] = useState({});
     const [isLoading, setLoading] = useState(true);
-    const [isNewSearch, setSearch] = useState([]);
+    const [refreshPage, setRefreshPage] = useState("");
     
     //const [isNewSearch, setSearchState] = useState(sSearchState);
-    /*
+
     console.log(sZipCode);
     console.log(sType);
     console.log(sAge);
     console.log(sGender);
     console.log(sSize);
-    */
 
     function searchAnimalsMore(aZipcode, aType, aAge, aGender, aSize, lim) {
       if (isLoading){
@@ -97,12 +103,7 @@ const ShelterScreen = ({navigation}) => {
             <ScrollView style={{ flex: 1, backgroundColor: '#fbfbfb'}}>
                 <Text style={styles.title}>Pet Search</Text>
                 <Search/>
-                <Text style={{marginLeft: 20, marginTop: 10, fontSize: 20}}>Searching for...</Text>    
-                <View style={styles.containerTile}>
-                  {apiJSON.animals.map(i => 
-                    (<Tile key={i.id} animal = {i} />)
-                  )} 
-                </View>
+                <Text style={{marginLeft: 80, marginTop: 10, fontSize: 20}}>Searching for...</Text>    
             </ScrollView>
             
           );
@@ -254,15 +255,22 @@ const Search = () => {
 
   
   function callAPI(searchChoices) {
+    sZipCode = [];
+    sType = [];
+    sAge = [];
+    sGender = [];
+    sSize = [];
     if (!(zipCode >= 501 && zipCode.length == 5)) {
       alert('You must enter a valid zipcode');
       console.log('Call Cancelled');
     } 
     else {
       searchChoices = [];
+      //sZipCode.push(zipCode);
       for (let i = 0; i < checkedType.length; i++) {
         if (checkedType[i].isChecked == true) {
           searchChoices.push(checkedType[i].key);
+          sType.push(checkedType[i].key);
         }
       }
       for (let i = 0; i < checkedDogBreed.length; i++) {
@@ -278,16 +286,19 @@ const Search = () => {
       for (let i = 0; i < checkedAge.length; i++) {
         if (checkedAge[i].isChecked == true) {
           searchChoices.push(checkedAge[i].key);
+          sAge.push(checkedAge[i].key);
         }
       }
       for (let i = 0; i < checkedGender.length; i++) {
         if (checkedGender[i].isChecked == true) {
           searchChoices.push(checkedGender[i].key);
+          sGender.push(checkedGender[i].key);
         }
       }
       for (let i = 0; i < checkedSize.length; i++) {
         if (checkedSize[i].isChecked == true) {
           searchChoices.push(checkedSize[i].key);
+          sSize.push(checkedSize[i].key);
         }
       }
       for (let i = 0; i < checkedCoat.length; i++) {
