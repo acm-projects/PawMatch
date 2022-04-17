@@ -266,6 +266,7 @@ const Search = () => {
     } 
     else {
       searchChoices = [];
+      //sZipCode.push(zipCode);
       for (let i = 0; i < checkedType.length; i++) {
         if (checkedType[i].isChecked == true) {
           searchChoices.push(checkedType[i].key);
