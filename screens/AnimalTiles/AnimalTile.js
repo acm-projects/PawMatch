@@ -16,10 +16,11 @@ import backArrowImage from '../../icons/11.png';
 function AnimalTile({navigation}) {
   const route = useRoute();
   const liked = route.params.paramKey;
+  /*
   url_string = liked.animal.link;
   console.log(url_string);
   url = new URL(url_string);
-
+*/
   function navAllLiked() {
     navigation.replace('Liked');
   }
@@ -27,6 +28,13 @@ function AnimalTile({navigation}) {
   navAllLiked2 = () => {
     navigation.replace('Liked');
   };
+
+  var image;
+  if (liked.animal.primary_photo_cropped === null){
+    image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1200px-Grey_close_x.svg.png';
+  } else {
+    image = liked.animal.primary_photo_cropped.small;
+  }
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff2f7'}}>
@@ -38,17 +46,10 @@ function AnimalTile({navigation}) {
             }}>
             <Image source={backArrowImage} style={styles.back} />
           </TouchableOpacity>
-          <Image style={styles.animalImg} source={{uri: liked.animal.image}} />
+          <Image style={styles.animalImg} source={{uri: image}} />
           <Text style={styles.animalName}>{liked.animal.name}</Text>
-          <Text style={styles.animalBreed}>
-            {liked.animal.gender} {liked.animal.breed}, {liked.animal.age}
-          </Text>
-          <Text style={styles.bio}>About Me: {liked.animal.bio}</Text>
-          <Text style={styles.bio}>Size: {liked.animal.size}</Text>
-          <Text style={styles.bio}>Shelter: {liked.animal.shelter}</Text>
-          <Text style={styles.bio}>House Trained: {liked.animal.trained}</Text>
-          <Text style={styles.bio}>Vaccinated: {liked.animal.vaccinated}</Text>
-          <Text style={styles.tags}>Tags: {liked.animal.tags}</Text>
+          <Text style={styles.animalBreed}>{liked.animal.type}</Text>
+          
         </View>
 
         <TouchableOpacity
@@ -71,6 +72,18 @@ function AnimalTile({navigation}) {
     </SafeAreaView>
   );
 }
+
+/**
+ <Text style={styles.animalBreed}>
+            {liked.animal.gender} {liked.animal.breed}, {liked.animal.age}
+          </Text>
+          <Text style={styles.bio}>About Me: {liked.animal.bio}</Text>
+          <Text style={styles.bio}>Size: {liked.animal.size}</Text>
+          <Text style={styles.bio}>Shelter: {liked.animal.shelter}</Text>
+          <Text style={styles.bio}>House Trained: {liked.animal.trained}</Text>
+          <Text style={styles.bio}>Vaccinated: {liked.animal.vaccinated}</Text>
+          <Text style={styles.tags}>Tags: {liked.animal.tags}</Text>
+ */
 
 export default AnimalTile;
 
