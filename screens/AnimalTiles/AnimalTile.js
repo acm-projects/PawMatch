@@ -16,11 +16,11 @@ import backArrowImage from '../../icons/11.png';
 function AnimalTile({navigation}) {
   const route = useRoute();
   const liked = route.params.paramKey;
-  /*
-  url_string = liked.animal.link;
+
+  url_string = liked.animal.url;
   console.log(url_string);
   url = new URL(url_string);
-*/
+
   function navAllLiked() {
     navigation.replace('Liked');
   }
@@ -48,14 +48,19 @@ function AnimalTile({navigation}) {
           </TouchableOpacity>
           <Image style={styles.animalImg} source={{uri: image}} />
           <Text style={styles.animalName}>{liked.animal.name}</Text>
-          <Text style={styles.animalBreed}>{liked.animal.type}</Text>
-          
+          <Text style={styles.animalBreed}>{liked.animal.breeds.primary}</Text>
+          <Text>Status: {liked.animal.status}</Text>
+          <Text>Gender: {liked.animal.gender}</Text>
+          <Text>Age: {liked.animal.age}</Text>
+          <Text>Size: {liked.animal.size}</Text>
+          <Text>Phone: {liked.animal.contact.phone}</Text>
+          <Text>Email: {liked.animal.contact.email}</Text>
         </View>
 
         <TouchableOpacity
           style={{
             height: 100,
-            width: 390,
+            width: 370,
             marginLeft: 12,
             marginRight: 20,
             justifyContent: 'center',
@@ -107,7 +112,7 @@ const styles = StyleSheet.create({
     height: 10,
   },
   animalImg: {
-    width: 370,
+    width: '100%',
     height: 330,
     borderRadius: 20,
     marginTop: 5,
