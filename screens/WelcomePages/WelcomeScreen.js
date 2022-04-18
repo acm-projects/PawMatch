@@ -1,7 +1,43 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, Button, TextInput, TouchableOpacity, SafeAreaView, FlatList } from 'react-native';
+import React, {useState} from "react";
+import { ScrollView, View, Text, TextInput, SafeAreaView, TouchableOpacity, FlatList, Button, StyleSheet } from 'react-native';
+import auth, { firebase } from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
-export default function Interests() {
+const WelcomeScreen = ({navigation}) => {
+
+    function submitPreferences() {
+        if (!(zipCode >= 501 && zipCode.length == 5)) {
+            alert('Please enter a valid zipcode to begin');
+        }
+        else {
+            userChoices = [];
+            for (let i = 0; i < checkedType.length; i++) {
+                if (checkedType[i].isChecked == true) {
+                    userChoices.push(checkedType[i].key);
+                }
+            }
+            for (let i = 0; i < checkedAge.length; i++) {
+                if (checkedAge[i].isChecked == true) {
+                    userChoices.push(checkedAge[i].key);
+                }
+            }
+            for (let i = 0; i < checkedGender.length; i++) {
+                if (checkedGender[i].isChecked == true) {
+                    userChoices.push(checkedGender[i].key);
+                }
+            }
+            for (let i = 0; i < checkedSize.length; i++) {
+                if (checkedSize[i].isChecked == true) {
+                    userChoices.push(checkedSize[i].key);
+                }
+            }
+            const user = firebase.auth().currentUser;
+            const userID = user.uid;
+            firestore().collection('users').doc(userID).update({userChoices, zipCode})
+            navigation.replace("Info")
+            }
+        }
+        
     const type = [
         {id: 0, key: 'Dog', isChecked: false},
         {id: 1, key: 'Cat', isChecked: false},
@@ -69,40 +105,12 @@ export default function Interests() {
         });
         setCheckedSize(sizeTemp); 
     };
-    
-    const callAPI = () => {
-        if (!(zipCode >= 501 && zipCode.length == 5)) {
-            alert('You must enter a valid zipcode')
-            console.log('Call Cancelled')
-        }
-        else {
-            console.log(zipCode)
-            for (let i = 0; i < checkedType.length; i++) {
-                if (checkedType[i].isChecked == true) {
-                    console.log(checkedType[i].key)
-                }
-            }
-            for (let i = 0; i < checkedAge.length; i++) {
-                if (checkedAge[i].isChecked == true) {
-                    console.log(checkedAge[i].key)
-                }
-            }
-            for (let i = 0; i < checkedGender.length; i++) {
-                if (checkedGender[i].isChecked == true) {
-                    console.log(checkedGender[i].key)
-                }
-            }
-            for (let i = 0; i < checkedSize.length; i++) {
-                if (checkedSize[i].isChecked == true) {
-                    console.log(checkedSize[i].key)
-                }
-            }
-        }
-        
-    };
-
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{backgroundColor: 'white', flex: 1,}}>
+            <Text style={styles.title}>Welcome!</Text>
+            <Text style={styles.introText1}>Select what you're looking for so we can find you your new best friend!</Text>
+            <Text style={styles.introText2}>These can always be changed in the Profile tab</Text>
+            <View style={{marginLeft: 40}}>
             <View style={styles.ZipCodeContainer}>
                 <Text style={styles.ZipCodeHeader}>Zip Code</Text>
                 <View style={styles.ZipCodeInputBox}>
@@ -205,21 +213,38 @@ export default function Interests() {
                 />
                 
             </View>
+            </View>
 
-            <TouchableOpacity onPress={callAPI}>
-                    <View style={styles.buttonContainer}>
-                        <Text style={styles.buttonText}>Submit</Text>
-                    </View>
-            </TouchableOpacity>
+            
+
+
+            <View style={styles.buttonAlignment}>
+                <TouchableOpacity style={styles.buttonContainer} onPress={submitPreferences}>
+                    <Text style={styles.buttonText}>Submit</Text>
+                </TouchableOpacity>
+                
+            </View>
         </SafeAreaView>
-
-
     );
 
 }
 
+export default WelcomeScreen;
+
 const styles = StyleSheet.create({
-    checkboxText: {
+    title: {
+        fontSize: 40,
+        marginTop: 20,
+        textAlign: 'center',
+        color: '#fb5555',
+        fontWeight: 'bold',
+    },
+    buttonAlignment: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+    },
+      checkboxText: {
         fontSize: 20,
         color: '#8E8E8E'
     },
@@ -296,9 +321,16 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 20,
     },
-    button: {
-        marginBottom: 60,
-        marginTop: 20,
+    introText1: {
+        textAlign: 'center',
+        marginHorizontal: 20,
+        fontWeight: 'bold',
+        fontSize: 20,
     },
-
+    introText2: {
+        textAlign: 'center',
+        marginHorizontal: 20,
+        marginBottom: 10,
+    },
+    
 })
