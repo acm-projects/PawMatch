@@ -16,7 +16,9 @@ import dislikeImage from '../icons/dislike.png';
 import likeImage from '../icons/heart.png';
 import superlikeImage from '../icons/star3.png';
 
-
+// add shelter to tinder card, address and phone #
+// more info added to card
+// color ideas for ui
 
 const HomeScreen = ({navigation}, props) => {
 
@@ -150,7 +152,7 @@ export default HomeScreen;
 
 
 const FrontCard = (props) => {
-  const{name, image, breed, bio} = props.animal;
+  const{name, image, breed,} = props.animal;
   return(
   <View style={styles.cardFront}>
       <ImageBackground 
@@ -159,7 +161,7 @@ const FrontCard = (props) => {
           <View style={styles.cardInner}>
             <Text style ={styles.name}>{name}</Text>
             <Text style ={styles.breed}>{breed}</Text>
-            <Text style ={styles.bio}>{bio}</Text>
+            
           </View>
       </ImageBackground>
   </View>
@@ -168,14 +170,22 @@ const FrontCard = (props) => {
 
 
 const BackCard = (props) => {
-  const{name, breed, age, gender, size} = props.animal;
+  const{name, breed, bio, age, gender, size, shelter, shelterAddress, shelterNumber, vaccinated, kids} = props.animal;
   return(
     <View style={styles.cardInner}>
       <Text style ={styles.name}>{name}</Text>
       <Text style ={styles.breed}>{breed}</Text>
-      <Text style ={styles.age}>Age: {age}</Text>
-      <Text style ={styles.gender}>Gender: {gender}</Text>
-      <Text style ={styles.size}>Size: {size}</Text>
+      <Text style ={styles.text}>{bio}</Text>
+      <Text style ={styles.text}></Text>
+      <Text style ={styles.text}>Shelter: {shelter}</Text>
+      <Text style ={styles.text}>{shelterAddress}</Text>
+      <Text style ={styles.text}>{shelterNumber}</Text>
+      <Text style ={styles.text}></Text>
+      <Text style ={styles.text}>Age: {age}</Text>
+      <Text style ={styles.text}>Gender: {gender}</Text>
+      <Text style ={styles.text}>Size: {size}</Text>
+      <Text style ={styles.text}>Vaccinated: {vaccinated}</Text>
+      <Text style ={styles.text}>Good with kids: {kids}</Text>
     </View>
   );
 };
@@ -255,34 +265,18 @@ const styles = StyleSheet.create({
     },
   
     name:{
-      fontSize: 40,
+      fontSize: 45,
       color: 'white',
       fontWeight: 'bold',
     },
   
     breed: {
-      fontSize: 20,
+      fontSize: 25,
       color: 'white',
       fontWeight: 'bold',
     },
-  
-    bio: {
-      fontSize: 15,
-      color: 'white',
-      lineHeight: 24,
-    },
 
-    age: {
-      fontSize: 20,
-      color: 'white',
-    },
-
-    gender: {
-      fontSize: 20,
-      color: 'white',  
-    },
-
-    size: {
+    text: {
       fontSize: 20,
       color: 'white',
     },
