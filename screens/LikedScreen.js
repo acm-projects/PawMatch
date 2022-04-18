@@ -14,7 +14,7 @@ var petfinder = require("@petfinder/petfinder-js");
 //var client = new petfinder.Client({apiKey: "TRGJgs572EMIApod6zYEZCFeIgKpgKzOex5CcaVG9pErBo9y4U", secret: "eZmBINe8wGKxdaNlQ7m4Ae0QV0lUqCalI6YkLrFx"});
 var client = new petfinder.Client({apiKey: "P2a91yMjApUn8QYGc6OCutLXCYx4DRZuXHusdWQZxT3FDLkVqr", secret: "M4e9kQONsJUK8xDUah65CWNMwdmyRrK2llgXD8qQ"});
 
-var likedAnimals = [55083515];
+var likedAnimals = [55083515, 55083513, 55083530];
 //55083515, 55083513, 55083530]
 var likedAnimalsData = [];
 
@@ -47,7 +47,7 @@ console.log(apiData);
  
     var text = 'expand>>';
 
-    const {name, type, primary_photo_cropped} = props.animal;
+    const {name, breeds, primary_photo_cropped, age, gender, size, status, contact, attributes, species} = props.animal;
     var image;
       if (primary_photo_cropped === null){
         image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1200px-Grey_close_x.svg.png';
@@ -58,7 +58,7 @@ console.log(apiData);
       <TouchableOpacity style={styles.tile} onPress={expandTile}>
         <Image style={styles.animalImg} source={{uri: image}} />
         <Text style={styles.animalName}>{name}</Text>
-        <Text style={{marginLeft: 5, color: '#6867ac'}}>{type}</Text>
+        <Text style={{marginLeft: 5, color: '#6867ac'}}>{breeds.primary}</Text>
         <Text style={styles.expandTile}>{text}</Text>
       </TouchableOpacity>
     );
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   animalImg: {
-    width: 135,
+    width: '94%',
     height: 135,
     borderRadius: 20,
     marginLeft: 4.5,

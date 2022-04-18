@@ -23,13 +23,13 @@ const ShelterScreen = ({navigation}) => {
     const [refreshPage, setRefreshPage] = useState("");
     
     //const [isNewSearch, setSearchState] = useState(sSearchState);
-
+/*
     console.log(sZipCode);
     console.log(sType);
     console.log(sAge);
     console.log(sGender);
     console.log(sSize);
-
+*/
     function searchAnimalsMore(aZipcode, aType, aAge, aGender, aSize, lim) {
       if (isLoading){
         client.animal.search({
@@ -54,8 +54,9 @@ const ShelterScreen = ({navigation}) => {
               navigation.replace("Tile2", {paramKey: props});
             };
 
-        
-            const{name, type, primary_photo_cropped} = props.animal;
+            var text = 'expand>>';
+
+            const{name, breeds, primary_photo_cropped, age, gender, size, status, contact, attributes, species} = props.animal;
             var image;
             if ( primary_photo_cropped === null){
               image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1200px-Grey_close_x.svg.png';
@@ -66,7 +67,8 @@ const ShelterScreen = ({navigation}) => {
             <TouchableOpacity style={styles.tile} onPress={expandTile}>
                 <Image style={styles.animalImg} source={{uri: image}}/> 
                 <Text style={styles.animalName}>{name}</Text>
-                <Text>{type}</Text>
+                <Text style={{marginLeft: 5, color: '#6867ac'}}>{breeds.primary}</Text>
+                <Text style={styles.expandTile}>{text}</Text>
             </TouchableOpacity>
             );
           };
@@ -84,6 +86,491 @@ const ShelterScreen = ({navigation}) => {
 
         //const callapi  = searchAnimalsMore(78745, "Dog", "Cat", "Rabbit", "Bird", "Young", "Baby", "Adult", "Senior", "Female", "Male", "Small", "Medium", "Large");
         //console.log(callapi);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        const Search = () => {
+          const type = [
+            {id: 0, key: 'Dog', isChecked: false},
+            {id: 1, key: 'Cat', isChecked: false},
+            {id: 2, key: 'Bird', isChecked: false},
+            {id: 3, key: 'Barnyard', isChecked: false},
+          ];
+        
+          const dogBreed = [
+            {id: 0, key: 'Goldendoodle', isChecked: false},
+            {id: 1, key: 'Labradoodle', isChecked: false},
+            {id: 2, key: 'Pomeranian', isChecked: false},
+            {id: 3, key: 'Pug', isChecked: false},
+            {id: 4, key: 'Samoyed', isChecked: false},
+            {id: 5, key: 'Siberian Husky', isChecked: false},
+            {id: 6, key: 'Tibetan Mastiff', isChecked: false},
+            {id: 7, key: 'Yorkshire Terrier', isChecked: false},
+          ];
+        
+          const catBreed = [
+            {id: 0, key: 'Bengal', isChecked: false},
+            {id: 1, key: 'Calico', isChecked: false},
+            {id: 2, key: 'Exotic Shorthair', isChecked: false},
+            {id: 3, key: 'Persian', isChecked: false},
+            {id: 4, key: 'Siamese', isChecked: false},
+            {id: 5, key: 'Siberian', isChecked: false},
+            {id: 6, key: 'Sphynx / Hairless Cat', isChecked: false},
+            {id: 7, key: 'Tabby', isChecked: false},
+          ];
+        
+          const age = [
+            {id: 0, key: 'Baby', isChecked: false},
+            {id: 1, key: 'Young', isChecked: false},
+            {id: 2, key: 'Adult', isChecked: false},
+            {id: 3, key: 'Senior', isChecked: false},
+          ];
+        
+          const gender = [
+            {id: 0, key: 'Female', isChecked: false},
+            {id: 1, key: 'Male', isChecked: false},
+          ];
+        
+          const size = [
+            {id: 0, key: 'Small', isChecked: false},
+            {id: 1, key: 'Medium', isChecked: false},
+            {id: 2, key: 'Large', isChecked: false},
+          ];
+        
+          const coat = [
+            {id: 0, key: 'Short', isChecked: false},
+            {id: 1, key: 'Medium', isChecked: false},
+            {id: 2, key: 'Long', isChecked: false},
+            {id: 3, key: 'Hairless', isChecked: false},
+            {id: 4, key: 'Curly', isChecked: false},
+          ];
+        
+          const otherReqs = [
+            {id: 0, key: 'Good with Children', isChecked: false},
+            {id: 1, key: 'Good with Dogs', isChecked: false},
+            {id: 2, key: 'Good with Cats', isChecked: false},
+            {id: 3, key: 'House Trained', isChecked: false},
+            {id: 4, key: 'Declawed', isChecked: false},
+            {id: 5, key: 'Special Needs', isChecked: false},
+          ];
+        
+          const handleChangeType = id => {
+            var typeTemp = checkedType.map(searchType => {
+              if (id === searchType.id) {
+                return {...searchType, isChecked: !searchType.isChecked};
+              }
+              return searchType;
+            });
+            setCheckedType(typeTemp);
+          };
+          const handleChangeDogBreed = id => {
+            var dogBreedTemp = checkedDogBreed.map(searchDogBreed => {
+              if (id === searchDogBreed.id) {
+                return {...searchDogBreed, isChecked: !searchDogBreed.isChecked};
+              }
+              return searchDogBreed;
+            });
+            setCheckedDogBreed(dogBreedTemp);
+          };
+          const handleChangeCatBreed = id => {
+            var catBreedTemp = checkedCatBreed.map(searchCatBreed => {
+              if (id === searchCatBreed.id) {
+                return {...searchCatBreed, isChecked: !searchCatBreed.isChecked};
+              }
+              return searchCatBreed;
+            });
+            setCheckedCatBreed(catBreedTemp);
+          };
+          const handleChangeAge = id => {
+            var ageTemp = checkedAge.map(searchAge => {
+              if (id === searchAge.id) {
+                return {...searchAge, isChecked: !searchAge.isChecked};
+              }
+              return searchAge;
+            });
+            setCheckedAge(ageTemp);
+          };
+          const handleChangeGender = id => {
+            var genderTemp = checkedGender.map(searchGender => {
+              if (id === searchGender.id) {
+                return {...searchGender, isChecked: !searchGender.isChecked};
+              }
+              return searchGender;
+            });
+            setCheckedGender(genderTemp);
+          };
+          const handleChangeSize = id => {
+            var sizeTemp = checkedSize.map(searchSize => {
+              if (id === searchSize.id) {
+                return {...searchSize, isChecked: !searchSize.isChecked};
+              }
+              return searchSize;
+            });
+            setCheckedSize(sizeTemp);
+          };
+          const handleChangeCoat = id => {
+            var coatTemp = checkedCoat.map(searchCoat => {
+              if (id === searchCoat.id) {
+                return {...searchCoat, isChecked: !searchCoat.isChecked};
+              }
+              return searchCoat;
+            });
+            setCheckedCoat(coatTemp);
+          };
+          const handleChangeOtherReqs = id => {
+            var otherReqsTemp = checkedOtherReqs.map(searchOtherReqs => {
+              if (id === searchOtherReqs.id) {
+                return {...searchOtherReqs, isChecked: !searchOtherReqs.isChecked};
+              }
+              return searchOtherReqs;
+            });
+            setCheckedOtherReqs(otherReqsTemp);
+          };
+        
+          
+          function callAPI(searchChoices) {
+            sZipCode = [];
+            sType = [];
+            sAge = [];
+            sGender = [];
+            sSize = [];
+            if (!(zipCode >= 501 && zipCode.length == 5)) {
+              alert('You must enter a valid zipcode');
+              console.log('Call Cancelled');
+            } 
+            else {
+              searchChoices = [];
+              //sZipCode.push(zipCode);
+              for (let i = 0; i < checkedType.length; i++) {
+                if (checkedType[i].isChecked == true) {
+                  searchChoices.push(checkedType[i].key);
+                  sType.push(checkedType[i].key);
+                }
+              }
+              for (let i = 0; i < checkedDogBreed.length; i++) {
+                if (checkedDogBreed[i].isChecked == true) {
+                  searchChoices.push({key: checkedDogBreed[i].key});
+                }
+              }
+              for (let i = 0; i < checkedCatBreed.length; i++) {
+                if (checkedCatBreed[i].isChecked == true) {
+                  searchChoices.push({key: checkedCatBreed[i].key});
+                }
+              }
+              for (let i = 0; i < checkedAge.length; i++) {
+                if (checkedAge[i].isChecked == true) {
+                  searchChoices.push(checkedAge[i].key);
+                  sAge.push(checkedAge[i].key);
+                }
+              }
+              for (let i = 0; i < checkedGender.length; i++) {
+                if (checkedGender[i].isChecked == true) {
+                  searchChoices.push(checkedGender[i].key);
+                  sGender.push(checkedGender[i].key);
+                }
+              }
+              for (let i = 0; i < checkedSize.length; i++) {
+                if (checkedSize[i].isChecked == true) {
+                  searchChoices.push(checkedSize[i].key);
+                  sSize.push(checkedSize[i].key);
+                }
+              }
+              for (let i = 0; i < checkedCoat.length; i++) {
+                if (checkedCoat[i].isChecked == true) {
+                  searchChoices.push({key: checkedCoat[i].key});
+                }
+              }
+              for (let i = 0; i < checkedOtherReqs.length; i++) {
+                if (checkedOtherReqs[i].isChecked == true) {
+                  searchChoices.push({key: checkedOtherReqs[i].key});
+                }
+              }
+              editshowModal(!editShow);
+              navigation.replace("Shelters");
+            }
+          };
+          const [editShow, editshowModal] = useState(false);
+          const [zipCode, setZipCode] = React.useState(zipCode);
+          const [checkedType, setCheckedType] = useState(type);
+          const [checkedDogBreed, setCheckedDogBreed] = useState(dogBreed);
+          const [checkedCatBreed, setCheckedCatBreed] = useState(catBreed);
+          const [checkedAge, setCheckedAge] = useState(age);
+          const [checkedGender, setCheckedGender] = useState(gender);
+          const [checkedSize, setCheckedSize] = useState(size);
+          const [checkedCoat, setCheckedCoat] = useState(coat);
+          const [checkedOtherReqs, setCheckedOtherReqs] = useState(otherReqs);
+          return (
+            <View>
+              <View>
+                <TouchableOpacity style={styles1.searchButton} onPress={() => editshowModal(!editShow)}>
+                <MaterialCommunityIcons name="magnify" color={'#FB5555'} size={40} />
+                </TouchableOpacity>
+              </View>
+              <Modal visible={editShow} transparent={true}>
+              <View style={styles1.modalBackground}>
+                <View style={styles1.modalContainer}>
+                  <Text style={styles1.title}>New Search</Text>
+                  <TouchableOpacity onPress={() => editshowModal(!editShow)}>
+                    <Image style={styles1.xout} source={xImage} />
+                  </TouchableOpacity>
+                  <View style={styles1.ZipCodeContainer}>
+                    <Text style={styles1.ZipCodeHeader}>Zip Code</Text>
+                    <View style={styles1.ZipCodeInputBox}>
+                      <TextInput
+                        onChangeText={zipCode => {
+                          setZipCode(zipCode);
+                        }}
+                        value={zipCode}
+                        
+                        style={styles1.ZipCodeInputText}
+                        maxLength={5}
+                        keyboardType={'numeric'}
+                      />
+                    </View>
+                  </View>
+        
+                  <View style={styles1.checkboxContainer}>
+                    <Text style={styles1.checkboxHeader}>Type</Text>
+                    <FlatList
+                      numColumns={2}
+                      data={checkedType}
+                      renderItem={({item}) => (
+                        <>
+                          <View style={styles1.checkboxFormat}>
+                            <TouchableOpacity
+                              value={item.isChecked}
+                              onPress={() => handleChangeType(item.id)}>
+                              {item.isChecked == true ? (
+                                <View style={styles1.CheckedBox} />
+                              ) : (
+                                <View style={styles1.unCheckedBox} />
+                              )}
+                            </TouchableOpacity>
+                            <Text style={styles1.checkboxText}>{item.key}</Text>
+                          </View>
+                        </>
+                      )}
+                      contentContainerStyle={{margin: 20}}
+                    />
+                  </View>
+        
+                  {/*<View style={styles1.checkboxContainer}>
+                      <Text style={styles1.checkboxHeader}>Dog Breeds</Text>
+                      <FlatList
+                        numColumns={2}
+                        data={checkedDogBreed}
+                        renderItem={({item}) => (
+                          <>
+                            <View style={styles1.checkboxFormat}>
+                              <TouchableOpacity
+                                value={item.isChecked}
+                                onPress={() => handleChangeDogBreed(item.id)}>
+                                {item.isChecked == true ? (
+                                  <View style={styles1.CheckedBox} />
+                                ) : (
+                                  <View style={styles1.unCheckedBox} />
+                                )}
+                              </TouchableOpacity>
+                              <Text style={styles1.checkboxText}>{item.key}</Text>
+                            </View>
+                          </>
+                        )}
+                        contentContainerStyle={{margin: 20}}
+                      />
+                    </View>
+        
+                    <View style={styles1.checkboxContainer}>
+                      <Text style={styles1.checkboxHeader}>Cat Breeds</Text>
+                      <FlatList
+                        numColumns={2}
+                        data={checkedCatBreed}
+                        renderItem={({item}) => (
+                          <>
+                            <View style={styles1.checkboxFormat}>
+                              <TouchableOpacity
+                                value={item.isChecked}
+                                onPress={() => handleChangeCatBreed(item.id)}>
+                                {item.isChecked == true ? (
+                                  <View style={styles1.CheckedBox} />
+                                ) : (
+                                  <View style={styles1.unCheckedBox} />
+                                )}
+                              </TouchableOpacity>
+                              <Text style={styles1.checkboxText}>{item.key}</Text>
+                            </View>
+                          </>
+                        )}
+                        contentContainerStyle={{margin: 20}}
+                      />
+                                </View>*/}
+        
+                  <View style={styles1.checkboxContainer}>
+                    <Text style={styles1.checkboxHeader}>Age</Text>
+                    <FlatList
+                      numColumns={2}
+                      data={checkedAge}
+                      renderItem={({item}) => (
+                        <>
+                          <View style={styles1.checkboxFormat}>
+                            <TouchableOpacity
+                              value={item.isChecked}
+                              onPress={() => handleChangeAge(item.id)}>
+                              {item.isChecked == true ? (
+                                <View style={styles1.CheckedBox} />
+                              ) : (
+                                <View style={styles1.unCheckedBox} />
+                              )}
+                            </TouchableOpacity>
+                            <Text style={styles1.checkboxText}>{item.key}</Text>
+                          </View>
+                        </>
+                      )}
+                      contentContainerStyle={{margin: 20}}
+                    />
+                  </View>
+        
+                  <View style={styles1.checkboxContainer}>
+                    <Text style={styles1.checkboxHeader}>Gender</Text>
+                    <FlatList
+                      numColumns={2}
+                      data={checkedGender}
+                      renderItem={({item}) => (
+                        <>
+                          <View style={styles1.checkboxFormat}>
+                            <TouchableOpacity
+                              value={item.isChecked}
+                              onPress={() => handleChangeGender(item.id)}>
+                              {item.isChecked == true ? (
+                                <View style={styles1.CheckedBox} />
+                              ) : (
+                                <View style={styles1.unCheckedBox} />
+                              )}
+                            </TouchableOpacity>
+                            <Text style={styles1.checkboxText}>{item.key}</Text>
+                          </View>
+                        </>
+                      )}
+                      contentContainerStyle={{margin: 20}}
+                    />
+                  </View>
+        
+                  <View style={styles1.checkboxContainer}>
+                    <Text style={styles1.checkboxHeader}>Size</Text>
+                    <FlatList
+                      numColumns={2}
+                      data={checkedSize}
+                      renderItem={({item}) => (
+                        <>
+                          <View style={styles1.checkboxFormat}>
+                            <TouchableOpacity
+                              value={item.isChecked}
+                              onPress={() => handleChangeSize(item.id)}>
+                              {item.isChecked == true ? (
+                                <View style={styles1.CheckedBox} />
+                              ) : (
+                                <View style={styles1.unCheckedBox} />
+                              )}
+                            </TouchableOpacity>
+                            <Text style={styles1.checkboxText}>{item.key}</Text>
+                          </View>
+                        </>
+                      )}
+                      contentContainerStyle={{margin: 20}}
+                    />
+                  </View>
+        
+                  {/*<View style={styles1.checkboxContainer}>
+                      <Text style={styles1.checkboxHeader}>Coat</Text>
+                      <FlatList
+                        numColumns={2}
+                        data={checkedCoat}
+                        renderItem={({item}) => (
+                          <>
+                            <View style={styles1.checkboxFormat}>
+                              <TouchableOpacity
+                                value={item.isChecked}
+                                onPress={() => handleChangeCoat(item.id)}>
+                                {item.isChecked == true ? (
+                                  <View style={styles1.CheckedBox} />
+                                ) : (
+                                  <View style={styles1.unCheckedBox} />
+                                )}
+                              </TouchableOpacity>
+                              <Text style={styles1.checkboxText}>{item.key}</Text>
+                            </View>
+                          </>
+                        )}
+                        contentContainerStyle={{margin: 20}}
+                      />
+                    </View>
+        
+                    <View style={styles1.checkboxContainer}>
+                      <Text style={styles1.checkboxHeader}>Other Requirements</Text>
+                      <FlatList
+                        numColumns={2}
+                        data={checkedOtherReqs}
+                        renderItem={({item}) => (
+                          <>
+                            <View style={styles1.checkboxFormat}>
+                              <TouchableOpacity
+                                value={item.isChecked}
+                                onPress={() => handleChangeOtherReqs(item.id)}>
+                                {item.isChecked == true ? (
+                                  <View style={styles1.CheckedBox} />
+                                ) : (
+                                  <View style={styles1.unCheckedBox} />
+                                )}
+                              </TouchableOpacity>
+                              <Text style={styles1.checkboxText}>{item.key}</Text>
+                            </View>
+                          </>
+                        )}
+                        contentContainerStyle={{margin: 20}}
+                      />
+                                </View>*/}
+        
+                  <TouchableOpacity onPress={() => callAPI()}>
+                    <View style={styles1.buttonContainer}>
+                      <Text style={styles1.buttonText}>Submit</Text>
+                    </View>
+                  </TouchableOpacity>
+              </View>
+              </View>
+            </Modal>
+            </View>
+            
+          );
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         if (!isLoading){
           return (
@@ -115,463 +602,13 @@ const ShelterScreen = ({navigation}) => {
 export default ShelterScreen;
 
 
-const Search = () => {
-  const type = [
-    {id: 0, key: 'Dog', isChecked: false},
-    {id: 1, key: 'Cat', isChecked: false},
-    {id: 2, key: 'Bird', isChecked: false},
-    {id: 3, key: 'Barnyard', isChecked: false},
-  ];
-
-  const dogBreed = [
-    {id: 0, key: 'Goldendoodle', isChecked: false},
-    {id: 1, key: 'Labradoodle', isChecked: false},
-    {id: 2, key: 'Pomeranian', isChecked: false},
-    {id: 3, key: 'Pug', isChecked: false},
-    {id: 4, key: 'Samoyed', isChecked: false},
-    {id: 5, key: 'Siberian Husky', isChecked: false},
-    {id: 6, key: 'Tibetan Mastiff', isChecked: false},
-    {id: 7, key: 'Yorkshire Terrier', isChecked: false},
-  ];
-
-  const catBreed = [
-    {id: 0, key: 'Bengal', isChecked: false},
-    {id: 1, key: 'Calico', isChecked: false},
-    {id: 2, key: 'Exotic Shorthair', isChecked: false},
-    {id: 3, key: 'Persian', isChecked: false},
-    {id: 4, key: 'Siamese', isChecked: false},
-    {id: 5, key: 'Siberian', isChecked: false},
-    {id: 6, key: 'Sphynx / Hairless Cat', isChecked: false},
-    {id: 7, key: 'Tabby', isChecked: false},
-  ];
-
-  const age = [
-    {id: 0, key: 'Baby', isChecked: false},
-    {id: 1, key: 'Young', isChecked: false},
-    {id: 2, key: 'Adult', isChecked: false},
-    {id: 3, key: 'Senior', isChecked: false},
-  ];
-
-  const gender = [
-    {id: 0, key: 'Female', isChecked: false},
-    {id: 1, key: 'Male', isChecked: false},
-  ];
-
-  const size = [
-    {id: 0, key: 'Small', isChecked: false},
-    {id: 1, key: 'Medium', isChecked: false},
-    {id: 2, key: 'Large', isChecked: false},
-  ];
-
-  const coat = [
-    {id: 0, key: 'Short', isChecked: false},
-    {id: 1, key: 'Medium', isChecked: false},
-    {id: 2, key: 'Long', isChecked: false},
-    {id: 3, key: 'Hairless', isChecked: false},
-    {id: 4, key: 'Curly', isChecked: false},
-  ];
-
-  const otherReqs = [
-    {id: 0, key: 'Good with Children', isChecked: false},
-    {id: 1, key: 'Good with Dogs', isChecked: false},
-    {id: 2, key: 'Good with Cats', isChecked: false},
-    {id: 3, key: 'House Trained', isChecked: false},
-    {id: 4, key: 'Declawed', isChecked: false},
-    {id: 5, key: 'Special Needs', isChecked: false},
-  ];
-
-  const handleChangeType = id => {
-    var typeTemp = checkedType.map(searchType => {
-      if (id === searchType.id) {
-        return {...searchType, isChecked: !searchType.isChecked};
-      }
-      return searchType;
-    });
-    setCheckedType(typeTemp);
-  };
-  const handleChangeDogBreed = id => {
-    var dogBreedTemp = checkedDogBreed.map(searchDogBreed => {
-      if (id === searchDogBreed.id) {
-        return {...searchDogBreed, isChecked: !searchDogBreed.isChecked};
-      }
-      return searchDogBreed;
-    });
-    setCheckedDogBreed(dogBreedTemp);
-  };
-  const handleChangeCatBreed = id => {
-    var catBreedTemp = checkedCatBreed.map(searchCatBreed => {
-      if (id === searchCatBreed.id) {
-        return {...searchCatBreed, isChecked: !searchCatBreed.isChecked};
-      }
-      return searchCatBreed;
-    });
-    setCheckedCatBreed(catBreedTemp);
-  };
-  const handleChangeAge = id => {
-    var ageTemp = checkedAge.map(searchAge => {
-      if (id === searchAge.id) {
-        return {...searchAge, isChecked: !searchAge.isChecked};
-      }
-      return searchAge;
-    });
-    setCheckedAge(ageTemp);
-  };
-  const handleChangeGender = id => {
-    var genderTemp = checkedGender.map(searchGender => {
-      if (id === searchGender.id) {
-        return {...searchGender, isChecked: !searchGender.isChecked};
-      }
-      return searchGender;
-    });
-    setCheckedGender(genderTemp);
-  };
-  const handleChangeSize = id => {
-    var sizeTemp = checkedSize.map(searchSize => {
-      if (id === searchSize.id) {
-        return {...searchSize, isChecked: !searchSize.isChecked};
-      }
-      return searchSize;
-    });
-    setCheckedSize(sizeTemp);
-  };
-  const handleChangeCoat = id => {
-    var coatTemp = checkedCoat.map(searchCoat => {
-      if (id === searchCoat.id) {
-        return {...searchCoat, isChecked: !searchCoat.isChecked};
-      }
-      return searchCoat;
-    });
-    setCheckedCoat(coatTemp);
-  };
-  const handleChangeOtherReqs = id => {
-    var otherReqsTemp = checkedOtherReqs.map(searchOtherReqs => {
-      if (id === searchOtherReqs.id) {
-        return {...searchOtherReqs, isChecked: !searchOtherReqs.isChecked};
-      }
-      return searchOtherReqs;
-    });
-    setCheckedOtherReqs(otherReqsTemp);
-  };
-
-  
-  function callAPI(searchChoices) {
-    sZipCode = [];
-    sType = [];
-    sAge = [];
-    sGender = [];
-    sSize = [];
-    if (!(zipCode >= 501 && zipCode.length == 5)) {
-      alert('You must enter a valid zipcode');
-      console.log('Call Cancelled');
-    } 
-    else {
-      searchChoices = [];
-      //sZipCode.push(zipCode);
-      for (let i = 0; i < checkedType.length; i++) {
-        if (checkedType[i].isChecked == true) {
-          searchChoices.push(checkedType[i].key);
-          sType.push(checkedType[i].key);
-        }
-      }
-      for (let i = 0; i < checkedDogBreed.length; i++) {
-        if (checkedDogBreed[i].isChecked == true) {
-          searchChoices.push({key: checkedDogBreed[i].key});
-        }
-      }
-      for (let i = 0; i < checkedCatBreed.length; i++) {
-        if (checkedCatBreed[i].isChecked == true) {
-          searchChoices.push({key: checkedCatBreed[i].key});
-        }
-      }
-      for (let i = 0; i < checkedAge.length; i++) {
-        if (checkedAge[i].isChecked == true) {
-          searchChoices.push(checkedAge[i].key);
-          sAge.push(checkedAge[i].key);
-        }
-      }
-      for (let i = 0; i < checkedGender.length; i++) {
-        if (checkedGender[i].isChecked == true) {
-          searchChoices.push(checkedGender[i].key);
-          sGender.push(checkedGender[i].key);
-        }
-      }
-      for (let i = 0; i < checkedSize.length; i++) {
-        if (checkedSize[i].isChecked == true) {
-          searchChoices.push(checkedSize[i].key);
-          sSize.push(checkedSize[i].key);
-        }
-      }
-      for (let i = 0; i < checkedCoat.length; i++) {
-        if (checkedCoat[i].isChecked == true) {
-          searchChoices.push({key: checkedCoat[i].key});
-        }
-      }
-      for (let i = 0; i < checkedOtherReqs.length; i++) {
-        if (checkedOtherReqs[i].isChecked == true) {
-          searchChoices.push({key: checkedOtherReqs[i].key});
-        }
-      }
-      editshowModal(!editShow);
-    }
-  };
-  const [editShow, editshowModal] = useState(false);
-  const [zipCode, setZipCode] = React.useState(zipCode);
-  const [checkedType, setCheckedType] = useState(type);
-  const [checkedDogBreed, setCheckedDogBreed] = useState(dogBreed);
-  const [checkedCatBreed, setCheckedCatBreed] = useState(catBreed);
-  const [checkedAge, setCheckedAge] = useState(age);
-  const [checkedGender, setCheckedGender] = useState(gender);
-  const [checkedSize, setCheckedSize] = useState(size);
-  const [checkedCoat, setCheckedCoat] = useState(coat);
-  const [checkedOtherReqs, setCheckedOtherReqs] = useState(otherReqs);
-  return (
-    <View>
-      <View>
-        <TouchableOpacity style={styles1.searchButton} onPress={() => editshowModal(!editShow)}>
-        <MaterialCommunityIcons name="magnify" color={'#FB5555'} size={40} />
-        </TouchableOpacity>
-      </View>
-      <Modal visible={editShow} transparent={true}>
-      <View style={styles1.modalBackground}>
-        <View style={styles1.modalContainer}>
-          <Text style={styles1.title}>New Search</Text>
-          <TouchableOpacity onPress={() => editshowModal(!editShow)}>
-            <Image style={styles1.xout} source={xImage} />
-          </TouchableOpacity>
-          <View style={styles1.ZipCodeContainer}>
-            <Text style={styles1.ZipCodeHeader}>Zip Code</Text>
-            <View style={styles1.ZipCodeInputBox}>
-              <TextInput
-                onChangeText={zipCode => {
-                  setZipCode(zipCode);
-                }}
-                value={zipCode}
-                
-                style={styles1.ZipCodeInputText}
-                maxLength={5}
-                keyboardType={'numeric'}
-              />
-            </View>
-          </View>
-
-          <View style={styles1.checkboxContainer}>
-            <Text style={styles1.checkboxHeader}>Type</Text>
-            <FlatList
-              numColumns={2}
-              data={checkedType}
-              renderItem={({item}) => (
-                <>
-                  <View style={styles1.checkboxFormat}>
-                    <TouchableOpacity
-                      value={item.isChecked}
-                      onPress={() => handleChangeType(item.id)}>
-                      {item.isChecked == true ? (
-                        <View style={styles1.CheckedBox} />
-                      ) : (
-                        <View style={styles1.unCheckedBox} />
-                      )}
-                    </TouchableOpacity>
-                    <Text style={styles1.checkboxText}>{item.key}</Text>
-                  </View>
-                </>
-              )}
-              contentContainerStyle={{margin: 20}}
-            />
-          </View>
-
-          {/*<View style={styles1.checkboxContainer}>
-              <Text style={styles1.checkboxHeader}>Dog Breeds</Text>
-              <FlatList
-                numColumns={2}
-                data={checkedDogBreed}
-                renderItem={({item}) => (
-                  <>
-                    <View style={styles1.checkboxFormat}>
-                      <TouchableOpacity
-                        value={item.isChecked}
-                        onPress={() => handleChangeDogBreed(item.id)}>
-                        {item.isChecked == true ? (
-                          <View style={styles1.CheckedBox} />
-                        ) : (
-                          <View style={styles1.unCheckedBox} />
-                        )}
-                      </TouchableOpacity>
-                      <Text style={styles1.checkboxText}>{item.key}</Text>
-                    </View>
-                  </>
-                )}
-                contentContainerStyle={{margin: 20}}
-              />
-            </View>
-
-            <View style={styles1.checkboxContainer}>
-              <Text style={styles1.checkboxHeader}>Cat Breeds</Text>
-              <FlatList
-                numColumns={2}
-                data={checkedCatBreed}
-                renderItem={({item}) => (
-                  <>
-                    <View style={styles1.checkboxFormat}>
-                      <TouchableOpacity
-                        value={item.isChecked}
-                        onPress={() => handleChangeCatBreed(item.id)}>
-                        {item.isChecked == true ? (
-                          <View style={styles1.CheckedBox} />
-                        ) : (
-                          <View style={styles1.unCheckedBox} />
-                        )}
-                      </TouchableOpacity>
-                      <Text style={styles1.checkboxText}>{item.key}</Text>
-                    </View>
-                  </>
-                )}
-                contentContainerStyle={{margin: 20}}
-              />
-                        </View>*/}
-
-          <View style={styles1.checkboxContainer}>
-            <Text style={styles1.checkboxHeader}>Age</Text>
-            <FlatList
-              numColumns={2}
-              data={checkedAge}
-              renderItem={({item}) => (
-                <>
-                  <View style={styles1.checkboxFormat}>
-                    <TouchableOpacity
-                      value={item.isChecked}
-                      onPress={() => handleChangeAge(item.id)}>
-                      {item.isChecked == true ? (
-                        <View style={styles1.CheckedBox} />
-                      ) : (
-                        <View style={styles1.unCheckedBox} />
-                      )}
-                    </TouchableOpacity>
-                    <Text style={styles1.checkboxText}>{item.key}</Text>
-                  </View>
-                </>
-              )}
-              contentContainerStyle={{margin: 20}}
-            />
-          </View>
-
-          <View style={styles1.checkboxContainer}>
-            <Text style={styles1.checkboxHeader}>Gender</Text>
-            <FlatList
-              numColumns={2}
-              data={checkedGender}
-              renderItem={({item}) => (
-                <>
-                  <View style={styles1.checkboxFormat}>
-                    <TouchableOpacity
-                      value={item.isChecked}
-                      onPress={() => handleChangeGender(item.id)}>
-                      {item.isChecked == true ? (
-                        <View style={styles1.CheckedBox} />
-                      ) : (
-                        <View style={styles1.unCheckedBox} />
-                      )}
-                    </TouchableOpacity>
-                    <Text style={styles1.checkboxText}>{item.key}</Text>
-                  </View>
-                </>
-              )}
-              contentContainerStyle={{margin: 20}}
-            />
-          </View>
-
-          <View style={styles1.checkboxContainer}>
-            <Text style={styles1.checkboxHeader}>Size</Text>
-            <FlatList
-              numColumns={2}
-              data={checkedSize}
-              renderItem={({item}) => (
-                <>
-                  <View style={styles1.checkboxFormat}>
-                    <TouchableOpacity
-                      value={item.isChecked}
-                      onPress={() => handleChangeSize(item.id)}>
-                      {item.isChecked == true ? (
-                        <View style={styles1.CheckedBox} />
-                      ) : (
-                        <View style={styles1.unCheckedBox} />
-                      )}
-                    </TouchableOpacity>
-                    <Text style={styles1.checkboxText}>{item.key}</Text>
-                  </View>
-                </>
-              )}
-              contentContainerStyle={{margin: 20}}
-            />
-          </View>
-
-          {/*<View style={styles1.checkboxContainer}>
-              <Text style={styles1.checkboxHeader}>Coat</Text>
-              <FlatList
-                numColumns={2}
-                data={checkedCoat}
-                renderItem={({item}) => (
-                  <>
-                    <View style={styles1.checkboxFormat}>
-                      <TouchableOpacity
-                        value={item.isChecked}
-                        onPress={() => handleChangeCoat(item.id)}>
-                        {item.isChecked == true ? (
-                          <View style={styles1.CheckedBox} />
-                        ) : (
-                          <View style={styles1.unCheckedBox} />
-                        )}
-                      </TouchableOpacity>
-                      <Text style={styles1.checkboxText}>{item.key}</Text>
-                    </View>
-                  </>
-                )}
-                contentContainerStyle={{margin: 20}}
-              />
-            </View>
-
-            <View style={styles1.checkboxContainer}>
-              <Text style={styles1.checkboxHeader}>Other Requirements</Text>
-              <FlatList
-                numColumns={2}
-                data={checkedOtherReqs}
-                renderItem={({item}) => (
-                  <>
-                    <View style={styles1.checkboxFormat}>
-                      <TouchableOpacity
-                        value={item.isChecked}
-                        onPress={() => handleChangeOtherReqs(item.id)}>
-                        {item.isChecked == true ? (
-                          <View style={styles1.CheckedBox} />
-                        ) : (
-                          <View style={styles1.unCheckedBox} />
-                        )}
-                      </TouchableOpacity>
-                      <Text style={styles1.checkboxText}>{item.key}</Text>
-                    </View>
-                  </>
-                )}
-                contentContainerStyle={{margin: 20}}
-              />
-                        </View>*/}
-
-          <TouchableOpacity onPress={() => callAPI()}>
-            <View style={styles1.buttonContainer}>
-              <Text style={styles1.buttonText}>Submit</Text>
-            </View>
-          </TouchableOpacity>
-      </View>
-      </View>
-    </Modal>
-    </View>
-    
-  );
-}
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
     },
     title: {
         fontSize: 40,
@@ -596,16 +633,29 @@ const styles = StyleSheet.create({
       padding: 10,
       margin: 10,
       borderRadius: 20,
+      elevation: 5,
     },
     animalName: {
       color: '#6867ac',
-      fontSize: 20,
+      fontSize: 18,
+      marginTop: 2,
+      fontWeight: 'bold',
+      marginLeft: 5,
     },
     animalImg: {
-      width: 135, 
-      height: 135, 
+      width: '94%',
+      height: 135,
       borderRadius: 20,
-    }
+      marginLeft: 4.5,
+      marginTop: 5,
+    },
+    expandTile: {
+      fontSize: 10,
+      marginTop: 1,
+      fontWeight: 'bold',
+      marginLeft: 87,
+      color: '#CE7BB0',
+    },
 })
 
 const styles1 = StyleSheet.create({
