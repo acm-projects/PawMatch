@@ -11,9 +11,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MainTabScreen from './screens/MainTabScreen';
 
-import LoginScreen from './screens/LoginScreen';
-import RegistrationScreen from './screens/RegistrationScreen';
-import WelcomeScreen from './screens/WelcomeScreen';
+import LoginScreen from './screens/WelcomePages/LoginScreen';
+import RegistrationScreen from './screens/WelcomePages/RegistrationScreen';
+import WelcomeScreen from './screens/WelcomePages/WelcomeScreen';
+import InfoScreen from './screens/WelcomePages/InfoScreen';
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 
 const Stack = createNativeStackNavigator();

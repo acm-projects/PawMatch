@@ -30,8 +30,18 @@ function AnimalTile({navigation}) {
   };
 
   var image;
-  if (liked.animal.primary_photo_cropped === null){
-    image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1200px-Grey_close_x.svg.png';
+  if ( liked.animal.primary_photo_cropped === null){
+    if (liked.animal.type === 'Dog'){
+        image = 'https://i.pinimg.com/564x/43/7a/9d/437a9d58adfe0b277efc3d6906d6a55c.jpg';
+    } else if (iked.animal.type === 'Cat') {
+        image = 'https://i.pinimg.com/564x/ad/f8/de/adf8dea81bb563653fca398ce4d53040.jpg';
+    } else if (iked.animal.type == 'Bird') {
+        image = 'https://i.pinimg.com/564x/66/4c/45/664c45cf13a13b3a3c57fe6f2e3149cb.jpg';
+    } else if (iked.animal.type === 'Barnyard') {
+        image = 'https://i.pinimg.com/564x/ae/bd/81/aebd81411b57b56353edbf2f50616f52.jpg';
+    } else {
+        image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1200px-Grey_close_x.svg.png';
+    }
   } else {
     image = liked.animal.primary_photo_cropped.small;
   }
