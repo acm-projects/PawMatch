@@ -1,8 +1,14 @@
+//https://www.freepik.com/free-vector/cute-cat-with-love-heart-cartoon-vector-icon-illustration_16551084.htm
+//https://www.freepik.com/free-vector/cute-parrot-bird-branch-cartoon-animal-wildlife-icon-concept-isolated-flat-cartoon-style_10920712.htm
+//https://www.freepik.com/free-vector/cute-pug-dog-sitting-blue_13607154.htm
+//https://www.freepik.com/free-vector/hen-with-chick-cartoon-illustration_10555268.htm
+//https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1200px-Grey_close_x.svg.png
+
 import React, {useState, useEffect} from "react";
 import {TouchableOpacity, View, ScrollView, FlatList, TextInput, Modal, Text, StyleSheet, Image } from 'react-native';
 import xImage from '../../icons/x.png';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import apiJSON from '../../api/apicall.json';
+//import apiJSON from '../../api/apicall.json';
 //import {sZipCode, sAge, sType, sSize, sGender, sSearchState} from "./InterestPage";
 
 var petfinder = require("@petfinder/petfinder-js");
@@ -56,10 +62,20 @@ const ShelterScreen = ({navigation}) => {
 
             var text = 'expand>>';
 
-            const{name, breeds, primary_photo_cropped, age, gender, size, status, contact, attributes, species} = props.animal;
+            const{name, type, breeds, primary_photo_cropped, age, gender, size, status, contact, attributes, species} = props.animal;
             var image;
             if ( primary_photo_cropped === null){
-              image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1200px-Grey_close_x.svg.png';
+              if (type === 'Dog'){
+                  image = 'https://i.pinimg.com/564x/43/7a/9d/437a9d58adfe0b277efc3d6906d6a55c.jpg';
+              } else if (type === 'Cat') {
+                  image = 'https://i.pinimg.com/564x/ad/f8/de/adf8dea81bb563653fca398ce4d53040.jpg';
+              } else if (type == 'Bird') {
+                  image = 'https://i.pinimg.com/564x/66/4c/45/664c45cf13a13b3a3c57fe6f2e3149cb.jpg';
+              } else if (type === 'Barnyard') {
+                  image = 'https://i.pinimg.com/564x/ae/bd/81/aebd81411b57b56353edbf2f50616f52.jpg';
+              } else {
+                  image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1200px-Grey_close_x.svg.png';
+              }
             } else {
               image = primary_photo_cropped.small;
             }

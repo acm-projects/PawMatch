@@ -152,7 +152,23 @@ export default HomeScreen;
 
 
 const FrontCard = (props) => {
-  const{name, image, breed,} = props.animal;
+  const{name, breeds, primary_photo_cropped} = props.animal;
+  var image;
+          if ( primary_photo_cropped === null){
+            if (type === 'Dog'){
+                image = 'https://i.pinimg.com/564x/43/7a/9d/437a9d58adfe0b277efc3d6906d6a55c.jpg';
+              } else if (type === 'Cat') {
+                  image = 'https://i.pinimg.com/564x/ad/f8/de/adf8dea81bb563653fca398ce4d53040.jpg';
+              } else if (type == 'Bird') {
+                  image = 'https://i.pinimg.com/564x/66/4c/45/664c45cf13a13b3a3c57fe6f2e3149cb.jpg';
+              } else if (type === 'Barnyard') {
+                  image = 'https://i.pinimg.com/564x/ae/bd/81/aebd81411b57b56353edbf2f50616f52.jpg';
+              } else {
+                  image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1200px-Grey_close_x.svg.png';
+              }
+            } else {
+              image = primary_photo_cropped.small;
+            }
   return(
   <View style={styles.cardFront}>
       <ImageBackground 
@@ -160,8 +176,7 @@ const FrontCard = (props) => {
           style={styles.image}>
           <View style={styles.cardInner}>
             <Text style ={styles.name}>{name}</Text>
-            <Text style ={styles.breed}>{breed}</Text>
-            
+            <Text style ={styles.breed}>{breeds.primary}</Text>
           </View>
       </ImageBackground>
   </View>
@@ -169,23 +184,21 @@ const FrontCard = (props) => {
 };
 
 
+//KIDS, VACCINATED
 const BackCard = (props) => {
-  const{name, breed, bio, age, gender, size, shelter, shelterAddress, shelterNumber, vaccinated, kids} = props.animal;
+  const{name, breeds, description, age, gender, size, contact, attributes} = props.animal;
   return(
     <View style={styles.cardInner}>
       <Text style ={styles.name}>{name}</Text>
-      <Text style ={styles.breed}>{breed}</Text>
-      <Text style ={styles.text}>{bio}</Text>
+      <Text style ={styles.breed}>{breeds.primary}</Text>
+      <Text style ={styles.text}>{description}</Text>
       <Text style ={styles.text}></Text>
-      <Text style ={styles.text}>Shelter: {shelter}</Text>
-      <Text style ={styles.text}>{shelterAddress}</Text>
-      <Text style ={styles.text}>{shelterNumber}</Text>
+      <Text style ={styles.text}>Phone: {contact.phone}</Text>
+      <Text style ={styles.text}>Email: {contact.email}</Text>
       <Text style ={styles.text}></Text>
       <Text style ={styles.text}>Age: {age}</Text>
       <Text style ={styles.text}>Gender: {gender}</Text>
       <Text style ={styles.text}>Size: {size}</Text>
-      <Text style ={styles.text}>Vaccinated: {vaccinated}</Text>
-      <Text style ={styles.text}>Good with kids: {kids}</Text>
     </View>
   );
 };
