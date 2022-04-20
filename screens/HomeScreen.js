@@ -24,6 +24,21 @@ const HomeScreen = ({navigation}, props) => {
 
 //TRAVERSE THROUGH CARD STACK, UPDATE INDEX, AND FLIP TO FRONT OF CARD
 const [index, setIndex] = useState(0);
+const [Id, setId] = useState(null);
+const [name, setName] = useState(null);
+const [breed, setBreed] = useState(null);
+const [image, setImage] = useState(null);
+const [bio, setBio] = useState(null);
+const [size, setSize] = useState(null);
+const [link, setLink] = useState(null);
+const [gender, setGender] = useState(null);
+const [trained, setTrained] = useState(null);
+const [vaccinated, setVaccinated] = useState(null);
+const [shelter, setShelter] = useState(null);
+
+const user = firebase.auth().currentUser;
+const userID = user.uid;
+
   const increaseIndex = () => {
     if (index == (animals.length - 1) ) {
       setIndex(index);
@@ -32,81 +47,77 @@ const [index, setIndex] = useState(0);
     else {
       setIndex(index + 1);
     }
-  }
-  
-  var liked = [];
-  var superLiked = [];
-  // var backPress, dislikePress = 0, likePress = 0, superLikePress = 0;
-  const [backPress, setBackPress] = useState(false);
-  const [dislikePress, setDislikePress] = useState(false);
-  const [likePress, setLikePress] = useState(false);
-  const [superLikePress, setSuperLikePress] = useState(false);
-  const user = firebase.auth().currentUser;
-  const userID = user.uid;
+  }  
+
   const decreaseIndex = () => {
-    setBackPress(true);
     if (index == 0) {
+      let animalcard = animals[index];
+      setId(animalcard.id)
+      firestore().collection('users').doc(userID).collection('liked').doc(Id).delete()
+      firestore().collection('users').doc(userID).collection('superLiked').doc(Id).delete()
       setIndex(0);
       console.log("Reached beginning of stack");
-      setBackPress(false);
     }
     else {
+      let animalcard = animals[index];
+      setId(animalcard.id)
+      firestore().collection('users').doc(userID).collection('liked').doc(Id).delete()
+      firestore().collection('users').doc(userID).collection('superLiked').doc(Id).delete()
       setIndex(index - 1);
-      if (likePress == 1) {
-        liked.pop()
-        firestore().collection('users').doc(userID).update({liked})
-      }
-      else if (superLikePress == 1) {
-        superLiked.pop()
-        firestore().collection('users').doc(userID).update({superLiked})
-      }
-      console.log("LikePress: " + likePress + " SuperLikePress: " + superLikePress)
-      setBackPress(false);
     }
     checkCard();
     console.log("Back button pressed");
+    
   }
 
   const dislike = () => {
-    resetPressed();
-    setDislikePress(true)
     increaseIndex();
     checkCard();
   }
 
   const like = () => {
-    // liked.push(animals.id);
-    resetPressed()
-    setLikePress(true)
-    liked.push('a')
-    firestore().collection('users').doc(userID).add(arrayUnion({liked}))
+    let animalcard = animals[index];
+    setId(animalcard.id);
+    setName(animalcard.name);
+    setBreed(animalcard.breed);
+    setImage(animalcard.image);
+    setBio(animalcard.bio);
+    setSize(animalcard.size);
+    setLink(animalcard.link);
+    setGender(animalcard.gender);
+    setTrained(animalcard.trained);
+    setVaccinated(animalcard.vaccinated);
+    setShelter(animalcard.shelter);
+    firestore().collection('users').doc(userID).collection('liked').doc(Id).set({
+      Id, name, breed, image, bio, size, link, gender, trained, vaccinated, shelter
+    })
     increaseIndex();
     checkCard();
     console.log("Like button pressed");
+    
   }
 
   const superLike = () => {
-    resetPressed()
-    setSuperLikePress(true)
-    superLiked.push('a')
-    firestore().collection('users').doc(userID).add({superLiked})
+    let animalcard = animals[index];
+    setId(animalcard.id);
+    setName(animalcard.name);
+    setBreed(animalcard.breed);
+    setImage(animalcard.image);
+    setBio(animalcard.bio);
+    setSize(animalcard.size);
+    setLink(animalcard.link);
+    setGender(animalcard.gender);
+    setTrained(animalcard.trained);
+    setVaccinated(animalcard.vaccinated);
+    setShelter(animalcard.shelter);
+    firestore().collection('users').doc(userID).collection('superLiked').doc(Id).set({
+      Id, name, breed, image, bio, size, link, gender, trained, vaccinated, shelter
+    })
     increaseIndex();
     checkCard();
     console.log("Super Like button pressed");
+    
   }
-
-  const resetPressed = () => {
-    if (dislikePress == true) {
-      setDislikePress(false);
-    }
-    else if (likePress == true) {
-      setLikePress(false);
-    }
-    else if (superLikePress == true) {
-      setSuperLikePress(false);
-    }
-  }
-
 
 //CARD FLIP ANIMATION
   const animate = useRef(new Animated.Value(0));
@@ -137,25 +148,6 @@ const [index, setIndex] = useState(0);
     if (isFlipped == true)
       flipCard();
   }
-  
-  // STORE LIKES/SUPER LIKES INTO FIREBASE
-  const storeLike = (id) => {
-    liked.push(id);
-    const user = firebase.auth().currentUser;
-    const userID = user.uid;
-    firestore().collection('users').doc(userID).update({liked})
-  }
-
-  
-  const storeLiked = (props) => {
-    const{id} = props.animal;
-    liked.push(id);
-    const user = firebase.auth().currentUser;
-    const userID = user.uid;
-    firestore().collection('users').doc(userID).update({liked})
-  }
-  
-
 
   return (
     
@@ -213,7 +205,7 @@ export default HomeScreen;
 
 const FrontCard = (props) => {
   const{name, image, breed, bio} = props.animal;
-  return(
+  return (
   <View style={styles.cardFront}>
       <ImageBackground 
           source={{uri: image,}} 
