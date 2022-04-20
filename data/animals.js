@@ -9,11 +9,6 @@ export default [
       age: 'Young',
       gender: 'Female',
       size: 'Small',
-      shelter: 'Dallas Pet Rescue',
-      shelterAddress: '123 Animal Street, Dallas, TX',
-      shelterNumber: '123-456-7890',
-      vaccinated: 'Yes',
-      kids: 'Yes',
     },
     {
       id: '2',
