@@ -28,16 +28,19 @@ const LikedScreen = ({navigation}) => {
 
   function getAnimals(animalData) {
     if (isLoading) {
+      
       for (var i = 0; i < animalData.length; i++) {
         client.animal.show(animalData[i]).then(function (response) {
           likedAnimalsData.push(response.data.animal);
           setApiData(likedAnimalsData);
           //console.log(resp.data.animal.name);
         });
+        
       }
       setLoading(false);
     }
   }
+
 
   getAnimals(likedAnimals);
   //console.log(apiData);
@@ -46,7 +49,7 @@ const LikedScreen = ({navigation}) => {
     function expandTile() {
       navigation.replace('Tile', {paramKey: props});
     }
-
+ 
     var text = 'expand>>';
 
     const {
@@ -109,6 +112,7 @@ const LikedScreen = ({navigation}) => {
     );
   } else {
     return (
+
       <ScrollView style={{flex: 1, backgroundColor: '#fbfbfb'}}>
         <Text style={styles.title}>Favorites</Text>
         <Text style={{marginLeft: 80, marginTop: 10, fontSize: 20}}>
