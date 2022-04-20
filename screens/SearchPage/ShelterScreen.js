@@ -74,7 +74,7 @@ const ShelterScreen = ({navigation}) => {
               } else if (type === 'Barnyard') {
                   image = 'https://i.pinimg.com/564x/ae/bd/81/aebd81411b57b56353edbf2f50616f52.jpg';
               } else {
-                  image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1200px-Grey_close_x.svg.png';
+                  image = 'https://i.pinimg.com/564x/b4/fa/a2/b4faa20fcf903eaaafd7e1c063c85555.jpg';
               }
             } else {
               image = primary_photo_cropped.small;
@@ -89,7 +89,7 @@ const ShelterScreen = ({navigation}) => {
             );
           };
 
-       searchAnimalsMore(sZipCode[0], sType[0], sAge[0], sGender[0], sSize[0], 6);
+       searchAnimalsMore(sZipCode[0], sType[0], sAge[0], sGender[0], sSize[0], 10);
        /*
        if (isNewSearch.length != sSearchState.length){
         setSearch(sSearchState);
