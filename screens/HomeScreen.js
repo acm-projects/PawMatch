@@ -18,6 +18,8 @@ import dislikeImage from '../icons/dislike.png';
 import likeImage from '../icons/heart.png';
 import superlikeImage from '../icons/star3.png';
 
+
+
 // add shelter to tinder card, address and phone #
 // more info added to card
 // color ideas for ui
@@ -203,7 +205,7 @@ export default HomeScreen;
 
 
 
-
+const data = Array.from({ length: 500});
 
 const FrontCard = (props) => {
   const{name, breeds, primary_photo_cropped} = props.animal;
@@ -228,11 +230,32 @@ const FrontCard = (props) => {
       <ImageBackground 
           source={{uri: image,}} 
           style={styles.image}>
+
+            {data.map((_, i) => (
+              <View
+                key={i}
+                style = {{
+                  position: 'absolute',
+                  backgroundColor: '#e03672',
+                  height: 7,
+                  bottom: (150 - i),
+                  right: 0,
+                  left: 0,
+                  zIndex: 2,
+                  opacity: (1 / 1000) * (i + 1),
+                }}/>
+            ))}
+
           <View style={styles.cardInner}>
             <Text style ={styles.name}>{name}</Text>
             <Text style ={styles.breed}>{breeds.primary}</Text>
           </View>
+
       </ImageBackground>
+      <View style = {styles.cardGradient}>
+          <Text style ={styles.name}>{name}</Text>
+          <Text style ={styles.breed}>{breed}</Text>
+      </View>
   </View>
   );
 };
@@ -326,9 +349,16 @@ const styles = StyleSheet.create({
       resizeMode: 'cover',
     },
   
+    cardGradient: {
+      position: 'absolute', 
+      justifyContent: 'center', 
+      alignContent: 'center', 
+      padding: 10, 
+      bottom: 0,
+    },
+
     cardInner: {
       padding: 10,
-      //backgroundColor: 'pink'
     },
   
     name:{
