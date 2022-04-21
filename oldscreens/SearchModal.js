@@ -7,7 +7,7 @@ import xImage from './x.png';
 export default class SearchModal extends Component {
 
     state = {
-        modal: true,
+        modal: false,
     }
 
     constructor(props) {
@@ -55,15 +55,10 @@ export default class SearchModal extends Component {
                             <TouchableOpacity onPress={() => {this.handleModal()}}>
                                 <Image source={xImage} style={styles.xout}/>
                             </TouchableOpacity>
-                            <Text style={styles.searchTitle}>Animal Search</Text>
-                                {/* <Interests /> */}
+                            <Text style={styles.searchTitle}>Select Search</Text>
                             
                             <Interests />
-
-
-
-                            
-                            
+ 
                         </View>
                     </SafeAreaView>
                 </Modal>
@@ -92,8 +87,7 @@ const styles = StyleSheet.create({
     buttonContainer: {
         alignItems: 'center',
         backgroundColor: '#FB5555',
-        marginVertical: 15,
-        marginHorizontal: 80,
+        marginHorizontal: 120,
         padding: 10,
         borderRadius: 20,
     },
