@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   TouchableOpacity,
   View,
@@ -7,8 +7,10 @@ import {
   StyleSheet,
   Image,
   SafeAreaView,
+  Button,
 } from 'react-native';
-
+import auth, { firebase } from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 var petfinder = require('@petfinder/petfinder-js');
 //var client = new petfinder.Client({apiKey: "BW2quofQcKQRW8zaW5nxGCLiYxvlnYPZWfoWhD19EMp9oHbmjJ", secret: "zrA4VcQo24kvI21xAZjE6Ok8ZD6EZjEQ3JPBJ6hA"});
 //var client = new petfinder.Client({apiKey: "TRGJgs572EMIApod6zYEZCFeIgKpgKzOex5CcaVG9pErBo9y4U", secret: "eZmBINe8wGKxdaNlQ7m4Ae0QV0lUqCalI6YkLrFx"});
@@ -22,48 +24,78 @@ var likedAnimals = [55083515, 55083513, 55083530];
 var likedAnimalsData = [];
 
 const LikedScreen = ({navigation}) => {
+  // const [isLoading, setLoading] = useState(true);
   const [apiData, setApiData] = useState([]);
-  const [isLoading, setLoading] = useState(true);
+  
   animalKey = 0;
 
-  function getAnimals(animalData) {
-    if (isLoading) {
+  // function getAnimals(animalData) {
+  //   if (isLoading) {
       
-      for (var i = 0; i < animalData.length; i++) {
-        client.animal.show(animalData[i]).then(function (response) {
-          likedAnimalsData.push(response.data.animal);
-          setApiData(likedAnimalsData);
-          //console.log(resp.data.animal.name);
-        });
+  //     for (var i = 0; i < animalData.length; i++) {
+  //       client.animal.show(animalData[i]).then(function (response) {
+  //         likedAnimalsData.push(response.data.animal);
+  //         setApiData(likedAnimalsData);
+  //         //console.log(resp.data.animal.name);
+  //       });
         
-      }
-      setLoading(false);
+  //     }
+  //     setLoading(false);
+  //   }
+  // }
+
+
+  // getAnimals(likedAnimals);
+  // //console.log(apiData);
+
+  var list = [];
+  const [likedData, setLikedData] = useState([])
+  const {uid} = auth().currentUser;
+  const getLiked = async () => {
+    try {
+      const snapshot = await firestore()
+        .collection('users')
+        .doc(uid)
+        .collection('liked')
+        .get()
+    //     .then(collectionSnapshot => {
+    //       console.log('Total liked: ', collectionSnapshot.size);
+    // });
+        snapshot.forEach((doc) => {
+          list.push(doc.data());
+        });
+        setLikedData([...list]);
+        
+    } catch {
+
     }
+  };
+
+  useEffect(() => {
+    getLiked();
+  }, []);
+  
+
+  
+
+
+  function output() {
+    likedData.map(item => {
+      console.log(item.animalcard.size);
+    })
+    
   }
-
-
-  getAnimals(likedAnimals);
-  //console.log(apiData);
 
   const Tile = props => {
     function expandTile() {
       navigation.replace('Tile', {paramKey: props});
     }
- 
-    var text = 'expand>>';
-
     const {
-      name,
-      breeds,
-      primary_photo_cropped,
-      age,
-      gender,
-      size,
-      status,
-      contact,
-      attributes,
-      species,
-    } = props.animal;
+      name, breeds, primary_photo_cropped,
+      type, age, gender,
+      size, status, contact,
+      attributes, species,
+    } = props.i;
     var image;
     if (primary_photo_cropped === null) {
       if (type === 'Dog') {
@@ -90,45 +122,45 @@ const LikedScreen = ({navigation}) => {
         <Image style={styles.animalImg} source={{uri: image}} />
         <Text style={styles.animalName}>{name}</Text>
         <Text style={{marginLeft: 5, color: '#6867ac'}}>{breeds.primary}</Text>
-        <Text style={styles.expandTile}>{text}</Text>
       </TouchableOpacity>
     );
   };
 
-  if (!isLoading) {
+  // if (!isLoading) {
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: '#fff2f7'}}>
         <ScrollView>
           <View>
             <Text style={styles.title}>Favorites</Text>
           </View>
+          {/* <Button title={'output'} onPress={() => output()}/> */}
           <View style={styles.container}>
-            {apiData.map(i => (
-              <Tile key={i.id} animal={i} />
-            ))}
+            { likedData == []
+            ? (<Text>Like Pets to Show Up Here!</Text>)
+            : (likedData?.map(i => (
+              <Tile i={i.animalcard} key={i.animalcard}/> 
+                ))
+              )
+            
+            }
+            
           </View>
         </ScrollView>
       </SafeAreaView>
     );
-  } else {
-    return (
+  // } else {
+  //   return (
 
-      <ScrollView style={{flex: 1, backgroundColor: '#fbfbfb'}}>
-        <Text style={styles.title}>Favorites</Text>
-        <Text style={{marginLeft: 80, marginTop: 10, fontSize: 20}}>
-          Searching for...
-        </Text>
-      </ScrollView>
-    );
-  }
+  //     <ScrollView style={{flex: 1, backgroundColor: '#fbfbfb'}}>
+  //       <Text style={styles.title}>Favorites</Text>
+  //       <Text style={{marginLeft: 80, marginTop: 10, fontSize: 20}}>
+  //         Searching for...
+  //       </Text>
+  //     </ScrollView>
+  //   );
+  // }
 };
-/**
- * <View style={styles.container}>
-            {apiData.map(i => (
-              <Tile key={i.id} animal={i} />
-            ))}
-          </View>  
- */
+
 export default LikedScreen;
 
 const styles = StyleSheet.create({

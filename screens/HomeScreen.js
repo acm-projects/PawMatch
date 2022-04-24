@@ -26,25 +26,26 @@ const HomeScreen = ({navigation}, props) => {
 
 //TRAVERSE THROUGH CARD STACK, UPDATE INDEX, AND FLIP TO FRONT OF CARD
 const [index, setIndex] = useState(0);
-const [Id, setId] = useState(null);
-const [name, setName] = useState(null);
-const [breed, setBreed] = useState(null);
-const [image, setImage] = useState(null);
-const [bio, setBio] = useState(null);
-const [size, setSize] = useState(null);
-const [link, setLink] = useState(null);
-const [gender, setGender] = useState(null);
-const [trained, setTrained] = useState(null);
-const [vaccinated, setVaccinated] = useState(null);
-const [shelter, setShelter] = useState(null);
+// const [Id, setId] = useState(123);
+// const [name, setName] = useState(null);
+// const [breed, setBreed] = useState(null);
+// const [image, setImage] = useState(null);
+// const [bio, setBio] = useState(null);
+// const [size, setSize] = useState(null);
+// const [link, setLink] = useState(null);
+// const [gender, setGender] = useState(null);
+// const [trained, setTrained] = useState(null);
+// const [vaccinated, setVaccinated] = useState(null);
+// const [shelter, setShelter] = useState(null);
 
 const user = firebase.auth().currentUser;
 const userID = user.uid;
+var animalcard = animals[index];
 
   const increaseIndex = () => {
-    if (index == (animals.length - 1) ) {
-      setIndex(index);
+    if (index == 7) {
       console.log("Reached end of stack");
+      setIndex(index)
     }
     else {
       setIndex(index + 1);
@@ -53,18 +54,14 @@ const userID = user.uid;
 
   const decreaseIndex = () => {
     if (index == 0) {
-      let animalcard = animals[index];
-      setId(animalcard.id)
-      firestore().collection('users').doc(userID).collection('liked').doc(Id).delete()
-      firestore().collection('users').doc(userID).collection('superLiked').doc(Id).delete()
-      setIndex(0);
+      setIndex(index);
       console.log("Reached beginning of stack");
     }
     else {
-      let animalcard = animals[index];
-      setId(animalcard.id)
-      firestore().collection('users').doc(userID).collection('liked').doc(Id).delete()
-      firestore().collection('users').doc(userID).collection('superLiked').doc(Id).delete()
+      var animalcard = animals[index - 1];
+      let id = (animalcard.id).toString();
+      firestore().collection('users').doc(userID).collection('liked').doc(id).delete()
+      firestore().collection('users').doc(userID).collection('superLiked').doc(id).delete()
       setIndex(index - 1);
     }
     checkCard();
@@ -76,23 +73,18 @@ const userID = user.uid;
     increaseIndex();
     checkCard();
   }
-
+  // setBreed(animalcard.breed);
+    // setImage(animalcard.image);
+    // setBio(animalcard.bio);
+    // setSize(animalcard.size);
+    // setLink(animalcard.link);
+    // setGender(animalcard.gender);
+    // setTrained(animalcard.trained);
+    // setVaccinated(animalcard.vaccinated);
+    // setShelter(animalcard.shelter);
   const like = () => {
-    let animalcard = animals[index];
-    setId(animalcard.id);
-    setName(animalcard.name);
-    setBreed(animalcard.breed);
-    setImage(animalcard.image);
-    setBio(animalcard.bio);
-    setSize(animalcard.size);
-    setLink(animalcard.link);
-    setGender(animalcard.gender);
-    setTrained(animalcard.trained);
-    setVaccinated(animalcard.vaccinated);
-    setShelter(animalcard.shelter);
-    firestore().collection('users').doc(userID).collection('liked').doc(Id).set({
-      Id, name, breed, image, bio, size, link, gender, trained, vaccinated, shelter
-    })
+    let id = (animalcard.id).toString();
+    firestore().collection('users').doc(userID).collection('liked').doc(id).set({animalcard})
     increaseIndex();
     checkCard();
     console.log("Like button pressed");
@@ -100,25 +92,11 @@ const userID = user.uid;
   }
 
   const superLike = () => {
-    let animalcard = animals[index];
-    setId(animalcard.id);
-    setName(animalcard.name);
-    setBreed(animalcard.breed);
-    setImage(animalcard.image);
-    setBio(animalcard.bio);
-    setSize(animalcard.size);
-    setLink(animalcard.link);
-    setGender(animalcard.gender);
-    setTrained(animalcard.trained);
-    setVaccinated(animalcard.vaccinated);
-    setShelter(animalcard.shelter);
-    firestore().collection('users').doc(userID).collection('superLiked').doc(Id).set({
-      Id, name, breed, image, bio, size, link, gender, trained, vaccinated, shelter
-    })
+    let id = (animalcard.id).toString();
+    firestore().collection('users').doc(userID).collection('superLiked').doc(id).set({animalcard})
     increaseIndex();
     checkCard();
     console.log("Super Like button pressed");
-    
   }
 
 //CARD FLIP ANIMATION
@@ -240,20 +218,36 @@ const FrontCard = (props) => {
 
 //KIDS, VACCINATED
 const BackCard = (props) => {
-  const{name, breeds, description, age, gender, size, contact, attributes} = props.animal;
+  const{name, breeds, description, primary_photo_cropped, age, gender, size, contact, attributes} = props.animal;
+  var image;
+  if ( primary_photo_cropped === null){
+    if (type === 'Dog'){
+        image = 'https://i.pinimg.com/564x/43/7a/9d/437a9d58adfe0b277efc3d6906d6a55c.jpg';
+      } else if (type === 'Cat') {
+          image = 'https://i.pinimg.com/564x/ad/f8/de/adf8dea81bb563653fca398ce4d53040.jpg';
+      } else if (type == 'Bird') {
+          image = 'https://i.pinimg.com/564x/66/4c/45/664c45cf13a13b3a3c57fe6f2e3149cb.jpg';
+      } else if (type === 'Barnyard') {
+          image = 'https://i.pinimg.com/564x/ae/bd/81/aebd81411b57b56353edbf2f50616f52.jpg';
+      } else {
+          image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1200px-Grey_close_x.svg.png';
+      }
+    } else {
+      image = primary_photo_cropped.small;
+    }
   return(
-    <View style={styles.cardInner}>
-      <Text style ={styles.name}>{name}</Text>
-      <Text style ={styles.breed}>{breeds.primary}</Text>
-      <Text style ={styles.text}>{description}</Text>
-      <Text style ={styles.text}></Text>
-      <Text style ={styles.text}>Phone: {contact.phone}</Text>
-      <Text style ={styles.text}>Email: {contact.email}</Text>
-      <Text style ={styles.text}></Text>
-      <Text style ={styles.text}>Age: {age}</Text>
-      <Text style ={styles.text}>Gender: {gender}</Text>
-      <Text style ={styles.text}>Size: {size}</Text>
-    </View>
+      <View style={styles.cardInner}>
+        <Text style ={styles.name}>{name}</Text>
+        <Text style ={styles.breed}>{breeds.primary}</Text>
+        <Text style ={styles.text}>{description}</Text>
+        <Text style ={styles.text}></Text>
+        <Text style ={styles.text}>Phone: {contact.phone}</Text>
+        <Text style ={styles.text}>Email: {contact.email}</Text>
+        <Text style ={styles.text}></Text>
+        <Text style ={styles.text}>Age: {age}</Text>
+        <Text style ={styles.text}>Gender: {gender}</Text>
+        <Text style ={styles.text}>Size: {size}</Text>
+      </View>
   );
 };
 
@@ -320,10 +314,19 @@ const styles = StyleSheet.create({
       width: '100%',
       height: '100%',
       borderRadius: 10,
-      overflow: 'hidden', 
-  
+      overflow: 'hidden',   
       justifyContent: 'flex-end',
       resizeMode: 'cover',
+    },
+
+    imageBack: {
+      width: '100%',
+      height: '100%',
+      borderRadius: 10,
+      overflow: 'hidden',   
+      justifyContent: 'flex-end',
+      resizeMode: 'cover',
+      
     },
   
     cardInner: {

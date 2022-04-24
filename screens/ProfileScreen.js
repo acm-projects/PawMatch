@@ -190,8 +190,10 @@ const Interests = () => {
   const type = [
     {id: 0, key: 'Dog', isChecked: false},
     {id: 1, key: 'Cat', isChecked: false},
-    {id: 2, key: 'Bird', isChecked: false},
+    {id: 2, key: 'Rabbit', isChecked: false},
     {id: 3, key: 'Barnyard', isChecked: false},
+    {id: 4, key: 'Bird', isChecked: false},
+    {id: 5, key: 'Other', isChecked: false} 
   ];
 
   const dogBreed = [

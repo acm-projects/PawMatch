@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Button,
   View,
@@ -12,8 +12,26 @@ import {
 } from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import backArrowImage from '../../icons/11.png';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import auth, { firebase } from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import animalcard from '../SearchPage/ShelterScreen'
 
 function AnimalTile({navigation}) {
+
+  const [like, setLike] = useState(false);
+  const storeLike = () => {
+    const user = firebase.auth().currentUser;
+    const userID = user.uid;
+    let animals = animalcard;
+    let id = animals.id;
+    console.log(animalcard);
+    setLike(!like);
+    if (like == true) {
+      firestore().collection('users').doc(userID).collection('liked').doc(id).set({animalcard})
+    }
+  }
+  
 
   const route = useRoute();
   const shelters = route.params.paramKey;
@@ -66,7 +84,17 @@ function AnimalTile({navigation}) {
             <Text>Size: {shelters.animal.size}</Text>
             <Text>Phone: {shelters.animal.contact.phone}</Text>
             <Text>Email: {shelters.animal.contact.email}</Text>
+            <TouchableOpacity style={{position: 'absolute', right: 16, top: 405}} onPress={storeLike}>
+              {
+                like == true
+                ? (<MaterialCommunityIcons name={"heart"} color={'red'} size={26}/>)
+                : (<MaterialCommunityIcons name={"heart-outline"} color={'red'} size={26}/>)
+              }
+              
+            </TouchableOpacity>
           </View>
+          
+          
           <TouchableOpacity
           style={{
             height: 100,

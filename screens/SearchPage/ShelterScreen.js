@@ -5,7 +5,7 @@
 //https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1200px-Grey_close_x.svg.png
 
 import React, {useState, useEffect} from "react";
-import {TouchableOpacity, View, ScrollView, FlatList, TextInput, Modal, Text, StyleSheet, Image } from 'react-native';
+import {TouchableOpacity, Button, View, ScrollView, FlatList, TextInput, Modal, Text, StyleSheet, Image } from 'react-native';
 import xImage from '../../icons/x.png';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 //import apiJSON from '../../api/apicall.json';
@@ -58,10 +58,15 @@ const ShelterScreen = ({navigation}) => {
 
             function expandTile() {
               navigation.replace("Tile2", {paramKey: props});
+              var animalcard = props.animal;
+              console.log(animalcard);
+              
+              return (
+                animalcard
+              );
             };
 
-            var text = 'expand>>';
-
+            
             const{name, type, breeds, primary_photo_cropped, age, gender, size, status, contact, attributes, species} = props.animal;
             var image;
             if ( primary_photo_cropped === null){
@@ -84,7 +89,6 @@ const ShelterScreen = ({navigation}) => {
                 <Image style={styles.animalImg} source={{uri: image}}/> 
                 <Text style={styles.animalName}>{name}</Text>
                 <Text style={{marginLeft: 5, color: '#6867ac'}}>{breeds.primary}</Text>
-                <Text style={styles.expandTile}>{text}</Text>
             </TouchableOpacity>
             );
           };
@@ -124,8 +128,10 @@ const ShelterScreen = ({navigation}) => {
           const type = [
             {id: 0, key: 'Dog', isChecked: false},
             {id: 1, key: 'Cat', isChecked: false},
-            {id: 2, key: 'Bird', isChecked: false},
+            {id: 2, key: 'Rabbit', isChecked: false},
             {id: 3, key: 'Barnyard', isChecked: false},
+            {id: 4, key: 'Bird', isChecked: false},
+            {id: 5, key: 'Other', isChecked: false} 
           ];
         
           const dogBreed = [
@@ -599,7 +605,7 @@ const ShelterScreen = ({navigation}) => {
                   )} 
                 </View>
             </ScrollView>
-            
+  
           );
         } else {
           return (
