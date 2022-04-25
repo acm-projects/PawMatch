@@ -317,6 +317,30 @@ const BackCard = (props) => {
         <View>{gender != null ? (<Text style={[styles.text, {fontSize: 21}]}>Gender: {gender}</Text>) : (<></>)}</View>
         <View>{size != null ? (<Text style={[styles.text, {fontSize: 21}]}>Size: {size}</Text>) : (<></>)}</View>
         <Text style ={styles.text}></Text>
+        <Text style ={[styles.text, {fontWeight: 'bold'}]}>Extra Info</Text>
+        <View>{attributes.special_needs != false 
+            ? (<Text style={styles.text}>Special Needs Pet!</Text>)
+            : (<></>)}
+        </View>
+        <View>{attributes.spayed_neutered != false 
+            ? (<Text style={styles.text}>Spayed/Neutered: Yes</Text>) 
+            : (<Text style={styles.text}>Spayed/Neutered: No</Text>)}
+        </View>
+        <View>{attributes.declawed != false && attributes.declawed != null
+            ? (<Text style={styles.text}>Declawed: Yes</Text>) 
+            : (<></>)}
+        </View>
+        <View>{attributes.shots_current != false 
+            ? (<Text style={styles.text}>Shots are Current</Text>) 
+            : (<Text style={styles.text}>Shots are NOT Current</Text>)}
+        </View>
+        
+        <View>{attributes.house_trained != false 
+            ? (<Text style={styles.text}>House Trained: Yes</Text>) 
+            : (<Text style={styles.text}>House Trained: No</Text>)}
+        </View>
+
+        <Text style ={styles.text}></Text>
         <Text style ={[styles.text, {fontWeight: 'bold'}]}>Shelter Info</Text>
         <View>{contact.phone != null ? (<Text style={styles.text}>Phone: {contact.phone}</Text>) : (<></>)}</View>
         <View>{contact.email != null ? (<Text style={styles.text}>Email: {contact.email}</Text>) : (<></>)}</View>
