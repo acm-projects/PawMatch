@@ -8,6 +8,10 @@ import React, {useState, useEffect} from "react";
 import {TouchableOpacity, Button, View, ScrollView, FlatList, TextInput, Modal, Text, StyleSheet, Image } from 'react-native';
 import xImage from '../../icons/x.png';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import auth, { firebase } from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import backArrowImage from '../../icons/11.png';
+
 //import apiJSON from '../../api/apicall.json';
 //import {sZipCode, sAge, sType, sSize, sGender, sSearchState} from "./InterestPage";
 
@@ -22,7 +26,6 @@ var sAge = [];
 var sGender = [];
 var sSize = [];
 var sSearchState = [];
-
 const ShelterScreen = ({navigation}) => {
     const [apiData, setApiData] = useState({});
     const [isLoading, setLoading] = useState(true);
@@ -36,62 +39,212 @@ const ShelterScreen = ({navigation}) => {
     console.log(sGender);
     console.log(sSize);
 */
-    function searchAnimalsMore(aZipcode, aType, aAge, aGender, aSize, lim) {
-      if (isLoading){
-        client.animal.search({
-          location: aZipcode,
-          type: aType,
-          age: aAge,
-          gender: aGender,
-          size: aSize,
-          limit: lim,
-        }).then(resp => {
-          setApiData(resp.data);
-          setLoading(false);
-          //setSearchState(false);
-          return resp.data;
-        });
+
+  function searchAnimalsMore(aZipcode, aType, aAge, aGender, aSize, lim) {
+    if (isLoading){
+      client.animal.search({
+        location: aZipcode,
+        type: aType,
+        age: aAge,
+        gender: aGender,
+        size: aSize,
+        limit: lim,
+      }).then(resp => {
+        setApiData(resp.data);
+        setLoading(false);
+        //setSearchState(false);
+        return resp.data;
+      });
+    }
+  }
+
+  const Tile = (props) => {
+    const{id, name, type, breeds, primary_photo_cropped, age, gender, size, status, contact, attributes, species} = props.animal;
+    var animalcard = [];
+    animalcard = props.animal;
+    const display = () => {
+      
+      console.log(animalcard);
+    }
+    var image;
+      if (primary_photo_cropped === null) {
+        if (type === 'Dog'){
+            image = 'https://i.pinimg.com/564x/43/7a/9d/437a9d58adfe0b277efc3d6906d6a55c.jpg';
+        } else if (type === 'Cat') {
+            image = 'https://i.pinimg.com/564x/ad/f8/de/adf8dea81bb563653fca398ce4d53040.jpg';
+        } else if (type == 'Bird') {
+            image = 'https://i.pinimg.com/564x/66/4c/45/664c45cf13a13b3a3c57fe6f2e3149cb.jpg';
+        } else if (type === 'Barnyard') {
+            image = 'https://i.pinimg.com/564x/ae/bd/81/aebd81411b57b56353edbf2f50616f52.jpg';
+        } else {
+            image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1200px-Grey_close_x.svg.png';
+        }
+      } else {
+        image = primary_photo_cropped.small;
       }
+    
+    const [cardVisible, setCardVisible] = useState(false);
+    function handleVisibility() {
+      setCardVisible(!cardVisible);
+    }
+    const [like, setLike] = useState(false);
+    const storeLike = () => {
+      const user = firebase.auth().currentUser;
+      const userID = user.uid;
+      setLike(!like);
+      let Id = (id).toString();
+      if (like == true) {
+        firestore().collection('users').doc(userID).collection('liked').doc(Id).delete()
+      } else {
+        firestore().collection('users').doc(userID).collection('liked').doc(Id).set({animalcard})
+        
+      }
+      
     }
 
-        const Tile = (props) => {
-
-            function expandTile() {
-              navigation.replace("Tile2", {paramKey: props});
-              var animalcard = props.animal;
-              console.log(animalcard);
-              
-              return (
-                animalcard
-              );
-            };
-
+    if (cardVisible) {
+      return (
+        <Modal visible={true} style={{flex: 1, backgroundColor: 'white'}}>
+          <ScrollView>
+              <View style={styles2.tile}>
+                <TouchableOpacity onPress={() => handleVisibility()}>
+                  <Image source={backArrowImage} style={styles2.back} />
+                </TouchableOpacity>
+                  <Image style={styles2.animalImg} source={{uri: image}}/> 
+                  <Text style={styles2.animalName}>{name}</Text>
+                  <Text style={styles2.animalBreed}>{breeds.primary}</Text>
+                  <Text>Status: {status}</Text>
+                  <Text>Gender: {gender}</Text>
+                  <Text>Age: {age}</Text>
+                  <Text>Size: {size}</Text>
+                  <Text>Phone: {contact.phone}</Text>
+                  <Text>Email: {contact.email}</Text>
+                  <TouchableOpacity style={{position: 'absolute', right: 16, top: 405}} onPress={storeLike}>
+                    {
+                      like == true
+                      ? (<MaterialCommunityIcons name={"heart"} color={'red'} size={26}/>)
+                      : (<MaterialCommunityIcons name={"heart-outline"} color={'red'} size={26}/>)
+                    }
+                  </TouchableOpacity>
+                  
+              </View>
+                
+                
+                <TouchableOpacity
+                style={{
+                  height: 100,
+                  width: 370,
+                  marginLeft: 12,
+                  marginRight: 20,
+                  justifyContent: 'center',
+                  borderRadius: 100,
+                  marginTop: -18,
+                }}>
+                <Button
+                  title="Adopt"
+                  onPress={() => Linking.openURL(url.toString())}
+                  color="#6867ac"
+                />
+              </TouchableOpacity>
+              </ScrollView>
             
-            const{name, type, breeds, primary_photo_cropped, age, gender, size, status, contact, attributes, species} = props.animal;
-            var image;
-            if ( primary_photo_cropped === null){
-              if (type === 'Dog'){
-                  image = 'https://i.pinimg.com/564x/43/7a/9d/437a9d58adfe0b277efc3d6906d6a55c.jpg';
-              } else if (type === 'Cat') {
-                  image = 'https://i.pinimg.com/564x/ad/f8/de/adf8dea81bb563653fca398ce4d53040.jpg';
-              } else if (type == 'Bird') {
-                  image = 'https://i.pinimg.com/564x/66/4c/45/664c45cf13a13b3a3c57fe6f2e3149cb.jpg';
-              } else if (type === 'Barnyard') {
-                  image = 'https://i.pinimg.com/564x/ae/bd/81/aebd81411b57b56353edbf2f50616f52.jpg';
-              } else {
-                  image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1200px-Grey_close_x.svg.png';
-              }
-            } else {
-              image = primary_photo_cropped.small;
-            }
-            return(
-            <TouchableOpacity style={styles.tile} onPress={expandTile}>
-                <Image style={styles.animalImg} source={{uri: image}}/> 
-                <Text style={styles.animalName}>{name}</Text>
-                <Text style={{marginLeft: 5, color: '#6867ac'}}>{breeds.primary}</Text>
-            </TouchableOpacity>
-            );
-          };
+        </Modal>
+      );
+    }
+      const expandTile = () => {
+        // navigation.replace("Tile2", {paramKey: props});
+        var animalcard = props.animal;
+
+        
+        
+        var image;
+        if ( shelters.animal.primary_photo_cropped === null){
+          if (shelters.animal.type === 'Dog'){
+              image = 'https://i.pinimg.com/564x/43/7a/9d/437a9d58adfe0b277efc3d6906d6a55c.jpg';
+          } else if (shelters.animal.type === 'Cat') {
+              image = 'https://i.pinimg.com/564x/ad/f8/de/adf8dea81bb563653fca398ce4d53040.jpg';
+          } else if (shelters.animal.type == 'Bird') {
+              image = 'https://i.pinimg.com/564x/66/4c/45/664c45cf13a13b3a3c57fe6f2e3149cb.jpg';
+          } else if (shelters.animal.type === 'Barnyard') {
+              image = 'https://i.pinimg.com/564x/ae/bd/81/aebd81411b57b56353edbf2f50616f52.jpg';
+          } else {
+              image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Grey_close_x.svg/1200px-Grey_close_x.svg.png';
+          }
+        } else {
+          image = shelters.animal.primary_photo_cropped.small;
+        }
+
+        return (
+          // <Modal visible={true}>
+          //   <SafeAreaView style={{flex: 1, backgroundColor: '#fff2f7'}}>
+          //     <ScrollView>
+          //       <View style={styles2.tile}>
+          //       <TouchableOpacity onPress={setCardVisible(!cardVisible)}>
+          //         <Image source={backArrowImage} style={styles1.back} />
+          //       </TouchableOpacity>
+          //         <Image style={styles2.animalImg} source={{uri: image}}/> 
+          //         <Text style={styles2.animalName}>{shelters.animal.name}</Text>
+          //         <Text style={styles2.animalBreed}>{shelters.animal.breeds.primary}</Text>
+          //         <Text>Status: {shelters.animal.status}</Text>
+          //         <Text>Gender: {shelters.animal.gender}</Text>
+          //         <Text>Age: {shelters.animal.age}</Text>
+          //         <Text>Size: {shelters.animal.size}</Text>
+          //         <Text>Phone: {shelters.animal.contact.phone}</Text>
+          //         <Text>Email: {shelters.animal.contact.email}</Text>
+          //         <TouchableOpacity style={{position: 'absolute', right: 16, top: 405}} onPress={storeLike}>
+          //           {
+          //             like == true
+          //             ? (<MaterialCommunityIcons name={"heart"} color={'red'} size={26}/>)
+          //             : (<MaterialCommunityIcons name={"heart-outline"} color={'red'} size={26}/>)
+          //           }
+                    
+          //         </TouchableOpacity>
+          //       </View>
+                
+                
+          //       <TouchableOpacity
+          //       style={{
+          //         height: 100,
+          //         width: 370,
+          //         marginLeft: 12,
+          //         marginRight: 20,
+          //         justifyContent: 'center',
+          //         borderRadius: 100,
+          //         marginTop: -18,
+          //       }}>
+          //       <Button
+          //         title="Adopt"
+          //         onPress={() => Linking.openURL(url.toString())}
+          //         color="#6867ac"
+          //       />
+          //     </TouchableOpacity>
+          //     </ScrollView>
+          //   </SafeAreaView> 
+          // </Modal>
+          
+            <View style={{flex: 1, backgroundColor: 'white'}}>
+              <Text>Hello</Text>
+            </View>
+         
+          
+        );
+      
+      };
+
+      const showInfo = () => {
+        var animalcard = props.animal;
+        console.log(animalcard);
+      };
+
+      return(
+      <TouchableOpacity style={styles.tile} onPress={() => handleVisibility()}>
+          <Image style={styles.animalImg} source={{uri: image}}/> 
+          <Text style={styles.animalName}>{name}</Text>
+          <Text style={{marginLeft: 5, color: '#6867ac'}}>{breeds.primary}</Text>
+      </TouchableOpacity>
+      );
+    };
+          
 
        searchAnimalsMore(sZipCode[0], sType[0], sAge[0], sGender[0], sSize[0], 6);
        /*
@@ -107,21 +260,7 @@ const ShelterScreen = ({navigation}) => {
         //const callapi  = searchAnimalsMore(78745, "Dog", "Cat", "Rabbit", "Bird", "Young", "Baby", "Adult", "Senior", "Female", "Male", "Small", "Medium", "Large");
         //console.log(callapi);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
 
 
         const Search = () => {
@@ -580,20 +719,6 @@ const ShelterScreen = ({navigation}) => {
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         if (!isLoading){
           return (
             <ScrollView style={{ flex: 1, backgroundColor: '#fbfbfb'}}>
@@ -622,6 +747,7 @@ const ShelterScreen = ({navigation}) => {
 
 
 export default ShelterScreen;
+
 
 
 const styles = StyleSheet.create({
@@ -800,5 +926,53 @@ const styles1 = StyleSheet.create({
   button: {
     marginBottom: 60,
     marginTop: 20,
+  },
+});
+
+const styles2 = StyleSheet.create({
+  tile: {
+    backgroundColor: '#FFBCD1',
+    height: 600,
+    padding: 10,
+    margin: 10,
+    marginBottom: 1,
+    borderRadius: 20,
+    elevation: 3,
+  },
+  animalName: {
+    color: '#6867ac',
+    fontSize: 30,
+    fontWeight: 'bold',
+  },
+  space: {
+    width: 20, // or whatever size you need
+    height: 10,
+  },
+  animalImg: {
+    width: '100%',
+    height: 330,
+    borderRadius: 20,
+    marginTop: 5,
+    marginLeft: 1,
+  },
+  animalBreed: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: '#6867ac',
+  },
+  bio: {
+    fontSize: 15,
+    color: '#6867ac',
+  },
+  tags: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: '#6867ac',
+  },
+  back: {
+    width: 70,
+    height: 50,
+    marginLeft: -15,
+    marginBottom: -5,
   },
 });

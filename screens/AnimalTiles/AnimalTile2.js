@@ -23,12 +23,11 @@ function AnimalTile({navigation}) {
   const storeLike = () => {
     const user = firebase.auth().currentUser;
     const userID = user.uid;
-    let animals = animalcard;
-    let id = animals.id;
+    let Id = animalcard.id;
     console.log(animalcard);
     setLike(!like);
     if (like == true) {
-      firestore().collection('users').doc(userID).collection('liked').doc(id).set({animalcard})
+      firestore().collection('users').doc(userID).collection('liked').doc(Id).set({animalcard})
     }
   }
   
@@ -47,7 +46,7 @@ function AnimalTile({navigation}) {
   navShalters2 = () => {
     navigation.replace('Shelters');
   };
-
+  
   var image;
   if ( shelters.animal.primary_photo_cropped === null){
     if (shelters.animal.type === 'Dog'){
