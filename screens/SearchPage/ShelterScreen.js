@@ -246,7 +246,7 @@ const ShelterScreen = ({navigation}) => {
     };
           
 
-       searchAnimalsMore(sZipCode[0], sType[0], sAge[0], sGender[0], sSize[0], 6);
+       searchAnimalsMore(sZipCode[0], sType[0], sAge[0], sGender[0], sSize[0], 20);
        /*
        if (isNewSearch.length != sSearchState.length){
         setSearch(sSearchState);
