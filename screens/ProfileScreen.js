@@ -18,6 +18,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 // import UserModal from './UserModal';
 // import userChoices from './UserInterest';
 import xImage from '../icons/x.png'
+
 import { call } from 'react-native-reanimated';
 
 const ProfileScreen = ({navigation}) => {
@@ -26,6 +27,10 @@ const ProfileScreen = ({navigation}) => {
       .signOut()
       .then(() => console.log('User signed out!'));
     navigation.replace('Login');
+  }
+
+  function FAQTravel() {
+    navigation.replace('Info')
   }
 
   
@@ -206,7 +211,7 @@ const ProfileScreen = ({navigation}) => {
         
       </ScrollView>
       <View style={{alignItems: 'center', position: 'absolute', bottom: 85, left: 57,}}>
-          <TouchableOpacity style={styles.extraButtons}>
+          <TouchableOpacity style={styles.extraButtons} onPress={() => FAQTravel()}>
             <Text style={styles.extraButtonsText}>FAQs</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.extraButtons}>

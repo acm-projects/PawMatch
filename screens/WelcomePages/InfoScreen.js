@@ -1,16 +1,24 @@
 import React from "react";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { View, Text, StyleSheet, Button } from 'react-native';
+
+import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
 
 const InfoScreen = ({navigation}) => {
 
     function nextNavigation(user) {
-        navigation.replace("PawMatch")
+        navigation.replace("Profile")
+        navigation.replace('PawMatch')
     }
     return (
         <View style={{ flex: 1, backgroundColor: 'white'}}>
-            <Text>General info about app</Text>
-            <Button title={"Next"} onPress={nextNavigation} />
+            <Text style={{fontWeight: '900', fontSize: 100}}>Are you lonely?</Text>
+            
+           <TouchableOpacity style={styles.button} onPress={nextNavigation}>
+                <Text style={{fontSize: 40, fontWeight: 'bold', color: '#BA5775', marginHorizontal: 10}}>yes</Text>
+                <View style={{marginTop: 20}}><MaterialCommunityIcons name={"emoticon-sad-outline"} size={35}/></View>
+           </TouchableOpacity>
+           {/* <Button title={"Yes"} onPress={nextNavigation} /> */}
         </View>
         
     );
@@ -32,5 +40,18 @@ const styles = StyleSheet.create({
         fontWeight: '800',
         color: '#fb5555',
         alignSelf: 'center'
-      },
+    },
+    button: {
+        padding: 5,
+        marginHorizontal: 100,
+        bottom: -50,
+        // left: 110,
+        justifyContent: 'center',
+        borderRadius: 100,
+        marginTop: -18,
+        alignItems: 'center',
+        backgroundColor: '#F9A2BD',
+        flexDirection: 'row',
+        flexWrap: 'wrap'
+    }
 })

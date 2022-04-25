@@ -9,6 +9,7 @@ import ShelterScreen from './SearchPage/ShelterScreen';
 import ProfileScreen from './ProfileScreen';
 import AnimalTile from './AnimalTiles/AnimalTile';
 import AnimalTile2 from './AnimalTiles/AnimalTile2';
+import InfoScreen from './WelcomePages/InfoScreen';
 import pawImage from '../icons/2.png';
 import likeImage from '../icons/12.png';
 import userImage from '../icons/3.png';
@@ -17,6 +18,7 @@ import searchImage from '../icons/4.png';
 const Tab = createMaterialBottomTabNavigator();
 const LikedStack = createNativeStackNavigator();
 const ShelterStack = createNativeStackNavigator();
+const ProfileStack = createNativeStackNavigator();
 
 const MainTabScreen = () => (
 
@@ -59,8 +61,8 @@ const MainTabScreen = () => (
       }}
     />
     <Tab.Screen
-      name="Profile"
-      component={ProfileScreen}
+      name="ProfileStack"
+      component={ProfileStackScreen}
       options={{
         tabBarLabel: 'Profile',
         tabBarIcon: ({color}) => (
@@ -104,16 +106,9 @@ const ShelterStackScreen = ({navigation}) => (
 );
 
 const ProfileStackScreen = ({navigation}) => (
-  <ProfileStack.Navigator
-    screenOptions={{
-      headerStyle: {
-        backgroundColor: 'pink',
-      },
-      headerTintColor: 'white',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
-    }}>
+  <ProfileStack.Navigator screenOptions={{headerShown: false}}>
     <ProfileStack.Screen name="Profile" component={ProfileScreen} />
+    <ProfileStack.Screen name="Info" component={InfoScreen} />
+    
   </ProfileStack.Navigator>
 );

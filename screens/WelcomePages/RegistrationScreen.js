@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   input1: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#FFD6E2',
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 10,
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
     width: 230,
   },
   input2: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#FFD6E2',
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 10,
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
     width: 235,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#A5A5A5',
+    backgroundColor: '#FF759E',
     borderRadius: 10,
   },
   button1Text: {
