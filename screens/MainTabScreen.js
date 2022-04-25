@@ -22,15 +22,17 @@ const MainTabScreen = () => (
 
   <Tab.Navigator
     initialRouteName="Feed"
-    activeColor="#A267AC"
-    barStyle={{backgroundColor: 'pink'}}>
+    activeColor="#F9E5E9"
+    inactiveColor='#F6D3D9'
+    barStyle={{backgroundColor: '#ED7185'}}>
     <Tab.Screen
       name="Home"
       component={HomeScreen}
       options={{
         tabBarLabel: 'Home',
         tabBarIcon: ({color}) => (
-          <Image source={pawImage} style={{width: 45, height: 20}} />
+          <MaterialCommunityIcons name={"home-variant-outline"} size={26} color={color}/>
+          // <Image source={pawImage} style={{width: 45, height: 20}} />
         ),
       }}
     />
@@ -40,7 +42,8 @@ const MainTabScreen = () => (
       options={{
         tabBarLabel: 'Search',
         tabBarIcon: ({color}) => (
-          <Image source={searchImage} style={{width: 45, height: 20}} />
+          <MaterialCommunityIcons name={"magnify"} size={26} color={color}/>
+          // <Image source={searchImage} style={{width: 45, height: 20}} />
         ),
       }}
     />
@@ -50,7 +53,8 @@ const MainTabScreen = () => (
       options={{
         tabBarLabel: 'Liked',
         tabBarIcon: ({color}) => (
-          <Image source={likeImage} style={{width: 45, height: 20}} />
+          <MaterialCommunityIcons name={"heart-outline"} size={26} color={color}/>
+          // <Image source={likeImage} style={{width: 45, height: 20}} />
         ),
       }}
     />
@@ -60,7 +64,8 @@ const MainTabScreen = () => (
       options={{
         tabBarLabel: 'Profile',
         tabBarIcon: ({color}) => (
-          <Image source={userImage} style={{width: 45, height: 20}} />
+          <MaterialCommunityIcons name={"account-outline"} size={26} color={color}/>
+          // <Image source={userImage} style={{width: 45, height: 20}} />
         ),
       }}
     />

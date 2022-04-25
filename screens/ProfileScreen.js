@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import auth, { firebase } from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 // import UserModal from './UserModal';
 // import userChoices from './UserInterest';
 import xImage from '../icons/x.png'
@@ -83,24 +84,24 @@ const ProfileScreen = ({navigation}) => {
           
         </View>
         <View style={styles.userInfoContainer}>
-          <Text style={styles.userInfo}>Email: {user?.email}</Text>
+          <Text style={styles.userInfo}>{user?.email}</Text>
           <View>
             { user?.phoneNum == undefined
             ? (<Text style={styles.userInfo}>Add phone number</Text>)
-            : (<Text style={styles.userInfo}>Phone Number: {user?.phoneNum}</Text>)
+            : (<Text style={styles.userInfo}>{user?.phoneNum}</Text>)
             }
           </View>
-          <View>
+          {/* <View>
             { user?.address == undefined
             ? (<Text style={styles.userInfo}>Add address</Text>)
             : (<Text style={styles.userInfo}>Address: {user?.address}</Text>)
             }
     
-          </View>
+          </View> */}
           
-          <TouchableOpacity style={styles.editProfileButton} onPress={() => setShow(!show)}>
+          {/* <TouchableOpacity style={styles.editProfileButton} onPress={() => setShow(!show)}>
               <Text style={styles.editProfileText}>Edit Profile</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         <Modal visible={show} transparent={true}>
@@ -144,13 +145,14 @@ const ProfileScreen = ({navigation}) => {
         
         
         {/*View Interest*/}
-        <View style={{width: 400, height: 50, marginTop: 10}}>
+        <View style={{width: 400, height: 50, marginTop: 40}}>
           <Text style={styles.interestsAndAdoptionsTitles}>Your Interests</Text>
         </View>
+        <Interests/>
         <View style={{marginTop: -10}}>
           { user?.zipCode == null
-          ? (<Text style={{marginLeft: 20, fontSize: 20}}>Add Zip Code</Text>)
-          : (<Text style={{marginLeft: 20, fontSize: 20}}>Searching in {user && user?.zipCode}</Text>)
+          ? (<Text style={{marginLeft: 20, fontSize: 22}}>Add Zip Code</Text>)
+          : (<Text style={{marginLeft: 20, fontSize: 22}}>Searching in {user && user?.zipCode}</Text>)
           }
 
           
@@ -163,7 +165,7 @@ const ProfileScreen = ({navigation}) => {
                   </View>)
               : (user && user?.userChoices.map(item => (
                 <View style={styles.interestTile}>
-                  <Text style={{fontSize: 20}}>{item}</Text>
+                  <Text style={{fontSize: 23}}>{item}</Text>
                 </View>
                 ))
                 )
@@ -172,13 +174,22 @@ const ProfileScreen = ({navigation}) => {
           </View>
         </View>
         {/* <View style={{marginLeft: 20}}><UserModal/></View> */}
-        <Interests/>
+        
+        
         
       </ScrollView>
-      <TouchableOpacity style={{flex: 1, position: 'absolute', bottom: 20, left: 120}} onPress={logoutUser}>
-            <View style={styles.logoutButton}>
-              <Text style={styles.logoutButtonText}>Log Out</Text>
-            </View>
+      <View style={{alignItems: 'center', position: 'absolute', bottom: 85, left: 57,}}>
+          <TouchableOpacity style={styles.extraButtons}>
+            <Text style={styles.extraButtonsText}>FAQs</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.extraButtons}>
+            <Text style={styles.extraButtonsText}>Feedback</Text>
+          </TouchableOpacity>
+        </View>
+      <TouchableOpacity style={{flex: 1, position: 'absolute', bottom: 20, left: 112}} onPress={logoutUser}>
+        <View style={styles.logoutButton}>
+          <Text style={styles.logoutButtonText}>Log Out</Text>
+        </View>
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -397,7 +408,8 @@ const Interests = () => {
     <View>
       <View>
         <TouchableOpacity style={styles1.editInterestsButton} onPress={() => editshowModal(!editShow)}>
-          <Text style={styles1.editInterestsButtonText}>Edit Interests</Text>
+          {/* <Text style={styles1.editInterestsButtonText}>Edit Interests</Text> */}
+          <MaterialCommunityIcons name={"lead-pencil"} size={30} color={'white'}/>
         </TouchableOpacity>
       </View>
       <Modal visible={editShow} transparent={true}>
@@ -655,14 +667,14 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   logoutButton: {
-    backgroundColor: 'grey',
-    height: 35,
-    width: 150,
-    borderRadius: 15,
+    backgroundColor: '#E3406B',
+    padding: 6,
+    width: 160,
+    borderRadius: 12,
     justifyContent: 'center'
   },
   logoutButtonText: {
-    fontSize: 25,
+    fontSize: 28,
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center'
@@ -670,34 +682,33 @@ const styles = StyleSheet.create({
   userImg: {
     width: 100,
     height: 100,
-    borderRadius: 100,
+    borderRadius: 40,
     marginTop: 15,
     marginLeft: 9,
     borderWidth: 3,
-    borderColor: '#6867AC',
   },
   userName: {
-    fontSize: 25,
+    fontSize: 30,
     fontWeight: 'bold',
     marginTop: 10,
-    marginBottom: 10,
+    marginBottom: 20,
     marginLeft: 10,
-    color: '#6867AC',
+    color: '#D32D61',
   },
   userInfo: {
-    color: '#6867AC',
+    color: '#7C7C7C',
     fontSize: 16,
   },
   userInfoContainer: {
-    marginTop: -65, 
+    marginTop: -61, 
     marginLeft: 120, 
   },
   interestsAndAdoptionsTitles: {
-    fontSize: 22,
+    fontSize: 25,
     fontWeight: 'bold',
-    marginBottom: 10,
-    marginLeft: 10,
-    color: '#6867AC',
+    position: 'absolute',
+    left: 12,
+    color: '#DA3C6D',
   },
   interestTile: {
     backgroundColor: 'white',
@@ -707,7 +718,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     padding: 2,
     paddingLeft: 9,
-    width: 100,
+    width: 110,
     justifyContent: 'center',
   },
   xout: {
@@ -845,7 +856,20 @@ const styles = StyleSheet.create({
   },
   interestText: {
     fontSize: 12,
-  }
+  },
+  extraButtons: {
+    elevation: 10,
+    backgroundColor: '#F6CED8',
+    alignItems: 'center',
+    borderRadius: 15,
+    width: 250,
+    margin: 8,
+    padding: 10,
+  },
+  extraButtonsText: {
+    color: '#A05569',
+    fontSize: 22,
+  },
 });
 
 const styles1 = StyleSheet.create({
@@ -867,7 +891,7 @@ const styles1 = StyleSheet.create({
     marginTop: -0.5,
     marginBottom: 10,
     fontSize: 37,
-    color: '#FB5555',
+    color: '#E24E67',
     alignSelf: 'center'
   },
   xout: {
@@ -904,14 +928,16 @@ const styles1 = StyleSheet.create({
     flex: 1,
   },
   editInterestsButton: {
-    backgroundColor: 'grey',
+    backgroundColor: '#E3406B',
     borderRadius: 10,
+    width: 50,
     alignItems: 'center',
-    marginLeft: 260,
-    marginRight: 30,
-    marginVertical: 10,
+    left: 182,
+    top: -48,
+    position: 'absolute',
     padding: 1,
-    paddingHorizontal: 6,
+    
+    
   },
   editInterestsButtonText: {
     color: 'white',
@@ -954,7 +980,7 @@ const styles1 = StyleSheet.create({
   },
   buttonContainer: {
     alignItems: 'center',
-    backgroundColor: '#FB5555',
+    backgroundColor: '#DE5B71',
     marginVertical: 15,
     marginHorizontal: 80,
     padding: 10,

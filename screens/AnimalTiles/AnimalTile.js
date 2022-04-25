@@ -94,10 +94,7 @@ function AnimalTile({navigation}) {
       image = primary_photo_cropped;
     }
     return (
-      <SafeAreaView >
-        {/* <View style={{backgroundColor: '#fff2f7'}}>
-        <Text>Hello</Text>
-        </View> */}
+      <SafeAreaView>
         <ScrollView>
           <View style={styles.tile}>
             <Text></Text>

@@ -108,8 +108,9 @@ const ShelterScreen = ({navigation}) => {
           <View>
               <View style={styles2.tile}>
                 <ScrollView showsVerticalScrollIndicator={false}>
-                  <TouchableOpacity onPress={() => handleVisibility()}>
-                    <Image source={backArrowImage} style={styles2.back} />
+                <TouchableOpacity onPress={() => handleVisibility()}>
+                    {/* <Image source={backArrowImage} style={styles2.back} /> */}
+                    <MaterialCommunityIcons name={"arrow-left-circle"} size={35} color={'white'}/>
                   </TouchableOpacity>
                   
                     <Image style={styles2.animalImg} source={{uri: image}}/> 
@@ -155,7 +156,7 @@ const ShelterScreen = ({navigation}) => {
                     <View>{contact.phone != null ? (<Text style={{fontSize: 16, color: '#EE5AA4'}}>Phone: {contact.phone}</Text>) : (<></>)}</View>
                     <View>{contact.email != null ? (<Text style={{fontSize: 16, color: '#EE5AA4'}}>Email: {contact.email}</Text>) : (<></>)}</View>
                     
-                    <TouchableOpacity style={{position: 'absolute', right: 16, top: 3}} onPress={storeLike}>
+                    <TouchableOpacity style={{position: 'absolute', right: 16, top: 0, marginBottom: 20}} onPress={storeLike}>
                       {
                         like == true
                         ? (<MaterialCommunityIcons name={"heart"} color={'#D84E82'} size={36}/>)
@@ -169,21 +170,22 @@ const ShelterScreen = ({navigation}) => {
               </View>
                 
                 
-                <TouchableOpacity
+              <TouchableOpacity
                 style={{
-                  height: 70,
-                  width: 370,
-                  marginLeft: 12,
-                  marginRight: 20,
-                  marginBottom: -10,
+                  height: 50,
+                  width: 170,
+                  position: 'absolute',
+                  bottom: -60,
+                  left: 110,
                   justifyContent: 'center',
                   borderRadius: 100,
-                }}>
-                <Button
-                  title="Adopt"
-                  onPress={() => Linking.openURL(url.toString())}
-                  color="#6867ac"
-                />
+                  
+                  alignItems: 'center',
+                  backgroundColor: '#E44174'
+                }}
+                onPress={() => Linking.openURL(url.toString())}
+                >
+                <Text style={{color: 'white', fontSize: 25}}>Adopt!</Text>
               </TouchableOpacity>
             
           </View>
@@ -791,7 +793,7 @@ const ShelterScreen = ({navigation}) => {
             <ScrollView style={{ flex: 1, backgroundColor: '#fbfbfb'}}>
                 <Text style={styles.title}>Pet Search</Text>
                 <Search/>
-                <Text style={{marginLeft: 80, marginTop: 10, fontSize: 20}}>Searching for...</Text>    
+                <Text style={{marginLeft: 60, marginTop: 10, fontSize: 20}}>Searching...</Text>    
             </ScrollView>
             
           );
@@ -880,7 +882,7 @@ const styles1 = StyleSheet.create({
     marginBottom: 10,
     alignSelf: 'center',
     fontSize: 37,
-    color: '#FB5555',
+    color: '#E24E67',
     
   },
   xout: {
@@ -966,7 +968,7 @@ const styles1 = StyleSheet.create({
   },
   buttonContainer: {
     alignItems: 'center',
-    backgroundColor: '#FB5555',
+    backgroundColor: '#DE5B71',
     marginVertical: 15,
     marginHorizontal: 80,
     padding: 10,

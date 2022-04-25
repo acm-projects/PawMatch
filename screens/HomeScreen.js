@@ -12,6 +12,7 @@ import {
   } from 'react-native';
 import auth, { firebase } from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import animals from '../data/animals';
 import backImage from '../icons/back.png';
 import dislikeImage from '../icons/dislike.png';
@@ -151,26 +152,40 @@ var animalcard = animals[index];
               </Animated.View>
           </TouchableOpacity>
             
-          
+          <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap',
+          position: 'absolute', bottom: 39,}}>
             <TouchableOpacity
-                onPress = {() => <FrontCard animal = {animals[decreaseIndex()]}/>}>
-                <Image source={backImage} style = {styles.backButton}></Image>
-            </TouchableOpacity>
+                  onPress = {() => <FrontCard animal = {animals[decreaseIndex()]}/>}
+                  style={{margin:9}}>
+                  <MaterialCommunityIcons name={"arrow-left-circle"} color={'#ACACAC'} size={70} />
+                  {/* <Image source={backImage} style = {styles.backButton}></Image> */}
+              </TouchableOpacity>
 
-            <TouchableOpacity
-                onPress = {() => <FrontCard animal = {animals[dislike()]}/>}>
-                <Image source={dislikeImage} style = {styles.dislikeButton}></Image>
-            </TouchableOpacity>
+              <TouchableOpacity
+                  onPress = {() => <FrontCard animal = {animals[dislike()]}/>}
+                  style={{margin:8, marginLeft: 4}}>
+                  <MaterialCommunityIcons name={"close-circle"}  color={'#F15771'} size={77} />
+                  {/* <Image source={dislikeImage} style = {styles.dislikeButton}></Image> */}
+              </TouchableOpacity>
 
-            <TouchableOpacity
-                onPress = {() => <FrontCard animal = {animals[like()]}/>}>
-                <Image source={likeImage} style = {styles.likeButton}></Image>
-            </TouchableOpacity>
+              <TouchableOpacity
+                  onPress = {() => <FrontCard animal = {animals[like()]}/>}
+                  style={{margin:8, marginTop: 14}}>
+                    <View style={{backgroundColor: '#41D65A', borderRadius: 100, padding: 8}}>
+                      <MaterialCommunityIcons name={"paw"} color={'white'} size={50} />
+                    </View>
+                  
+                  {/* <Image source={likeImage} style = {styles.likeButton}></Image> */}
+              </TouchableOpacity>
 
-            <TouchableOpacity
-                onPress = {() => <FrontCard animal = {animals[superLike()]}/>}>
-                <Image source={superlikeImage} style = {styles.superlikeButton}></Image>
-            </TouchableOpacity>
+              <TouchableOpacity
+                  onPress = {() => <FrontCard animal = {animals[superLike()]}/>}
+                  style={{margin:10, marginRight: 13}}>
+                  <MaterialCommunityIcons name={"star-circle-outline"} color={'#F8C55F'} size={70} />
+                  {/* <Image source={superlikeImage} style = {styles.superlikeButton}></Image> */}
+              </TouchableOpacity>
+          </View>
+            
         </View>
 
     );
@@ -181,7 +196,7 @@ export default HomeScreen;
 
 
 
-
+const data = Array.from({ length: 500});
 
 const FrontCard = (props) => {
   const{name, breeds, primary_photo_cropped} = props.animal;
@@ -206,11 +221,26 @@ const FrontCard = (props) => {
       <ImageBackground 
           source={{uri: image,}} 
           style={styles.image}>
-          <View style={styles.cardInner}>
-            <Text style ={styles.name}>{name}</Text>
-            <Text style ={styles.breed}>{breeds.primary}</Text>
-          </View>
+         
+          {data.map((_, i) => (
+              <View
+                key={i}
+                style = {{
+                  position: 'absolute',
+                  backgroundColor: '#FC5975',
+                  height: 7,
+                  bottom: (150 - i),
+                  right: 0,
+                  left: 0,
+                  zIndex: 2,
+                  opacity: (1 / 1000) * (i + 1),
+                }}/>
+            ))}
       </ImageBackground>
+      <View style={styles.cardGradient}>
+        <Text style ={styles.name}>{name}</Text>
+        <Text style ={styles.breed}>{breeds.primary}</Text>
+      </View>
   </View>
   );
 };
@@ -241,12 +271,15 @@ const BackCard = (props) => {
         <Text style ={styles.breed}>{breeds.primary}</Text>
         <Text style ={styles.text}>{description}</Text>
         <Text style ={styles.text}></Text>
-        <Text style ={styles.text}>Phone: {contact.phone}</Text>
-        <Text style ={styles.text}>Email: {contact.email}</Text>
+        
+        
+        <View>{age != null ? (<Text style={[styles.text, {fontSize: 21}]}>Age: {age}</Text>) : (<></>)}</View>
+        <View>{gender != null ? (<Text style={[styles.text, {fontSize: 21}]}>Gender: {gender}</Text>) : (<></>)}</View>
+        <View>{size != null ? (<Text style={[styles.text, {fontSize: 21}]}>Size: {size}</Text>) : (<></>)}</View>
         <Text style ={styles.text}></Text>
-        <Text style ={styles.text}>Age: {age}</Text>
-        <Text style ={styles.text}>Gender: {gender}</Text>
-        <Text style ={styles.text}>Size: {size}</Text>
+        <Text style ={[styles.text, {fontWeight: 'bold'}]}>Shelter Info</Text>
+        <View>{contact.phone != null ? (<Text style={styles.text}>Phone: {contact.phone}</Text>) : (<></>)}</View>
+        <View>{contact.email != null ? (<Text style={styles.text}>Email: {contact.email}</Text>) : (<></>)}</View>
       </View>
   );
 };
@@ -263,13 +296,20 @@ const styles = StyleSheet.create({
     hidden: {
       backfaceVisibility: 'hidden',
     },
-  
+    
+    cardGradient: {
+      position: 'absolute', 
+      justifyContent: 'center', 
+      alignContent: 'center', 
+      padding: 10, 
+      bottom: 0,
+    },
+    
     cardFront: {
       width: '100%',
       height: '75%',
-      borderRadius: 10,
-  
-      shadowColor: "#000",
+      borderRadius: 30,
+      shadowColor: "#9D3849",
       shadowOffset: {
           width: 0,
           height: 12,
@@ -277,7 +317,7 @@ const styles = StyleSheet.create({
       shadowOpacity: 1,
       shadowRadius: 16.00,
   
-      elevation: 24,
+      elevation: 30,
       position: 'absolute',
       top: 50,
     },
@@ -285,9 +325,9 @@ const styles = StyleSheet.create({
     cardBack: {
       width: '90%',
       height: '70%',
-      borderRadius: 10,
-  
-      shadowColor: "#000",
+      borderRadius: 15,
+      padding: 5,
+      shadowColor: "#9D3849",
       shadowOffset: {
           width: 0,
           height: 12,
@@ -295,10 +335,10 @@ const styles = StyleSheet.create({
       shadowOpacity: 1,
       shadowRadius: 16.00,
   
-      elevation: 24,
+      elevation: 30,
       position: 'absolute',
-      backgroundColor: '#7271bf',
-      top: 50,
+      backgroundColor: '#F97088',
+      top: 60,
     },
 
     animatedCard: {
@@ -313,7 +353,7 @@ const styles = StyleSheet.create({
     image: {
       width: '100%',
       height: '100%',
-      borderRadius: 10,
+      borderRadius: 15,
       overflow: 'hidden',   
       justifyContent: 'flex-end',
       resizeMode: 'cover',

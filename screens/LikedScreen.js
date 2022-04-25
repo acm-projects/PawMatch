@@ -279,7 +279,7 @@ const LikedScreen = ({navigation}) => {
                   borderRadius: 100,
                   marginTop: -18,
                   alignItems: 'center',
-                  backgroundColor: '#E0127A'
+                  backgroundColor: '#E44174'
                 }}
                 onPress={() => Linking.openURL(url.toString())}
                 >
@@ -397,8 +397,8 @@ const LikedScreen = ({navigation}) => {
     }
     if (superCardVisible) {
       return (
-        <Modal visible={true} style={{flex: 1, backgroundColor: '#E65B90'}}>
-          <View style={[styles2.tile, {backgroundColor: '#F76BAD'}]}>
+        <Modal visible={true} style={{flex: 1}}>
+          <View style={[styles2.tile, {backgroundColor: '#E65B86'}]}>
             <ScrollView showsVerticalScrollIndicator={false}>
               <TouchableOpacity style={{marginBottom: 3,}} onPress={() => handleVisibilitySuper()}>
                 {/* <Image source={backArrowImage} style={styles2.back} /> */}
@@ -462,21 +462,22 @@ const LikedScreen = ({navigation}) => {
               </View>
                 
                 
-                <TouchableOpacity
+              <TouchableOpacity
                 style={{
-                  height: 100,
-                  width: 370,
-                  marginLeft: 12,
-                  marginRight: 20,
+                  height: 50,
+                  width: 170,
+                  position: 'absolute',
+                  bottom: 35,
+                  left: 110,
                   justifyContent: 'center',
                   borderRadius: 100,
                   marginTop: -18,
-                }}>
-                <Button
-                  title="Adopt"
-                  onPress={() => Linking.openURL(url.toString())}
-                  color="#6867ac"
-                />
+                  alignItems: 'center',
+                  backgroundColor: '#F589AA'
+                }}
+                onPress={() => Linking.openURL(url.toString())}
+                >
+                <Text style={{color: 'white', fontSize: 25}}>Adopt!</Text>
               </TouchableOpacity>
             
         </Modal>
@@ -484,7 +485,7 @@ const LikedScreen = ({navigation}) => {
     }
 
     return (
-      <TouchableOpacity style={[styles.tile, {backgroundColor: '#E65B90'}]} onPress={() => handleVisibilitySuper()}>
+      <TouchableOpacity style={[styles.tile, {backgroundColor: '#E65B86'}]} onPress={() => handleVisibilitySuper()}>
         <TouchableOpacity style={{position: 'absolute', top: -15, left: -12}} onPress={storeSuperLike}>
           { superLike == true
           // position: 'absolute', bottom: 45, right: 9,
@@ -632,7 +633,7 @@ const styles2 = StyleSheet.create({
     elevation: 3,
   },
   animalName: {
-    color: '#D52D6C',
+    color: '#DA396B',
     fontSize: 30,
     fontWeight: 'bold',
   },
