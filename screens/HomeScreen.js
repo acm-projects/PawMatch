@@ -211,11 +211,8 @@ var animalcard = animals[index];
 
               <TouchableOpacity
                   onPress = {() => <FrontCard animal = {animals[like()]}/>}
-                  style={{margin:8, marginTop: 14}}>
-                    <View style={{backgroundColor: '#41D65A', borderRadius: 100, padding: 8}}>
-                      <MaterialCommunityIcons name={"paw"} color={'white'} size={50} />
-                    </View>
-                  
+                  style={{margin:8}}>
+                  <MaterialCommunityIcons name={"heart-circle"}  color={'#41D65A'} size={77} />
                   {/* <Image source={likeImage} style = {styles.likeButton}></Image> */}
               </TouchableOpacity>
 
