@@ -37,6 +37,10 @@ const ProfileScreen = ({navigation}) => {
   const [user, setUser] = useState();
   const {uid} = auth().currentUser;
 
+  const handleShow = () => {
+    setShow(!show);
+  }
+
   const getUser = async () => {
     try {
       const documentSnapshot = await firestore()
@@ -58,7 +62,7 @@ const ProfileScreen = ({navigation}) => {
   function editAccount() {
     const user = firebase.auth().currentUser;
     const userID = user.uid;
-    firestore().collection('users').doc(userID).update({phoneNum, address})
+    firestore().collection('users').doc(userID).update({phoneNum})
   }
 
   return (
@@ -85,10 +89,33 @@ const ProfileScreen = ({navigation}) => {
         </View>
         <View style={styles.userInfoContainer}>
           <Text style={styles.userInfo}>{user?.email}</Text>
-          <View>
-            { user?.phoneNum == undefined
-            ? (<Text style={styles.userInfo}>Add phone number</Text>)
-            : (<Text style={styles.userInfo}>{user?.phoneNum}</Text>)
+          <View style={{position: 'absolute', top: 21}}>
+            { user?.phoneNum == undefined || !show
+            ? (<View >
+              { !show
+              ? (<View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap'}}>
+                  <View style={styles.inputTextbox1}><TextInput 
+                  onChangeText={phoneNum => {setPhoneNum(phoneNum)}}
+                  style={styles.inputTextboxText}
+                  maxLength={13}
+                  keyboardType={"phone-pad"}
+                  /></View>
+                  <TouchableOpacity style={{left: 133}}
+                  onPress={() => {setShow(!show); editAccount()}}>
+                    <MaterialCommunityIcons name={"check"} size={25}/>
+                  </TouchableOpacity>
+                </View>)
+              // ? (<TextInput style={styles.userInfo} maxLength={12} keyboardType={"number-pad"}/>)
+              : (<TouchableOpacity onPress={() => setShow(!show)}>
+                <Text style={styles.userInfo}>Add phone number</Text>
+              </TouchableOpacity>)
+              }
+              </View>
+
+              )
+            : (<TouchableOpacity onPress={() => setShow(!show)}>
+                <Text style={styles.userInfo}>{user?.phoneNum}</Text>
+              </TouchableOpacity>)
             }
           </View>
           {/* <View>
@@ -104,7 +131,7 @@ const ProfileScreen = ({navigation}) => {
           </TouchableOpacity> */}
         </View>
 
-        <Modal visible={show} transparent={true}>
+        {/* <Modal visible={show} transparent={true}>
             <View style={styles.editProfileModalBackground}>
               <View style={styles.editProfileModalContainer}>
                 <Text style={styles.modalTextHeader}>Edit Profile</Text>
@@ -141,7 +168,7 @@ const ProfileScreen = ({navigation}) => {
               </View>
               
             </View>
-        </Modal>
+        </Modal> */}
         
         
         {/*View Interest*/}
@@ -405,7 +432,7 @@ const Interests = () => {
   const [checkedCoat, setCheckedCoat] = useState(coat);
   const [checkedOtherReqs, setCheckedOtherReqs] = useState(otherReqs);
   return (
-    <View>
+    <View style={{marginTop: 10,}}>
       <View>
         <TouchableOpacity style={styles1.editInterestsButton} onPress={() => editshowModal(!editShow)}>
           {/* <Text style={styles1.editInterestsButtonText}>Edit Interests</Text> */}
@@ -704,6 +731,7 @@ const styles = StyleSheet.create({
     marginLeft: 120, 
   },
   interestsAndAdoptionsTitles: {
+    marginTop: 10,
     fontSize: 25,
     fontWeight: 'bold',
     position: 'absolute',
@@ -762,11 +790,11 @@ const styles = StyleSheet.create({
     borderColor: '#969696',
     borderWidth: 2,
     borderRadius: 7,
-    height: 35,
+    height: 25,
     width: 130,
-    marginLeft: 10,
-    marginVertical: 2,
-    marginBottom: 6,
+    position: 'absolute',
+    top: 2,
+
   },
   inputTextbox2: {
     borderColor: '#969696',
@@ -779,9 +807,9 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   inputTextboxText: {
-    fontSize: 18,
+    fontSize: 15,
     color: '#8E8E8E',
-    marginVertical: -9,
+    marginVertical: -12,
     marginRight: 1,
   },
   editProfileModalButton: {

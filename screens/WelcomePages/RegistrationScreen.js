@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     margin: 30,
     textAlign: 'center',
-    color: '#fb5555',
+    color: '#D0365F',
     fontWeight: '800',
   },
   input1: {
@@ -235,8 +235,8 @@ const styles = StyleSheet.create({
   choosePhoto: {
     width: 90,
     height: 90,
-    backgroundColor: '#FFACAC',
-    borderColor: '#FFA1A1',
+    backgroundColor: '#FA7A9C',
+    borderColor: '#F86E92',
     justifyContent: 'center',
     borderWidth: 5,
     borderRadius: 35,
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
     width: 105,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#F05F5F',
+    backgroundColor: '#D0365F',
     borderRadius: 10,
     marginBottom: 5,
   },

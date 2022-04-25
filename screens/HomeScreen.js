@@ -22,7 +22,13 @@ import superlikeImage from '../icons/star3.png';
 // add shelter to tinder card, address and phone #
 // more info added to card
 // color ideas for ui
-
+var petfinder = require("@petfinder/petfinder-js");
+var client = new petfinder.Client({apiKey: "TRGJgs572EMIApod6zYEZCFeIgKpgKzOex5CcaVG9pErBo9y4U", secret: "eZmBINe8wGKxdaNlQ7m4Ae0QV0lUqCalI6YkLrFx"});
+var sZipCode = [];
+var sType = [];
+var sAge = [];
+var sGender = [];
+var sSize = [];
 const HomeScreen = ({navigation}, props) => {
 
 //TRAVERSE THROUGH CARD STACK, UPDATE INDEX, AND FLIP TO FRONT OF CARD
@@ -38,6 +44,41 @@ const [index, setIndex] = useState(0);
 // const [trained, setTrained] = useState(null);
 // const [vaccinated, setVaccinated] = useState(null);
 // const [shelter, setShelter] = useState(null);
+
+function searchAnimalsMore(aZipcode, aType, aAge, aGender, aSize, lim) {
+  if (isLoading){
+    client.animal.search({
+      location: aZipcode,
+      type: aType,
+      age: aAge,
+      gender: aGender,
+      size: aSize,
+      limit: lim,
+    }).then(resp => {
+      setApiData(resp.data);
+      setLoading(false);
+      //setSearchState(false);
+      return resp.data;
+    });
+  }
+}
+
+
+const getUser = async () => {
+  try {
+    const documentSnapshot = await firestore()
+      .collection('users')
+      .doc(uid)
+      .get();
+
+    const userData = documentSnapshot.data();
+    setUser(userData);
+  } catch {
+
+  }
+};
+
+
 
 const user = firebase.auth().currentUser;
 const userID = user.uid;

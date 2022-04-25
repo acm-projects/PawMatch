@@ -42,7 +42,9 @@ const WelcomeScreen = ({navigation}) => {
         {id: 0, key: 'Dog', isChecked: false},
         {id: 1, key: 'Cat', isChecked: false},
         {id: 2, key: 'Rabbit', isChecked: false},
-        {id: 3, key: 'Other', isChecked: false} 
+        {id: 3, key: 'Barnyard', isChecked: false},
+        {id: 4, key: 'Bird', isChecked: false},
+        {id: 5, key: 'Other', isChecked: false}  
     ];
 
     const age = [
@@ -236,7 +238,7 @@ const styles = StyleSheet.create({
         fontSize: 40,
         marginTop: 20,
         textAlign: 'center',
-        color: '#fb5555',
+        color: '#D0365F',
         fontWeight: 'bold',
     },
     buttonAlignment: {
@@ -310,16 +312,17 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         alignItems: 'center',
-        backgroundColor: '#FB5555',
+        backgroundColor: '#D0365F',
         marginVertical: 15,
         marginHorizontal: 80,
         padding: 10,
+        paddingHorizontal: 17,
         borderRadius: 20,
     },
     buttonText: {
         fontWeight: 'bold',
         color: 'white',
-        fontSize: 20,
+        fontSize: 21,
     },
     introText1: {
         textAlign: 'center',
