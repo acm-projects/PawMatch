@@ -59,7 +59,7 @@ const ShelterScreen = ({navigation}) => {
   }
 
   const Tile = (props) => {
-    const{id, name, type, breeds, primary_photo_cropped, age, gender, size, status, contact, attributes, species} = props.animal;
+    const{id, name, description, type, breeds, primary_photo_cropped, age, gender, size, status, contact, attributes, species} = props.animal;
     var animalcard = [];
     animalcard = props.animal;
     const display = () => {
@@ -104,41 +104,80 @@ const ShelterScreen = ({navigation}) => {
 
     if (cardVisible) {
       return (
-        <Modal visible={true} style={{flex: 1, backgroundColor: 'white'}}>
-          <ScrollView>
+        <Modal visible={true} style={{flex: 1, backgroundColor: 'white'}} propagateSwipe={true} >
+          <View>
               <View style={styles2.tile}>
-                <TouchableOpacity onPress={() => handleVisibility()}>
-                  <Image source={backArrowImage} style={styles2.back} />
-                </TouchableOpacity>
-                  <Image style={styles2.animalImg} source={{uri: image}}/> 
-                  <Text style={styles2.animalName}>{name}</Text>
-                  <Text style={styles2.animalBreed}>{breeds.primary}</Text>
-                  <Text>Status: {status}</Text>
-                  <Text>Gender: {gender}</Text>
-                  <Text>Age: {age}</Text>
-                  <Text>Size: {size}</Text>
-                  <Text>Phone: {contact.phone}</Text>
-                  <Text>Email: {contact.email}</Text>
-                  <TouchableOpacity style={{position: 'absolute', right: 16, top: 405}} onPress={storeLike}>
-                    {
-                      like == true
-                      ? (<MaterialCommunityIcons name={"heart"} color={'red'} size={26}/>)
-                      : (<MaterialCommunityIcons name={"heart-outline"} color={'red'} size={26}/>)
-                    }
+                <ScrollView showsVerticalScrollIndicator={false}>
+                  <TouchableOpacity onPress={() => handleVisibility()}>
+                    <Image source={backArrowImage} style={styles2.back} />
                   </TouchableOpacity>
+                  
+                    <Image style={styles2.animalImg} source={{uri: image}}/> 
+                    <Text style={styles2.animalName}>{name}</Text>
+                    <Text style={styles2.animalBreed}>{breeds.primary}</Text>
+                    <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', 
+                    justifyContent: 'space-between'}}>
+                      <View>{status != null ? (<Text style={{fontSize: 19, fontWeight: 'bold', color: '#ED3E96'}}>Status: {status}</Text>) : (<></>)}</View>
+                      <View>{gender != null ? (<Text style={{fontSize: 19, fontWeight: 'bold', color: '#ED3E96'}}>Gender: {gender}</Text>) : (<></>)}</View>
+                      <View>{age != null ? (<Text style={{fontSize: 19, fontWeight: 'bold', color: '#ED3E96'}}>Age: {age}</Text>) : (<></>)}</View>
+                      <View>{size != null ? (<Text style={{fontSize: 19, fontWeight: 'bold', color: '#ED3E96'}}>Size: {size}</Text>) : (<></>)}</View>
+                    </View>
+                    <View style={{marginVertical: 5,}}>{description != null ? (<Text style={{fontSize: 16, color: '#EE5AA4'}}>{description}</Text>) : (<></>)}</View>
+                    
+                    <View style={{marginTop: 5}}>
+                      <Text style={{fontWeight: '600', fontSize: 17, color: '#ED3E96'}}>Health Info</Text>
+                    </View>
+                    <View>{attributes.special_needs != false 
+                        ? (<Text style={{fontSize: 16, color: '#EE5AA4'}}>Special Needs Pet!</Text>) 
+                        : (<></>)}
+                    </View>
+                    <View>{attributes.spayed_neutered != false 
+                        ? (<Text style={{fontSize: 16, color: '#EE5AA4'}}>Spayed/Neutered: Yes</Text>) 
+                        : (<Text style={{fontSize: 16, color: '#EE5AA4'}}>Spayed/Neutered: No</Text>)}
+                    </View>
+                    <View>{attributes.declawed != false && attributes.declawed != null
+                        ? (<Text style={{fontSize: 16, color: '#EE5AA4'}}>Declawed: Yes</Text>) 
+                        : (<></>)}
+                    </View>
+                    <View>{attributes.shots_current != false 
+                        ? (<Text style={{fontSize: 16, color: '#EE5AA4'}}>Shots are Current</Text>) 
+                        : (<Text style={{fontSize: 16, color: '#EE5AA4'}}>Shots are NOT Current</Text>)}
+                    </View>
+                   
+                    <View>{attributes.house_trained != false 
+                        ? (<Text style={{fontSize: 16, color: '#EE5AA4'}}>House Trained: Yes</Text>) 
+                        : (<Text style={{fontSize: 16, color: '#EE5AA4'}}>House Trained: No</Text>)}
+                    </View>
+
+                    <View style={{marginTop: 5}}>
+                      <Text style={{fontWeight: '600', fontSize: 17, color: '#ED3E96'}}>Shelter Info</Text>
+                    </View>
+                    <View>{contact.phone != null ? (<Text style={{fontSize: 16, color: '#EE5AA4'}}>Phone: {contact.phone}</Text>) : (<></>)}</View>
+                    <View>{contact.email != null ? (<Text style={{fontSize: 16, color: '#EE5AA4'}}>Email: {contact.email}</Text>) : (<></>)}</View>
+                    
+                    <TouchableOpacity style={{position: 'absolute', right: 16, top: 3}} onPress={storeLike}>
+                      {
+                        like == true
+                        ? (<MaterialCommunityIcons name={"heart"} color={'#D84E82'} size={36}/>)
+                        : (<MaterialCommunityIcons name={"heart-outline"} color={'#D84E82'} size={36}/>)
+                      }
+                    </TouchableOpacity>
+                </ScrollView>
+              
+                
                   
               </View>
                 
                 
                 <TouchableOpacity
                 style={{
-                  height: 100,
+                  height: 70,
                   width: 370,
                   marginLeft: 12,
                   marginRight: 20,
+                  marginBottom: -10,
                   justifyContent: 'center',
                   borderRadius: 100,
-                  marginTop: -18,
                 }}>
                 <Button
                   title="Adopt"
@@ -146,7 +185,9 @@ const ShelterScreen = ({navigation}) => {
                   color="#6867ac"
                 />
               </TouchableOpacity>
-              </ScrollView>
+            
+          </View>
+         
             
         </Modal>
       );
@@ -238,9 +279,22 @@ const ShelterScreen = ({navigation}) => {
 
       return(
       <TouchableOpacity style={styles.tile} onPress={() => handleVisibility()}>
+        <TouchableOpacity style={{position: 'absolute', top: -8, left: -5}} onPress={storeLike}>
+          { like == true
+          // position: 'absolute', bottom: 45, right: 9,
+          // position: 'absolute', top: -8, left: -5
+            ? (<MaterialCommunityIcons name={"heart"} color={'#D84E82'} size={26}/>)
+            : (<MaterialCommunityIcons name={"heart-outline"} color={'#D84E82'} size={26}/>)
+          }
+        </TouchableOpacity>
           <Image style={styles.animalImg} source={{uri: image}}/> 
-          <Text style={styles.animalName}>{name}</Text>
-          <Text style={{marginLeft: 5, color: '#6867ac'}}>{breeds.primary}</Text>
+          <View>
+            { name.length > 14
+            ? (<Text style={styles.animalName} numberOfLines={1}>{name.substring(0, 14)}...</Text>)
+            : (<Text style={styles.animalName}>{name}</Text>)
+            }
+          </View>
+          <Text style={{marginLeft: 5, color: '#ED3E96'}}>{breeds.primary}</Text>
       </TouchableOpacity>
       );
     };
@@ -479,7 +533,7 @@ const ShelterScreen = ({navigation}) => {
             <View>
               <View>
                 <TouchableOpacity style={styles1.searchButton} onPress={() => editshowModal(!editShow)}>
-                <MaterialCommunityIcons name="magnify" color={'#FB5555'} size={40} />
+                <MaterialCommunityIcons name="magnify" color={'#DE5B71'} size={40} />
                 </TouchableOpacity>
               </View>
               <Modal visible={editShow} transparent={true}>
@@ -764,7 +818,7 @@ const styles = StyleSheet.create({
         marginBottom: 3,
         marginLeft: -70,
         fontWeight: '900',
-        color: '#fb5555',
+        color: '#DE5B71',
         alignSelf: 'center'
       },
   containerTile: {
@@ -775,7 +829,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     tile: {
-      backgroundColor: '#FFBCD1',
+      backgroundColor: '#F6CEDD',
       width: '40%',
       height: 220,
       padding: 10,
@@ -784,7 +838,7 @@ const styles = StyleSheet.create({
       elevation: 5,
     },
     animalName: {
-      color: '#6867ac',
+      color: '#D52D6C',
       fontSize: 18,
       marginTop: 2,
       fontWeight: 'bold',
@@ -931,17 +985,16 @@ const styles1 = StyleSheet.create({
 
 const styles2 = StyleSheet.create({
   tile: {
-    backgroundColor: '#FFBCD1',
+    backgroundColor: '#F6CEDD',
     height: 600,
     padding: 10,
     margin: 10,
-    marginBottom: 1,
     borderRadius: 20,
     elevation: 3,
   },
   animalName: {
-    color: '#6867ac',
-    fontSize: 30,
+    color: '#D52D6C',
+    fontSize: 35,
     fontWeight: 'bold',
   },
   space: {
@@ -956,9 +1009,9 @@ const styles2 = StyleSheet.create({
     marginLeft: 1,
   },
   animalBreed: {
-    fontSize: 17,
+    fontSize: 20,
     fontWeight: 'bold',
-    color: '#6867ac',
+    color: '#EE5AA4',
   },
   bio: {
     fontSize: 15,
