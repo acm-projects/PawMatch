@@ -90,9 +90,9 @@ const ProfileScreen = ({navigation}) => {
         <View style={styles.userInfoContainer}>
           <Text style={styles.userInfo}>{user?.email}</Text>
           <View style={{position: 'absolute', top: 21}}>
-            { user?.phoneNum == undefined || !show
+            { user?.phoneNum == undefined || show
             ? (<View >
-              { !show
+              { show
               ? (<View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap'}}>
                   <View style={styles.inputTextbox1}><TextInput 
                   onChangeText={phoneNum => {setPhoneNum(phoneNum)}}

@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import Logo from '../../icons/logo.png';
+import Logo from '../../icons/pawlogo.png';
 
 const LoginScreen = ({navigation}) => {
   // Set an initializing state whilst Firebase connects

@@ -33,6 +33,8 @@ const HomeScreen = ({navigation}, props) => {
 
 //TRAVERSE THROUGH CARD STACK, UPDATE INDEX, AND FLIP TO FRONT OF CARD
 const [index, setIndex] = useState(0);
+const [apiData, setApiData] = useState({});
+const [isLoading, setLoading] = useState(true);
 // const [Id, setId] = useState(123);
 // const [name, setName] = useState(null);
 // const [breed, setBreed] = useState(null);
@@ -63,7 +65,8 @@ function searchAnimalsMore(aZipcode, aType, aAge, aGender, aSize, lim) {
   }
 }
 
-
+const [user1, setUser1] = useState();
+const {uid} = auth().currentUser;
 const getUser = async () => {
   try {
     const documentSnapshot = await firestore()
@@ -72,7 +75,7 @@ const getUser = async () => {
       .get();
 
     const userData = documentSnapshot.data();
-    setUser(userData);
+    setUser1(userData);
   } catch {
 
   }
@@ -174,7 +177,6 @@ var animalcard = animals[index];
   return (
     
         <View style={styles.container}>
-          
           <TouchableOpacity
             onPress={flipCard}
             style={[{ transform: [{ rotateY: interpolateFront}]}, styles.animatedCard, styles.hidden]}>
