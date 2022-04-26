@@ -1,8 +1,10 @@
 import React, { useState, useEffect} from 'react';
-import { View, Text, Button, SafeAreaView, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
+import { View, Text, Button, SafeAreaView, Image, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import auth, { firebase } from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import ImageCropPicker from 'react-native-image-crop-picker';
+import bretman from '../../icons/bretman.jpg';
 
 const RegistrationScreen = ({navigation}) => {
   // Set an initializing state whilst Firebase connects
@@ -12,39 +14,57 @@ const RegistrationScreen = ({navigation}) => {
   const [password, setPassword] = useState()
   const [firstName, setFirstName] = useState()
   const [lastName, setLastName] = useState()
+  const [images, setImages] = useState(null);
+  const [imagePicked, setImagePicked] = useState(false);
   const [imageUriGallery, setimageUriGallergy] = useState();
   const [hidePass, setHidePass] = useState(false);
 
-  const openGallery = () => {
-     const options = {
-       storageOptions: {
-         path: 'images',
-         mediaType: 'photo',
-        },
-        includeBase64: true,
-     };
+  const choosePhotoFromLibrary = () => {
+    ImageCropPicker.openPicker({
+      width: 200,
+      height: 200,
+      cropping: true,
+    }).then((image) => {
+      console.log(image);
+      const imageUri = image.path;
+      setImages(imageUri);
+      setImagePicked(true);
+    });
+  }
+
+
+
+  // const openGallery = () => {
+  //    const options = {
+  //      storageOptions: {
+  //        path: 'images',
+  //        mediaType: 'photo',
+  //       },
+  //       includeBase64: true,
+  //    };
      
-     launchImageLibrary(options, response => {
-      console.log('Response = ', response);
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.eror) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      } else {
-        const source = {uri: 'data:image/jepg;base64' + response.base64};
-        setimageUriGallergy(source);
-      }
-     })
+  //    launchImageLibrary(options, response => {
+  //     console.log('Response = ', response);
+  //     if (response.didCancel) {
+  //       console.log('User cancelled image picker');
+  //     } else if (response.eror) {
+  //       console.log('ImagePicker Error: ', response.error);
+  //     } else if (response.customButton) {
+  //       console.log('User tapped custom button: ', response.customButton);
+  //     } else {
+  //       const source = {uri: 'data:image/jpeg;base64' + response.base64};
+  //       setimageUriGallergy(source);
+  //       console.log(imageUriGallery);
+  //     }
+  //    })
 
-  }
+  // }
 
-  function handleImage() {
-    openGallery(() => {
-      console.log('hello')
-    })
-  }
+  // function handleImage() {
+  //   openGallery(() => {
+  //     console.log('hello')
+  //   })
+  // }
 
   const uploadImagetoStorage = (path) => {
     let reference = storage().ref(imageUriGallery);        
@@ -93,6 +113,7 @@ const RegistrationScreen = ({navigation}) => {
         password,
         firstName,
         lastName,
+        images,
       })
         
 
@@ -126,10 +147,15 @@ const RegistrationScreen = ({navigation}) => {
       <View style={{marginTop: 100}}>
       <Text style={styles.title}>Register</Text>
       
-      <TouchableOpacity style={[styles.choosePhoto, styles.elevation]} onPress={()=>{handleImage()}}>
-            <Text style={styles.choosePhotoText}>Choose Profile Photo</Text>
+      <TouchableOpacity style={styles.choosePhoto}onPress={choosePhotoFromLibrary}>
+        { imagePicked == false
+        ? (<Text style={styles.choosePhotoText}>Choose Profile Photo</Text>)
+        : (<Image source={bretman} style={styles.photo}/>)
+        }
+            {/* style={[styles.choosePhoto, styles.elevation]}  */}
       </TouchableOpacity>
-      
+
+      <Image source={imageUriGallery} />
       <View style={{marginTop: -95}}>
         <TextInput
             placeholder="First Name"
@@ -195,6 +221,13 @@ const RegistrationScreen = ({navigation}) => {
 export default RegistrationScreen;
 
 const styles = StyleSheet.create({
+  photo: {
+    width: 90,
+    height: 90,
+    borderRadius: 35,
+    right: 5,
+    
+  },
   title: {
     fontSize: 40,
     margin: 30,
@@ -235,7 +268,7 @@ const styles = StyleSheet.create({
   choosePhoto: {
     width: 90,
     height: 90,
-    backgroundColor: '#FA7A9C',
+    // backgroundColor: '#FA7A9C',
     borderColor: '#F86E92',
     justifyContent: 'center',
     borderWidth: 5,

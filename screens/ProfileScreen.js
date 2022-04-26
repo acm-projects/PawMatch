@@ -18,6 +18,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 // import UserModal from './UserModal';
 // import userChoices from './UserInterest';
 import xImage from '../icons/x.png'
+import bretman from '../icons/bretman.jpg';
 
 import { call } from 'react-native-reanimated';
 
@@ -69,7 +70,7 @@ const ProfileScreen = ({navigation}) => {
     const userID = user.uid;
     firestore().collection('users').doc(userID).update({phoneNum})
   }
-
+  var imaged = user?.images;
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <ScrollView>
@@ -77,9 +78,9 @@ const ProfileScreen = ({navigation}) => {
           {/*View Profile Pic*/}
           <Image
             style={styles.userImg}
-            source={{
-              uri: 'https://media.istockphoto.com/photos/mature-beautiful-woman-with-red-hair-picture-id1221755378?k=20&m=1221755378&s=612x612&w=0&h=rZkb0wrSR4-Qfl-MIDbD8_2L_V2KYWOf0P_EqUveAAA=',
-            }}
+            source={bretman}
+            // uri: 'https://media.istockphoto.com/photos/mature-beautiful-woman-with-red-hair-picture-id1221755378?k=20&m=1221755378&s=612x612&w=0&h=rZkb0wrSR4-Qfl-MIDbD8_2L_V2KYWOf0P_EqUveAAA=',
+
           />
 
           {/*View Info About User*/}
