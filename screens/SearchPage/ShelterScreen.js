@@ -27,7 +27,7 @@ var sGender = [];
 var sSize = [];
 var sSearchState = [];
 const ShelterScreen = ({navigation}) => {
-    const [apiData, setApiData] = useState({});
+    const [apiData, setApiData] = useState([]);
     const [isLoading, setLoading] = useState(true);
     const [refreshPage, setRefreshPage] = useState("");
     
@@ -55,6 +55,7 @@ const ShelterScreen = ({navigation}) => {
         //setSearchState(false);
         return resp.data;
       });
+      
     }
   }
 
@@ -297,12 +298,14 @@ const ShelterScreen = ({navigation}) => {
             }
           </View>
           <Text style={{marginLeft: 5, color: '#ED3E96'}}>{breeds.primary}</Text>
+          {/* <Button onPress={display} title={"display"}/> */}
       </TouchableOpacity>
       );
     };
           
 
-       searchAnimalsMore(sZipCode[0], sType[0], sAge[0], sGender[0], sSize[0], 20);
+       searchAnimalsMore(sZipCode[0], sType[0], sAge[0], sGender[0], sSize[0], 40);
+      
        /*
        if (isNewSearch.length != sSearchState.length){
         setSearch(sSearchState);
@@ -466,6 +469,7 @@ const ShelterScreen = ({navigation}) => {
             sAge = [];
             sGender = [];
             sSize = [];
+            
             if (!(zipCode >= 501 && zipCode.length == 5)) {
               alert('You must enter a valid zipcode');
               console.log('Call Cancelled');
@@ -518,7 +522,9 @@ const ShelterScreen = ({navigation}) => {
                 }
               }
               editshowModal(!editShow);
+              console.log(apiData)
               navigation.replace("Shelters");
+              
             }
           };
           const [editShow, editshowModal] = useState(false);

@@ -14,6 +14,7 @@ import auth, { firebase } from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import animals from '../data/animals';
+import animalDemo from '../data/animalDemo';
 import backImage from '../icons/back.png';
 import dislikeImage from '../icons/dislike.png';
 import likeImage from '../icons/heart.png';
@@ -85,10 +86,10 @@ const getUser = async () => {
 
 const user = firebase.auth().currentUser;
 const userID = user.uid;
-var animalcard = animals[index];
+var animalcard = animalDemo[index];
 
   const increaseIndex = () => {
-    if (index == 7) {
+    if (index == 19) {
       console.log("Reached end of stack");
       setIndex(index)
     }
@@ -103,7 +104,7 @@ var animalcard = animals[index];
       console.log("Reached beginning of stack");
     }
     else {
-      var animalcard = animals[index - 1];
+      var animalcard = animalDemo[index - 1];
       let id = (animalcard.id).toString();
       firestore().collection('users').doc(userID).collection('liked').doc(id).delete()
       firestore().collection('users').doc(userID).collection('superLiked').doc(id).delete()
@@ -181,7 +182,7 @@ var animalcard = animals[index];
             onPress={flipCard}
             style={[{ transform: [{ rotateY: interpolateFront}]}, styles.animatedCard, styles.hidden]}>
               <Animated.View style={[{ transform: [{ rotateY: interpolateFront}]}, styles.animatedCard, styles.hidden]}>
-                <FrontCard animal = {animals[index]}/>
+                <FrontCard animal = {animalDemo[index]}/>
               </Animated.View>
           </TouchableOpacity>
             
@@ -190,7 +191,7 @@ var animalcard = animals[index];
             style={[styles.cardBack, styles.hidden, { transform: [{ rotateY: interpolateBack}]}]}>
               <Animated.View >
                 <ScrollView>
-                  <BackCard animal = {animals[index]}/>
+                  <BackCard animal = {animalDemo[index]}/>
                 </ScrollView>
               </Animated.View>
           </TouchableOpacity>
@@ -198,28 +199,28 @@ var animalcard = animals[index];
           <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap',
           position: 'absolute', bottom: 39,}}>
             <TouchableOpacity
-                  onPress = {() => <FrontCard animal = {animals[decreaseIndex()]}/>}
+                  onPress = {() => <FrontCard animal = {animalDemo[decreaseIndex()]}/>}
                   style={{margin:9}}>
                   <MaterialCommunityIcons name={"arrow-left-circle"} color={'#ACACAC'} size={70} />
                   {/* <Image source={backImage} style = {styles.backButton}></Image> */}
               </TouchableOpacity>
 
               <TouchableOpacity
-                  onPress = {() => <FrontCard animal = {animals[dislike()]}/>}
+                  onPress = {() => <FrontCard animal = {animalDemo[dislike()]}/>}
                   style={{margin:8, marginLeft: 4}}>
                   <MaterialCommunityIcons name={"close-circle"}  color={'#F15771'} size={77} />
                   {/* <Image source={dislikeImage} style = {styles.dislikeButton}></Image> */}
               </TouchableOpacity>
 
               <TouchableOpacity
-                  onPress = {() => <FrontCard animal = {animals[like()]}/>}
+                  onPress = {() => <FrontCard animal = {animalDemo[like()]}/>}
                   style={{margin:8}}>
                   <MaterialCommunityIcons name={"heart-circle"}  color={'#41D65A'} size={77} />
                   {/* <Image source={likeImage} style = {styles.likeButton}></Image> */}
               </TouchableOpacity>
 
               <TouchableOpacity
-                  onPress = {() => <FrontCard animal = {animals[superLike()]}/>}
+                  onPress = {() => <FrontCard animal = {animalDemo[superLike()]}/>}
                   style={{margin:10, marginRight: 13}}>
                   <MaterialCommunityIcons name={"star-circle-outline"} color={'#F8C55F'} size={70} />
                   {/* <Image source={superlikeImage} style = {styles.superlikeButton}></Image> */}
