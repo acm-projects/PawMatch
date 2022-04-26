@@ -11,13 +11,14 @@ const InfoScreen = ({navigation}) => {
         navigation.replace('PawMatch')
     }
     return (
-        <View style={{ flex: 1, backgroundColor: 'white'}}>
-            <Text style={{fontWeight: '900', fontSize: 100}}>Are you lonely?</Text>
+        <View style={{ flex: 1, backgroundColor: 'white', justifyContent: 'center', bottom: 40}}>
+            <Text style={{fontWeight: '900', fontSize: 90, textAlign: 'center'}}>Are you lonely?</Text>
             
            <TouchableOpacity style={styles.button} onPress={nextNavigation}>
                 <Text style={{fontSize: 40, fontWeight: 'bold', color: '#BA5775', marginHorizontal: 10}}>yes</Text>
                 <View style={{marginTop: 20}}><MaterialCommunityIcons name={"emoticon-sad-outline"} size={35}/></View>
            </TouchableOpacity>
+           <Text style={{textAlign: 'center', fontSize: 18, top: 55}}>Don't Worry!</Text>
            {/* <Button title={"Yes"} onPress={nextNavigation} /> */}
         </View>
         
