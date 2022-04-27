@@ -4,7 +4,7 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import auth, { firebase } from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import ImageCropPicker from 'react-native-image-crop-picker';
-import bretman from '../../icons/bretman.jpg';
+import barack from '../../icons/barack.png';
 
 const RegistrationScreen = ({navigation}) => {
   // Set an initializing state whilst Firebase connects
@@ -146,14 +146,25 @@ const RegistrationScreen = ({navigation}) => {
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View style={{marginTop: 100}}>
       <Text style={styles.title}>Register</Text>
-      
-      <TouchableOpacity style={styles.choosePhoto}onPress={choosePhotoFromLibrary}>
+      <View>
+        { !imagePicked
+        ? (<TouchableOpacity style={styles.choosePhoto}onPress={choosePhotoFromLibrary}>
+            <Text style={styles.choosePhotoText}>Choose Profile Photo</Text>
+          </TouchableOpacity>)
+        : (<TouchableOpacity style={styles.choosePhoto}onPress={choosePhotoFromLibrary}>
+            <Image source={barack} style={styles.photo}/>
+          </TouchableOpacity>)
+
+        }
+      {/* <TouchableOpacity style={styles.choosePhoto}onPress={choosePhotoFromLibrary}>
         { imagePicked == false
         ? (<Text style={styles.choosePhotoText}>Choose Profile Photo</Text>)
-        : (<Image source={bretman} style={styles.photo}/>)
+        : (<Image source={barack} style={styles.photo}/>)
         }
-            {/* style={[styles.choosePhoto, styles.elevation]}  */}
-      </TouchableOpacity>
+            {/* style={[styles.choosePhoto, styles.elevation]} 
+      </TouchableOpacity> */}
+      </View>
+      
 
       <Image source={imageUriGallery} />
       <View style={{marginTop: -95}}>
@@ -268,7 +279,7 @@ const styles = StyleSheet.create({
   choosePhoto: {
     width: 90,
     height: 90,
-    // backgroundColor: '#FA7A9C',
+    backgroundColor: '#FA7A9C',
     borderColor: '#F86E92',
     justifyContent: 'center',
     borderWidth: 5,
